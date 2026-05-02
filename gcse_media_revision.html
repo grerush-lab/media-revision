@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GCSE Media Studies — Past Paper Revision Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c; --paper: #f5f0e8; --accent: #c0392b; --gold: #b8860b;
+    --c1col: #1a3a5c; --c2col: #2d6a4f; --seca: #8e44ad; --secb: #d35400;
+    --muted: #7a7060; --success: #2e7d5e; --card: #ffffff; --border: #ddd5c5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: 'Lora', Georgia, serif; min-height: 100vh; }
+  header { background: var(--ink); color: var(--paper); padding: 1.5rem 2rem 1.2rem; position: relative; overflow: hidden; }
+  header::after { content: 'WJEC'; position: absolute; right: 1rem; bottom: -0.3rem; font-family: 'Syne', sans-serif; font-size: 5rem; font-weight: 800; color: rgba(255,255,255,0.04); pointer-events: none; }
+  .header-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: #b8860b; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.4rem; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.4rem,4vw,2.4rem); font-weight: 800; line-height: 1.1; }
+  .header-sub { font-size: 0.85rem; color: rgba(245,240,232,0.55); font-style: italic; margin-top: 0.3rem; }
+  .progress-wrap { background: #1a1a18; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .prog-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; }
+  .prog-track { flex:1; height: 3px; background: #333; border-radius: 2px; overflow: hidden; }
+  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold)); border-radius: 2px; transition: width 0.5s ease; width: 0%; }
+  .prog-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--paper); white-space: nowrap; }
+  .filter-bar { background: #111; padding: 0.8rem 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .filter-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-right: 0.3rem; }
+  select { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; background: #222; color: var(--paper); border: 1px solid #444; border-radius: 2px; padding: 0.35rem 0.6rem; cursor: pointer; }
+  select:focus { outline: none; border-color: var(--gold); }
+  .filter-divider { width: 1px; height: 1.2rem; background: #333; margin: 0 0.2rem; }
+  .btn-reset { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; background: transparent; border: 1px solid #444; color: var(--muted); border-radius: 2px; padding: 0.3rem 0.6rem; cursor: pointer; letter-spacing: 1px; }
+  .btn-reset:hover { border-color: var(--accent); color: var(--accent); }
+  .q-count-badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--gold); margin-left: auto; white-space: nowrap; }
+  main { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.2rem; }
+  .no-results { text-align: center; padding: 3rem 2rem; color: var(--muted); display: none; }
+  .no-results.visible { display: block; }
+  .no-results .icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+  .q-card { background: var(--card); border: 1px solid var(--border); margin-bottom: 1.5rem; border-radius: 2px; overflow: hidden; }
+  .q-card.hidden { display: none; }
+  .q-header { padding: 0.8rem 1.1rem 0.8rem 0.7rem; display: flex; align-items: flex-start; gap: 0.8rem; border-bottom: 1px solid var(--border); background: #faf8f4; }
+  .q-left-stripe { width: 4px; border-radius: 2px; align-self: stretch; flex-shrink: 0; min-height: 2rem; }
+  .stripe-c1a { background: var(--c1col); }
+  .stripe-c1b { background: var(--secb); }
+  .stripe-c2a { background: var(--c2col); }
+  .stripe-c2b { background: var(--seca); }
+  .q-meta { flex: 1; min-width: 0; }
+  .q-badges { display: flex; gap: 0.4rem; margin-bottom: 0.35rem; flex-wrap: wrap; }
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; padding: 0.12rem 0.45rem; border-radius: 2px; white-space: nowrap; }
+  .badge-year { background: var(--ink); color: var(--paper); }
+  .badge-marks { background: var(--accent); color: white; }
+  .badge-ao { background: #555; color: white; }
+  .badge-comp.c1 { background: var(--c1col); color: white; }
+  .badge-comp.c2 { background: var(--c2col); color: white; }
+  .badge-sec.seca { background: var(--seca); color: white; }
+  .badge-sec.secb { background: var(--secb); color: white; }
+  .badge-topic { background: #e8e0d0; color: #555; }
+  .q-number { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .q-body { padding: 1.1rem; }
+  .q-text { font-size: 0.95rem; line-height: 1.75; color: var(--ink); margin-bottom: 0.9rem; }
+  .q-bullet { margin: 0.2rem 0 0.2rem 1.2rem; font-size: 0.88rem; color: var(--ink); line-height: 1.6; }
+  .q-must-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 0.5rem 0 0.3rem; }
+  textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 2px; padding: 0.7rem; font-family: 'Lora', serif; font-size: 0.88rem; line-height: 1.65; resize: vertical; color: var(--ink); background: #fdfbf8; transition: border-color 0.2s; }
+  textarea:focus { outline: none; border-color: var(--accent); background: white; }
+  .word-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); text-align: right; margin-top: 0.25rem; }
+  .btn-row { display: flex; gap: 0.5rem; margin-top: 0.7rem; flex-wrap: wrap; }
+  .btn { font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 0.45rem 0.9rem; border-radius: 2px; border: 2px solid; cursor: pointer; transition: all 0.15s; }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: white; }
+  .btn-primary:hover { background: #a93226; border-color: #a93226; }
+  .btn-levels { background: transparent; border-color: var(--border); color: var(--muted); }
+  .btn-levels:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-clear { background: transparent; border-color: transparent; color: var(--muted); padding-left: 0; }
+  .btn-clear:hover { color: var(--ink); }
+  .mark-scheme { display: none; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .mark-scheme.visible { display: block; }
+  .ms-head { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--success); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+  .ms-head::before { content: '✓'; background: var(--success); color: white; width: 1.1rem; height: 1.1rem; border-radius: 50%; font-size: 0.6rem; text-align: center; line-height: 1.1rem; display: inline-block; flex-shrink: 0; }
+  .ms-intro { font-size: 0.82rem; color: var(--muted); font-style: italic; margin-bottom: 0.7rem; }
+  .ms-point { display: flex; gap: 0.5rem; margin-bottom: 0.45rem; font-size: 0.84rem; line-height: 1.6; }
+  .ms-point::before { content: '→'; color: var(--accent); flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; }
+  .ms-levels { margin-top: 0.8rem; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; display: none; }
+  .ms-levels.open { display: block; }
+  .ms-level-row { display: grid; grid-template-columns: 90px 1fr; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+  .ms-level-row:last-child { border-bottom: none; }
+  .ms-level-marks { background: var(--c1col); color: white; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; padding: 0.5rem 0.4rem; text-align: center; line-height: 1.4; }
+  .ms-level-marks.c2 { background: var(--c2col); }
+  .ms-level-desc { padding: 0.55rem 0.7rem; line-height: 1.5; background: #faf8f4; }
+  .self-assess { margin-top: 0.8rem; padding: 0.7rem; background: #f0ece3; border-radius: 2px; }
+  .sa-label { font-family: 'Syne', sans-serif; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 0.5rem; }
+  .sa-buttons { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .sa-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; padding: 0.35rem 0.7rem; border-radius: 2px; border: 1.5px solid; cursor: pointer; transition: all 0.15s; }
+  .sa-btn-red { border-color: #c0392b; color: #c0392b; background: transparent; }
+  .sa-btn-red:hover, .sa-btn-red.selected { background: #c0392b; color: white; }
+  .sa-btn-amber { border-color: var(--gold); color: var(--gold); background: transparent; }
+  .sa-btn-amber:hover, .sa-btn-amber.selected { background: var(--gold); color: white; }
+  .sa-btn-green { border-color: var(--success); color: var(--success); background: transparent; }
+  .sa-btn-green:hover, .sa-btn-green.selected { background: var(--success); color: white; }
+  .sec-divider { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; font-weight: 500; text-transform: uppercase; letter-spacing: 3px; color: var(--muted); margin: 2rem 0 1rem; display: flex; align-items: center; gap: 0.8rem; }
+  .sec-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .sec-divider span { white-space: nowrap; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* STICKY RAG BAR */
+  .rag-bar { position:fixed; bottom:0; left:0; right:0; background:var(--ink); border-top:2px solid #333; padding:0.6rem 1.5rem; display:flex; align-items:center; gap:1rem; z-index:100; transform:translateY(100%); transition:transform 0.3s ease; }
+  .rag-bar.visible { transform:translateY(0); }
+  .rag-counts { display:flex; gap:0.8rem; align-items:center; }
+  .rag-pill { font-family:'IBM Plex Mono',monospace; font-size:0.72rem; padding:0.25rem 0.6rem; border-radius:20px; display:flex; align-items:center; gap:0.35rem; }
+  .rag-pill.red   { background:rgba(192,57,43,0.2); color:#e87a72; border:1px solid rgba(192,57,43,0.4); }
+  .rag-pill.amber { background:rgba(184,134,11,0.2); color:#d4a843; border:1px solid rgba(184,134,11,0.4); }
+  .rag-pill.green { background:rgba(46,125,94,0.2); color:#5dba96; border:1px solid rgba(46,125,94,0.4); }
+  .rag-bar-label { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:2px; }
+  .btn-revise { font-family:'Syne',sans-serif; font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; background:var(--accent); color:white; border:none; padding:0.45rem 1rem; border-radius:2px; cursor:pointer; transition:background 0.15s; white-space:nowrap; margin-left:auto; }
+  .btn-revise:hover { background:#a93226; }
+  .btn-revise:disabled { background:#333; color:#555; cursor:default; }
+  main { padding-bottom:4rem; }
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:200; align-items:flex-start; justify-content:center; padding:2rem 1rem; overflow-y:auto; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:var(--paper); width:100%; max-width:680px; border-radius:2px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.4); margin:auto; }
+  .modal-header { background:var(--ink); color:var(--paper); padding:1rem 1.2rem; display:flex; align-items:center; gap:1rem; }
+  .modal-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:800; flex:1; }
+  .modal-close { font-family:'IBM Plex Mono',monospace; font-size:0.8rem; background:transparent; border:1px solid #555; color:#aaa; padding:0.25rem 0.6rem; border-radius:2px; cursor:pointer; }
+  .modal-close:hover { border-color:var(--accent); color:var(--accent); }
+  .modal-body { padding:1.2rem; }
+  .modal-sec-label { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; text-transform:uppercase; letter-spacing:2px; color:var(--muted); margin:1rem 0 0.5rem; display:flex; align-items:center; gap:0.5rem; }
+  .modal-sec-label::after { content:''; flex:1; height:1px; background:var(--border); }
+  .modal-empty { font-size:0.88rem; color:var(--muted); font-style:italic; padding:0.4rem 0; }
+  .revise-item { display:flex; align-items:flex-start; gap:0.8rem; padding:0.6rem 0.8rem; margin-bottom:0.4rem; background:var(--card); border:1px solid var(--border); border-radius:2px; cursor:pointer; transition:border-color 0.15s; }
+  .revise-item:hover { border-color:var(--accent); }
+  .revise-dot { font-size:0.75rem; flex-shrink:0; margin-top:0.1rem; }
+  .revise-info { flex:1; min-width:0; }
+  .revise-q { font-size:0.82rem; line-height:1.5; }
+  .revise-meta { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--muted); margin-top:0.2rem; }
+  .revise-arrow { color:var(--muted); font-size:0.9rem; flex-shrink:0; }
+  .modal-note { font-size:0.78rem; color:var(--muted); font-style:italic; margin-top:1rem; border-top:1px solid var(--border); padding-top:0.8rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Eduqas GCSE Media Studies &nbsp;·&nbsp; 2019–2025</div>
+  <h1>Past Paper Revision Hub</h1>
+  <p class="header-sub">Real questions &amp; indicative content from all official mark schemes</p>
+</header>
+
+<div class="progress-wrap">
+  <span class="prog-label">Progress</span>
+  <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+  <span class="prog-count" id="progCount">0 answered</span>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter by</span>
+  <select id="f-comp" onchange="applyFilters()">
+    <option value="">All Components</option>
+    <option value="1">Component 1</option>
+    <option value="2">Component 2</option>
+  </select>
+  <div class="filter-divider"></div>
+  <select id="f-sec" onchange="applyFilters()">
+    <option value="">All Sections</option>
+    <option value="A">Section A</option>
+    <option value="B">Section B</option>
+  </select>
+  <div class="filter-divider"></div>
+  <select id="f-topic" onchange="applyFilters()">
+    <option value="">All Topics</option>
+    <option value="Media Language">Media Language</option>
+    <option value="Representation">Representation</option>
+    <option value="Audience">Audience</option>
+    <option value="Industry">Industry</option>
+    <option value="Television">Television</option>
+    <option value="Music">Music</option>
+  </select>
+  <div class="filter-divider"></div>
+  <select id="f-year" onchange="applyFilters()">
+    <option value="">All Years</option>
+    <option value="2019">2019</option>
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+    <option value="2023">2023</option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+  </select>
+  <div class="filter-divider"></div>
+  <select id="f-marks" onchange="applyFilters()">
+    <option value="">All Mark Tariffs</option>
+    <option value="1">1 mark</option>
+    <option value="4">2–4 marks</option>
+    <option value="5">5 marks</option>
+    <option value="10">8–12 marks</option>
+    <option value="20">20–25 marks</option>
+  </select>
+  <div class="filter-divider"></div>
+  <select id="f-text" onchange="applyFilters()">
+    <option value="">All Set Texts</option>
+    <optgroup label="Component 1 — Print &amp; Online">
+      <option value="GQ">GQ magazine</option>
+      <option value="Guardian">The Guardian</option>
+      <option value="Quality Street">Quality Street advert</option>
+      <option value="Axe Peace">Axe Peace advert</option>
+      <option value="This Girl Can">This Girl Can advert</option>
+      <option value="Golden Gun">The Man with the Golden Gun poster</option>
+      <option value="Holding The Man">Holding The Man poster</option>
+      <option value="Spectre">Spectre poster</option>
+      <option value="The Sun">The Sun</option>
+      <option value="Archers">The Archers</option>
+      <option value="Fortnite">Fortnite</option>
+      <option value="Pokemon">Pokémon Go</option>
+    </optgroup>
+    <optgroup label="Component 2 — Television">
+      <option value="Luther">Luther</option>
+      <option value="IT Crowd">The IT Crowd</option>
+      <option value="Mobeen">Man Like Mobeen</option>
+      <option value="Modern Family">Modern Family</option>
+    </optgroup>
+    <optgroup label="Component 2 — Music">
+      <option value="Katy Perry">Katy Perry (Roar / website)</option>
+      <option value="Taylor Swift">Taylor Swift (Bad Blood / website)</option>
+      <option value="Bruno Mars">Bruno Mars (Uptown Funk)</option>
+      <option value="Pharrell">Pharrell Williams (Freedom)</option>
+      <option value="Lizzo">Lizzo (Good as Hell)</option>
+      <option value="Intentions">Justin Bieber (Intentions)</option>
+    </optgroup>
+  </select>
+  <button class="btn-reset" onclick="resetFilters()">✕ Reset</button>
+  <span class="q-count-badge" id="qCountBadge">— questions</span>
+</div>
+
+<main>
+  <div class="no-results" id="noResults">
+    <div class="icon">🔍</div>
+    <p>No questions match those filters — try a different combination.</p>
+  </div>
+  <div id="questionList"></div>
+</main>
+
+<script>
+
+const questions = [
+// ═══════════════════════════════════════════════════════════
+// COMPONENT 1 — SECTION A
+// ═══════════════════════════════════════════════════════════
+{id:'c1_2019_1a',year:2019,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'GQ magazine front cover',texts:['GQ'],
+ question:'Explore how the GQ magazine front cover uses media language to communicate meanings through <strong>images</strong>.',
+ must:[],
+ points:['The medium close-up of "The Rock" emphasises his masculinity with his muscular arm filling a large proportion of the frame.',
+  'The cover star makes direct mode of address with the reader, creating a personal relationship.',
+  'His serious facial gesture codes are stereotypically masculine and offer a sense of challenge/aspiration for the male reader.',
+  'The gesture code of the raised arm and clenched fist connotes defensiveness and power.',
+  'The bull\'s skull iconography at the bottom of the exclamation mark links to the tattoo in the same design that "The Rock" has on his bicep.'],
+ levels:[['5','Excellent, detailed analysis. Consistent focus on the connotations or intended meanings of specific elements.'],
+  ['4','Good, reasonably detailed analysis. Focus on connotations or intended meanings.'],
+  ['3','Satisfactory analysis. General focus on connotations, but lapses into description.'],
+  ['2','Basic analysis. Limited focus on connotations; tendency to describe.'],
+  ['1','Minimal, if any, analysis. Brief and descriptive.']]},
+
+{id:'c1_2019_1b',year:2019,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(b)',product:'GQ magazine front cover',texts:['GQ'],
+ question:'Explore how the GQ magazine front cover uses media language to communicate meanings through <strong>text/written language</strong>.',
+ must:[],
+ points:['Conventional use of cover lines creates enigmas (Barthes) that encourage readers to buy the magazine.',
+  'Use of conventional buzzwords ("special", "exclusive", "new") to give the magazine a point of difference.',
+  'Use of a pun ("rebooted") and direct address ("it\'s not as hard as you think") creates a colloquial, personal tone.',
+  'Language suggesting a less stereotypically masculine representation of men — references to "mind, body", "wellness", "style", "fashion".',
+  'The more serious tone of the bottom strapline binary opposes the "man up!" imperative further up the page.'],
+ levels:[['5','Excellent, detailed analysis. Consistent focus on connotations.'],['4','Good, reasonably detailed.'],
+  ['3','Satisfactory — lapses into description.'],['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2019_1c',year:2019,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(c)',product:'GQ magazine front cover',texts:['GQ'],
+ question:'Explore how the GQ magazine front cover uses media language to communicate meanings through <strong>layout and design</strong>.',
+ must:[],
+ points:['The size and central composition of the main image creates reader identity with the cover star.',
+  'The font size of "The Rock!" compared to his actual name connotes his persona is more famous than the man himself.',
+  'The colour palette is stereotypically masculine with connotations of strength and power.',
+  'The magazine\'s masthead is layered on top of his image, giving connotations of the importance/power of the brand.',
+  'A conventional "Z-line" takes the reader\'s eye from the masthead through aspirational teases ("best watch", "fashion guide", "bankable star").',
+  'A mixture of serif and sans serif fonts highlights articles\' different tones.'],
+ levels:[['5','Excellent, detailed analysis.'],['4','Good, reasonably detailed.'],
+  ['3','Satisfactory — lapses into description.'],['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2019_2a',year:2019,comp:1,sec:'A',topic:'Representation',marks:5,ao:'AO1 2a/2b',
+ qnum:'Q2(a)',product:'Quality Street print advertisement (1956)',texts:['Quality Street'],
+ question:'Explain how <strong>historical context</strong> influences print advertisements. Refer to the print advertisement for Quality Street (1956) to support your points.',
+ must:[],
+ points:['Post-war prosperity in the 1950s — people becoming more able to afford luxury items such as chocolate.',
+  '1950s consumers were being presented with more choice (linking to the advert\'s emphasis on "18" types of chocolate).',
+  'The 1950s as a period of second-wave feminism following changes to women\'s roles during WWII.',
+  'The dominant messages reinforce patriarchal ideologies — the man as "provider", bringing home the chocolate, with the characters of "Major Quality" and "Miss Sweetly".',
+  'These theatrical characters also act as a reference back to the Regency era of British art and history.',
+  'Social changes including the rise of wealthier "middle classes" could be linked to the central characters\' dress codes.'],
+ levels:[['5','Excellent, detailed and accurate knowledge. Highly appropriate reference to the set product.'],
+  ['4','Good, accurate knowledge. Appropriate reference to the set product.'],
+  ['3','Satisfactory, generally accurate. Some reference to the set product.'],
+  ['2','Basic knowledge. Limited reference to the set product.'],
+  ['1','Minimal knowledge. Minimal reference; brief or incomplete.']]},
+
+{id:'c1_2019_2b',year:2019,comp:1,sec:'A',topic:'Representation',marks:25,ao:'AO2 1a/1b',
+ qnum:'Q2(b)',product:'Quality Street (1956) & Axe Peace print advertisements',texts:['Quality Street','Axe Peace'],
+ question:'Compare the <strong>representations of gender</strong> in the Quality Street and Axe Peace print advertisements.',
+ must:['How representations of gender are constructed','How far the representations of gender are similar in the two advertisements','How far the representations of gender are different in the two advertisements'],
+ points:['Use representation theory: selected, constructed and mediated nature of representations; stereotypes of gender; messages and values; feminist perspectives.',
+  'QUALITY STREET — The central man holds the tin of sweets and thus has control over this luxury item. The women are framed either side of him, connoting that choosing between them is also part of the "delightfully delicious dilemma".',
+  'QUALITY STREET — Men are represented as a heroic central character — the "provider" — and women as objects of desire who are dependent on the man\'s choice.',
+  'QUALITY STREET — The conservative dress codes, theatrical iconography and patriarchal narrative link to 1950s British society.',
+  'AXE PEACE — The men are not visually linked with the product at all — prior audience knowledge is needed to understand the brand.',
+  'AXE PEACE — The women in the Axe advertisement are represented much more sexually than those in the Quality Street advertisement through revealing dress codes.',
+  'AXE PEACE — Men and women are represented through narratives, dress and gesture codes more obviously referring to romantic/sexual relationships.',
+  'SIMILARITY — Men have dominance and women are subservient in both adverts, despite the different historical contexts.',
+  'SIMILARITY — The style of both adverts\' images is artistic rather than realistic, representing "idealistic" men and women.',
+  'DIFFERENCE — The more conservative dress codes and ideologies of the Quality Street advert compared to the more explicit Axe advert perhaps reflect changes in audiences\' attitudes over time.',
+  'CONCLUSION — Both adverts represent men and women as needing the product to help them form relationships with the opposite sex.'],
+ levels:[['21–25','Excellent, detailed analysis of both products. Excellent comparisons. Consistent use of the theoretical framework and terminology. Well-reasoned judgements and conclusions.'],
+  ['16–20','Good, reasonably detailed analysis. Good comparisons. Good use of theoretical framework. Reasoned judgements.'],
+  ['11–15','Satisfactory analysis. Satisfactory comparisons (may favour one product). Satisfactory use of theoretical framework.'],
+  ['6–10','Basic analysis, tending to describe. Basic comparisons, mainly one product.'],
+  ['1–5','Minimal, if any, analysis; largely descriptive. Minimal use of theoretical framework.']]},
+
+{id:'c1_2020_1a',year:2020,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'The Guardian newspaper front page',texts:['Guardian'],
+ question:'Explore how The Guardian newspaper front page uses media language to create meanings through <strong>images</strong>.',
+ must:[],
+ points:['The camera shot of the two boys is at their eye level, allowing the audience to more closely associate with them.',
+  'The main image represents the two boys as typical little boys — the human interest angle.',
+  'The boys\' bright, colourful dress codes create a binary opposition with the seriousness of the tragedy they\'ve been involved in.',
+  'The younger brother\'s smiling face reinforces this binary opposition.',
+  'Other images include iconic images of C-3PO and R2D2, along with Woody Allen and Emma Stone — placed top left where the audience would see them first, contrasting with the serious lead story.',
+  'The yellow smiling face icon linked to the "Aciiid"/rave culture story works in a similar way.'],
+ levels:[['5','Excellent, detailed analysis. Consistent focus on connotations.'],['4','Good, reasonably detailed.'],
+  ['3','Satisfactory — lapses into description.'],['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2020_1b',year:2020,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(b)',product:'The Guardian newspaper front page',texts:['Guardian'],
+ question:'Explore how The Guardian newspaper front page uses media language to create meanings through <strong>text/written language</strong>.',
+ must:[],
+ points:['The tone of the headline frames the story as accidental and avoidable.',
+  'The headline\'s use of a personal pronoun (a direct quote from the boys\' father) gives the story a conventional human interest angle.',
+  'The lead article\'s emotive language creates audience empathy.',
+  '"PM bows to pressure" represents David Cameron negatively — typical of The Guardian\'s more liberal political leaning.',
+  'The light-hearted above-masthead text (including the pun "Barack and Grylls go up a hill") creates a binary opposition with the main stories.',
+  'Above-masthead section includes exclamatives and references to people with whom the audience are expected to be familiar ("Jamie").'],
+ levels:[['5','Excellent, detailed analysis.'],['4','Good, reasonably detailed.'],
+  ['3','Satisfactory — lapses into description.'],['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2020_1c',year:2020,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(c)',product:'The Guardian newspaper front page',texts:['Guardian'],
+ question:'Explore how The Guardian newspaper front page uses media language to create meanings through <strong>layout and design</strong>.',
+ must:[],
+ points:['The size and central composition of the main image creates audience empathy and frames the story around its human interest angle.',
+  'The caption beneath the central image anchors its meaning.',
+  'Conventional use of bullet point subheadings adds context and detail to the main headline.',
+  'The colour and font of The Guardian\'s masthead marks it out as different to other serious newspapers with a more informal style.',
+  'Conventional placement of the support story — linked to the main story and develops the political dimension.',
+  'Listing of other content above the masthead acts as a conventional "tease" for the newspaper\'s other sections.'],
+ levels:[['5','Excellent, detailed analysis.'],['4','Good, reasonably detailed.'],
+  ['3','Satisfactory — lapses into description.'],['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2020_2a',year:2020,comp:1,sec:'A',topic:'Representation',marks:5,ao:'AO1 2a/2b',
+ qnum:'Q2(a)',product:'The Man With The Golden Gun film poster (1974)',texts:['Golden Gun'],
+ question:'Explain how <strong>cultural context</strong> influences film posters. Refer to The Man With The Golden Gun film poster (1974) to support your points.',
+ must:[],
+ points:['High levels of intertextuality to other films in the franchise, even though this was only Moore\'s second film as Bond.',
+  'Prior to the 1990s, illustrated posters were common — this poster reflects that cultural norm.',
+  'This film was set during the 1973 energy crisis (links to the power plant and energy beam directed at Bond in the poster).',
+  'Kung Fu films were popular at the time, so the poster includes martial arts iconography and Asian locations.',
+  '1970s society was moving towards racial equality but stereotypes of minority ethnic groups are still at work in the poster.',
+  'The poster reinforces stereotypically sexualised representations of women, reflecting 1970s societal attitudes.'],
+ levels:[['5','Excellent, detailed and accurate knowledge. Highly appropriate reference to the set product.'],
+  ['4','Good, accurate knowledge. Appropriate reference.'],['3','Satisfactory, generally accurate. Some reference.'],
+  ['2','Basic knowledge. Limited reference.'],['1','Minimal knowledge. Minimal reference.']]},
+
+{id:'c1_2020_2b',year:2020,comp:1,sec:'A',topic:'Representation',marks:25,ao:'AO2 1a/1b',
+ qnum:'Q2(b)',product:'The Man With The Golden Gun & Holding The Man film posters',texts:['Golden Gun','Holding The Man'],
+ question:'Compare the <strong>representation of men</strong> in the film posters for The Man With The Golden Gun and Holding The Man.',
+ must:['The choices producers have made about how to represent men','How far the representation of men is similar in the two film posters','How far the representation of men is different in the two film posters'],
+ points:['Use representation theory — selected, constructed and mediated nature; stereotypes; messages and values; theoretical perspectives.',
+  'GOLDEN GUN — Bond is represented as powerful, heterosexually dominant and action-oriented. His tuxedo, gun and confident pose connote status and control. The two women flanking him reinforce his desirability.',
+  'GOLDEN GUN — The male villain (Scaramanga) is given equal billing at the top of the poster, creating a binary opposition between hero and villain — a typical masculine narrative structure.',
+  'HOLDING THE MAN — Men are represented through romantic/emotional attachment to another man, which is unconventional compared to dominant representations of masculinity in mainstream cinema posters.',
+  'HOLDING THE MAN — The two men are presented in close physical proximity and with gesture codes suggesting tenderness and vulnerability — quite different to the dominant/powerful representation in the Bond poster.',
+  'SIMILARITY — Both posters represent men as central to the narrative and as objects of audience attention.',
+  'DIFFERENCE — The 1974 Bond poster represents men within dominant, heterosexual norms; Holding The Man challenges these through its representation of a gay relationship.',
+  'DIFFERENCE — The historical and cultural contexts are very different — 1970s mainstream cinema vs a 2015 film dealing with LGBTQ+ identity and the AIDS crisis.',
+  'CONCLUSION — Both posters use male representation to signal the type of relationship/narrative at the heart of the film, but draw on very different ideological frameworks to do so.'],
+ levels:[['21–25','Excellent, detailed analysis of both products. Excellent comparisons. Consistent use of the theoretical framework. Well-reasoned judgements and conclusions.'],
+  ['16–20','Good, reasonably detailed analysis. Good comparisons. Good use of theoretical framework.'],
+  ['11–15','Satisfactory analysis. Satisfactory comparisons. Satisfactory use of theoretical framework.'],
+  ['6–10','Basic analysis, tending to describe. Basic comparisons, mainly one product.'],
+  ['1–5','Minimal, if any, analysis; largely descriptive.']]},
+
+{id:'c1_2021_1a',year:2021,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'The Man with the Golden Gun film poster',texts:['Golden Gun'],
+ question:'Explore how The Man with the Golden Gun film poster creates meanings through the use of <strong>colour</strong>.',
+ must:[],
+ points:['The colour of the gun connotes wealth and status — gold is the most expensive metal.',
+  'The "golden" colour palette is referenced frequently in the poster to link with the film\'s title.',
+  'Bond\'s tuxedo is the darkest colour and at the centre of the frame, drawing the eye towards the hero.',
+  'The text at the top and bottom has a consistent colour palette, linking the actor, character and film title together.',
+  'The two female characters\' bikini colours could connote that one is a heroine (red) and one is a villain (black).',
+  'Overall, the colour palette includes codes and conventions of the action adventure genre (red, black, orange) with elements of sci-fi (silver of the laboratory).'],
+ levels:[['5','Excellent, detailed analysis. Consistent focus on connotations created by the colour palette.'],
+  ['4','Good, reasonably detailed.'],['3','Satisfactory — lapses into description.'],
+  ['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2021_1b',year:2021,comp:1,sec:'A',topic:'Media Language',marks:10,ao:'AO2 1a',
+ qnum:'Q1(b)',product:'The Man with the Golden Gun film poster',texts:['Golden Gun'],
+ question:'Explore how The Man with the Golden Gun film poster creates meanings through the use of <strong>genre conventions</strong>.',
+ must:[],
+ points:['The iconic iconography of Bond (gun, tuxedo, women) establishes the film as part of the action/spy genre and creates immediate audience recognition.',
+  'The villain\'s golden gun is a genre convention that creates immediate understanding of the narrative conflict — hero vs villain.',
+  'The composition of dominant male hero with submissive female figures arranged either side of him is typical of the action adventure genre.',
+  'Intertextual references to previous Bond films help establish audience expectations — spectacle, exotic locations, attractive women.',
+  'The exotic Asian location iconography (kung fu, the solar energy station, the Thai scenery) is both genre-typical (spy thriller) and contextually specific to the 1970s.',
+  'The characters\' direct mode of address (Bond and the villain both looking out) is a typical genre convention of the action/thriller poster.',
+  'The illustrated poster style was conventional of action films in this period, before photographic posters became dominant.'],
+ levels:[['9–10','Excellent, detailed analysis. Consistent focus on how specific genre conventions create meaning. Highly appropriate use of terminology.'],
+  ['7–8','Good, reasonably detailed. Appropriate use of terminology.'],
+  ['5–6','Satisfactory — general focus, lapses into description.'],
+  ['3–4','Basic — limited focus, tendency to describe.'],['1–2','Minimal, brief, descriptive.']]},
+
+{id:'c1_2022_1a',year:2022,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'This Girl Can print advertisement',texts:['This Girl Can'],
+ question:'Explore how the print advertisement for This Girl Can uses media language to create meanings through <strong>text/written language</strong>.',
+ must:[],
+ points:['"This Girl Can" — a declarative, positive statement connoting determination and empowerment. The declarative form asserts confidence rather than asking permission.',
+  'The funding bodies\' logos (Sport England etc.) create a sense of endorsement, authority and legitimacy.',
+  'Direct address ("This Girl Can") creates a personal relationship with the audience — the audience is invited to identify with the "girl".',
+  'The inclusive, non-elite language broadens the appeal of the advert — "girl" rather than "woman" suggests accessibility.',
+  'Use of informal language and colloquialisms creates a friendly, approachable tone that contrasts with conventional sports advertising.',
+  'Typography choices (bold, chunky font) reinforce the campaign\'s empowering message — strength through simplicity.'],
+ levels:[['5','Excellent, detailed analysis. Consistent focus on connotations or meanings created by the text.'],
+  ['4','Good, reasonably detailed.'],['3','Satisfactory — lapses into description.'],
+  ['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2023_1a',year:2023,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'Spectre film poster',texts:['Spectre'],
+ question:'How does the Spectre film poster communicate meaning through <strong>narrative</strong>?',
+ must:[],
+ points:['The iconography of the gun and Bond\'s code of gesture give clues to the narrative — his posture is both powerful (with the gun) and contemplative, suggesting a complex hero.',
+  'The shadow/dark figure behind Bond creates enigmas (Barthes) — the villain\'s identity is concealed, inviting the audience into the narrative.',
+  'The composition positions Bond as the protagonist/hero (Propp), with the antagonist looming behind him, suggesting threat and danger.',
+  'The visual narrative suggests a story of pursuit, concealed identity and moral ambiguity — typical of the Bond franchise.',
+  'The tagline and title work together to anchor the narrative meaning of the image — "Spectre" as a shadowy, threatening presence.',
+  'Intertextuality with previous Bond films shapes audience expectations about the type of narrative — action, espionage, romance.'],
+ levels:[['5','Excellent, detailed analysis of how narrative communicates meaning. Consistent focus on connotations of specific elements.'],
+  ['4','Good, reasonably detailed.'],['3','Satisfactory — lapses into description.'],
+  ['2','Basic — limited focus on narrative, tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2024_1a',year:2024,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'The Guardian front cover (18 Jan 2022)',texts:['Guardian'],
+ question:'Explore how The Guardian newspaper front page (18 Jan 2022) uses media language to communicate meanings through <strong>layout and design</strong>.',
+ must:[],
+ points:['Large dominant image of Boris Johnson, providing anchorage to the Partygate issue — the image is the story.',
+  'Formal column layout with clear cover lines followed by detailed copy, each leading to pages within the cover — typical broadsheet structure.',
+  'G2 skyline/cover line offering a colourful contrast to the serious main stories — appeals to cultural and leisure audiences alongside news readers.',
+  'Traditional structure and design, including a clear identifiable masthead — signals credibility and quality journalism.',
+  'Higher balance of copy to image, aligning with typical broadsheet features and appealing to the news enthusiast.',
+  'House style adhered to throughout — consistent colours, layout, bylines and price reinforce brand identity.'],
+ levels:[['5','Excellent, detailed analysis. Consistent focus on connotations or meanings created by layout/design.'],
+  ['4','Good, reasonably detailed.'],['3','Satisfactory — lapses into description.'],
+  ['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2025_1a',year:2025,comp:1,sec:'A',topic:'Media Language',marks:5,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'Quality Street print advertisement',texts:['Quality Street'],
+ question:'Explore how the print advertisement for Quality Street uses media language to communicate meanings through <strong>layout and design</strong>.',
+ must:[],
+ points:['The size and central composition of the main characters ("Major Quality" and "Miss Sweetly") creates reader identity at the time the advert was produced.',
+  'Typical triangular geometric composition helps anchorage of the product — the eye is drawn to the characters and then to the chocolates.',
+  'Font sizes across the advert: small print for product information, larger fonts for taglines — hierarchy of information.',
+  'The colour palette is rich in primary and secondary colours with connotations of vibrancy, luxury and richness.',
+  'Foreground inserts of the chocolates ("pack shot") connect their colours to the characters in the advert — product is always visible.',
+  'The golden halo of the frame above the central characters links to brand identity — "Quality Street" as aspirational and theatrical.',
+  'Hand-drawn design like an animation or piece of art — links to post-war consumer culture and depicts key figures of the "house".'],
+ levels:[['5','Excellent, detailed analysis. Consistent focus on connotations or meanings created by layout/design.'],
+  ['4','Good, reasonably detailed.'],['3','Satisfactory — lapses into description.'],
+  ['2','Basic — tendency to describe.'],['1','Minimal, brief and descriptive.']]},
+
+{id:'c1_2025_1b',year:2025,comp:1,sec:'A',topic:'Media Language',marks:10,ao:'AO2 1a',
+ qnum:'Q1(b)',product:'Quality Street print advertisement',texts:['Quality Street'],
+ question:'Explore how the print advertisement for Quality Street uses media language to communicate meanings through <strong>images</strong>.',
+ must:[],
+ points:['The central characters ("Major Quality" and "Miss Sweetly") are dressed in Regency-era period costume, connoting a sense of history, tradition and British heritage.',
+  'The theatrical, pantomime-like pose and gesture codes of the characters suggest performance and fun, inviting the audience to enjoy the advert as entertainment.',
+  'The foreground placement of the product (the chocolates) gives it primacy and positions it as the object of desire in the scene.',
+  'The colour and detail of the costumes echo the bright colours of the sweet wrappers, creating visual coherence between the brand characters and the product.',
+  'The warm, inviting colour palette connotes luxury, indulgence and pleasure — core values of the confectionery brand.',
+  'The style of the illustration anchors the product in a specific historical period with aspirational, class-based connotations — the Regency era as glamorous and refined.'],
+ levels:[['9–10','Excellent, detailed analysis. Consistent focus on connotations or intended meanings created by the images. Highly appropriate use of subject-specific terminology.'],
+  ['7–8','Good, reasonably detailed. Focus on connotations. Appropriate use of terminology.'],
+  ['5–6','Satisfactory — general focus, lapses into description.'],
+  ['3–4','Basic — limited focus, tendency to describe.'],['1–2','Minimal, brief, descriptive.']]},
+
+// ═══════════════════════════════════════════════════════════
+// COMPONENT 1 — SECTION B
+// ═══════════════════════════════════════════════════════════
+{id:'c1_2019_3a',year:2019,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q3(a)',product:'Radio industry',texts:[],
+ question:'Name the organisation that <strong>regulates radio</strong> in the UK.',
+ must:[],points:['Ofcom / The Office of Communications'],levels:[]},
+
+{id:'c1_2019_3b',year:2019,comp:1,sec:'B',topic:'Industry',marks:4,ao:'AO1 1a/1b',
+ qnum:'Q3(b)',product:'Radio industry',texts:[],
+ question:'Briefly explain the difference between how <strong>public service radio</strong> and <strong>commercial radio</strong> are funded.',
+ must:[],
+ points:['Public service broadcasters are funded by public money — e.g. directly from government or through a tax such as the licence fee.',
+  'For PSBs, acquiring this funding is usually linked to the type of content they must produce and the audiences they must reach.',
+  'Commercial broadcasters are funded by the sale of advertising and sponsorship slots.',
+  'The BBC is the main PSB in the UK; commercial stations include Heart, Capital and Talk Radio.'],
+ levels:[['4','Excellent, detailed and accurate knowledge of the difference in funding.'],
+  ['3','Good, accurate knowledge.'],['2','Satisfactory, generally accurate knowledge.'],['1','Basic knowledge.']]},
+
+{id:'c1_2019_3c',year:2019,comp:1,sec:'B',topic:'Industry',marks:12,ao:'AO1 1a/1b',
+ qnum:'Q3(c)',product:'The Archers (BBC Radio 4)',texts:['Archers'],
+ question:'Explain how radio programmes use <strong>technologies to reach audiences</strong>. Refer to <em>The Archers</em> to support your points.',
+ must:[],
+ points:['The Archers is the world\'s longest running radio soap opera with 5 million listeners.',
+  'The main broadcast on Radio 4 via FM reaches its core audience; simultaneous broadcast via DAB broadens this.',
+  'Radio 4 Extra repeats episodes, allowing audiences to catch up — extending the programme\'s reach beyond its original broadcast slot.',
+  'The BBC website and The Archers\' own website offer multimedia content (behind-the-scenes videos, character guides, episode synopses) and encourage more active audiences.',
+  'BBC Sounds and BBC iPlayer allow audiences to listen at convenient times, outside of conventional broadcast scheduling — appealing to younger, on-demand audiences.',
+  'Facebook and Twitter/X pages allow the programme to reach a global audience beyond a national context — The Archers has international listeners.',
+  'Digital technologies allow audiences to interact with the programme, engage with storylines and engage with fellow fans online.',
+  'The BBC\'s public service remit to reach a wide range of audiences is fulfilled through The Archers\' use of digital technologies.'],
+ levels:[['10–12','Excellent, detailed and accurate knowledge of how radio programmes use technologies to reach audiences. Excellent reference to The Archers. Highly appropriate use of subject-specific terminology.'],
+  ['7–9','Good, accurate knowledge. Good reference to the set product. Appropriate terminology.'],
+  ['4–6','Satisfactory, generally accurate knowledge. Satisfactory reference to the set product.'],
+  ['1–3','Basic knowledge. Basic, if any, reference to the set product.']]},
+
+{id:'c1_2019_4a',year:2019,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q4(a)',product:'The Sun',texts:['The Sun'],
+ question:'What type of newspaper is <em>The Sun</em>?',
+ must:[],points:['Tabloid newspaper / "red top" / daily / mass market / right wing / conservative'],levels:[]},
+
+{id:'c1_2019_4b',year:2019,comp:1,sec:'B',topic:'Audience',marks:1,ao:'AO1 1a',
+ qnum:'Q4(b)',product:'The Sun website',texts:['The Sun'],
+ question:'Identify <strong>one audience</strong> for The Sun website.',
+ must:[],
+ points:['Working social classes / largely C2DE demographic.',
+  'Younger audiences interested in TV, films, music.',
+  'Men attracted by coverage of sport.',
+  'Women (who make up the majority of website users).',
+  'Adults with weaker literacy / wanting a fast/easy read.',
+  'A politically conservative / right-leaning audience.'],levels:[]},
+
+{id:'c1_2019_4c',year:2019,comp:1,sec:'B',topic:'Audience',marks:4,ao:'AO1 1a/1b',
+ qnum:'Q4(c)',product:'The Sun website',texts:['The Sun'],
+ question:'Briefly explain how the content of <em>The Sun</em> website appeals to the audience you identified in 4(b).',
+ must:[],
+ points:['Stories critical of "elite" groups framed around issues affecting "normal" families might appeal to working social classes.',
+  'The "TV & Showbiz" section and its central positioning might appeal to younger audiences interested in media entertainment.',
+  'The "Money" section might appeal to the two thirds of the newspaper\'s readers who are over 35.',
+  'The "Sport" section (particularly football coverage) might appeal to the stereotypically male sports fan.',
+  'Short-form stories and easily scrollable layout appeals to those wanting a fast/easy read.',
+  'Political stories support the paper\'s and readers\' conservative/right-leaning bias.'],
+ levels:[['4','Excellent, detailed and accurate knowledge of how the content appeals to the identified audience.'],
+  ['3','Good, accurate knowledge.'],['2','Satisfactory, generally accurate knowledge.'],['1','Basic knowledge.']]},
+
+{id:'c1_2019_4d',year:2019,comp:1,sec:'B',topic:'Audience',marks:12,ao:'AO1 1a/1b',
+ qnum:'Q4(d)',product:'The Sun',texts:['The Sun'],
+ question:'Explain why audiences may interpret the same media product in <strong>different ways</strong>. Refer to <em>The Sun</em> to support your points.',
+ must:[],
+ points:['Hall\'s Reception Theory — audiences can make preferred readings (accepting The Sun\'s right-wing ideology), negotiated readings (accepting some but not all of its positions) or oppositional readings (rejecting its ideology entirely).',
+  'The role of political bias — audiences are likely to buy newspapers that align with their own political leanings, so a Labour voter may read The Sun very differently from a Conservative voter.',
+  'How audiences interpret different sections differently — e.g. sports fans may read the sports coverage uncritically but reject the paper\'s political coverage.',
+  'The importance of identity — audiences use media to reinforce or challenge their own sense of self.',
+  'Active audience interpretations encouraging social interaction — Uses and Gratifications Theory: people discuss and debate The Sun\'s stories with others.',
+  'The Sun uses language and mode of address to frame stories in particular ways — e.g. its emotive tabloid language may create different emotional responses in different readers.',
+  'The Sun\'s representations of social groups (e.g. immigrants, politicians) may be interpreted very differently by people within and outside those groups.',
+  'Higher bands — draw together knowledge from across the theoretical framework: Media Language, Industry, Contexts.'],
+ levels:[['10–12','Excellent, detailed and accurate knowledge of audiences. Excellent understanding of why they interpret The Sun differently. Detailed reference to theoretical perspectives and excellent subject-specific terminology.'],
+  ['7–9','Good, accurate knowledge. Good understanding. Accurate reference to theoretical perspectives.'],
+  ['4–6','Satisfactory, generally accurate knowledge. Satisfactory understanding.'],
+  ['1–3','Basic knowledge. Basic understanding of different audience interpretations.']]},
+
+{id:'c1_2020_3a',year:2020,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q3(a)',product:'Video games industry',texts:[],
+ question:'Name the organisation that <strong>regulates video games in Europe</strong>.',
+ must:[],points:['PEGI / Pan European Game Information'],levels:[]},
+
+{id:'c1_2020_3b',year:2020,comp:1,sec:'B',topic:'Industry',marks:4,ao:'AO1 1a/1b',
+ qnum:'Q3(b)',product:'Pokémon Go',texts:['Pokemon'],
+ question:'Briefly explain the <strong>effect of regulation</strong> on Pokémon Go.',
+ must:[],
+ points:['PEGI rating of 7+ allows the game to be marketed to younger audiences and families — shapes advertising and distribution.',
+  'Age ratings affect how the game can be promoted and advertised — it cannot be promoted on adult-only platforms.',
+  'Regulation around data privacy (GDPR) affected how Pokémon Go could collect and use player data, particularly for under-13s.',
+  'The PEGI rating shapes what type of content can appear in the game and its updates — no violent or adult content.',
+  'Regulation may have prompted changes to gameplay mechanics — Niantic adjusted the game after concerns about players trespassing in dangerous areas (e.g. Holocaust memorials, military sites).'],
+ levels:[['4','Excellent, detailed and accurate knowledge of the effect of regulation on Pokémon Go.'],
+  ['3','Good, accurate knowledge.'],['2','Satisfactory, generally accurate knowledge.'],['1','Basic knowledge.']]},
+
+{id:'c1_2020_4c',year:2020,comp:1,sec:'B',topic:'Audience',marks:12,ao:'AO1 1a/1b',
+ qnum:'Q4(c)',product:'The Archers',texts:['Archers'],
+ question:'Explain how audiences use radio programmes to <strong>meet their needs</strong>. Refer to <em>The Archers</em> and audience theory to support your points.',
+ must:[],
+ points:['DIVERSION — Audiences use The Archers as an escape from everyday life; the fictional world of Ambridge provides an alternative reality. The soap opera format provides ongoing escapism.',
+  'SURVEILLANCE — The Archers covers issues like rural life, agriculture, farming policy, domestic abuse and family relationships — audiences gain information and knowledge applicable to their own lives.',
+  'PERSONAL IDENTITY — The long-running complex characters allow audiences to compare their own values, relationships and life experiences with those of the characters, helping them understand their own identity.',
+  'PERSONAL RELATIONSHIPS / SOCIAL INTEGRATION — The Archers can be a "water cooler" programme — discussed with friends, family and online communities, building social bonds around shared consumption.',
+  'The podcast/iPlayer format allows audiences to build listening into their personal routine — meeting the need for diversion during commuting, exercise etc.',
+  'Apply Blumler and Katz\'s Uses and Gratifications theory — link each of the four gratifications to specific aspects of The Archers.'],
+ levels:[['10–12','Excellent, detailed and accurate knowledge of how audiences use radio programmes to meet their needs. Excellent reference to The Archers. Highly appropriate use of subject-specific terminology.'],
+  ['7–9','Good, accurate knowledge. Good reference to the set product.'],
+  ['4–6','Satisfactory, generally accurate knowledge. Satisfactory reference to the set product.'],
+  ['1–3','Basic knowledge. Basic reference to the set product.']]},
+
+{id:'c1_2021_3a',year:2021,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q3(a)',product:'Fortnite',texts:['Fortnite'],
+ question:'Name the company that produces <em>Fortnite</em>.',
+ must:[],points:['Epic Games'],levels:[]},
+
+{id:'c1_2021_3b',year:2021,comp:1,sec:'B',topic:'Industry',marks:4,ao:'AO1 1a/1b',
+ qnum:'Q3(b)',product:'Fortnite',texts:['Fortnite'],
+ question:'Explain how <strong>video games are marketed</strong>. Refer to Fortnite to support your points.',
+ must:[],
+ points:['Trailers and promotional content on YouTube and streaming platforms build anticipation for new seasons/updates — Fortnite\'s seasonal trailers regularly trend on social media.',
+  'Collaborations with major brands and celebrities (Marvel, Star Wars, Ariana Grande, Travis Scott) attract new audiences and generate media coverage.',
+  'Social media marketing on Instagram, Twitter/X, TikTok engages existing and potential players — Fortnite has millions of followers across all platforms.',
+  'Free-to-play model lowers the barrier to entry — the marketing focus is on the in-game store and V-Bucks currency.',
+  'Twitch and YouTube streaming by influencers and professional players provides organic promotion to gaming audiences.',
+  'Live in-game events (concerts, limited-time modes) generate media coverage and word-of-mouth marketing — e.g. Travis Scott\'s Astronomical event had 27 million concurrent players.'],
+ levels:[['4','Excellent, detailed and accurate knowledge of how video games are marketed.'],
+  ['3','Good, accurate knowledge.'],['2','Satisfactory, generally accurate knowledge.'],['1','Basic knowledge.']]},
+
+{id:'c1_2022_3a',year:2022,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q3(a)',product:'Spectre (film)',texts:['Spectre'],
+ question:'Name one of the companies that produced <em>Spectre</em>.',
+ must:[],points:['Eon Productions / Metro-Goldwyn-Mayer (MGM) / Columbia Pictures / Sony Pictures'],levels:[]},
+
+{id:'c1_2022_3b',year:2022,comp:1,sec:'B',topic:'Industry',marks:2,ao:'AO1 1a/1b',
+ qnum:'Q3(b)',product:'Media industry',texts:[],
+ question:'Briefly explain what a <strong>media conglomerate</strong> is.',
+ must:[],
+ points:['A media conglomerate is a large company that owns many smaller subsidiary companies across different media sectors.',
+  'E.g. Disney owns Marvel, Pixar, Lucasfilm, ABC and ESPN — controlling film production, TV broadcasting and streaming (Disney+).'],levels:[]},
+
+{id:'c1_2022_3c',year:2022,comp:1,sec:'B',topic:'Industry',marks:2,ao:'AO1 1a/1b',
+ qnum:'Q3(c)',product:'Spectre website',texts:['Spectre'],
+ question:'Briefly explain what <strong>convergence</strong> is and give an example from the Spectre website.',
+ must:[],
+ points:['Convergence is when different media platforms and technologies come together in one place or product.',
+  'The Spectre website is an example of convergence — it includes print content, moving image trailers, social media links and interactive features all in one digital space.'],levels:[]},
+
+{id:'c1_2023_3a',year:2023,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q3(a)',product:'The Archers',texts:['Archers'],
+ question:'Name the radio station that broadcasts <em>The Archers</em>.',
+ must:[],points:['BBC Radio 4'],levels:[]},
+
+{id:'c1_2023_3b',year:2023,comp:1,sec:'B',topic:'Industry',marks:4,ao:'AO1 1a/1b',
+ qnum:'Q3(b)',product:'The Archers',texts:['Archers'],
+ question:'Briefly explain the difference between a <strong>public service radio broadcaster</strong> and a <strong>commercial broadcaster</strong>.',
+ must:[],
+ points:['Public service broadcasters (e.g. the BBC) are funded by public money — typically through the licence fee — and have a remit to serve all audiences regardless of commercial viability.',
+  'Commercial broadcasters are funded by advertising and sponsorship and are primarily driven by profit.',
+  'PSBs must fulfil specific obligations (e.g. news, education, accessibility, impartiality); commercial broadcasters have more freedom to programme for the most popular/profitable audiences.',
+  'BBC Radio 4 (which broadcasts The Archers) is a PSB; commercial equivalents include Global\'s radio stations.'],
+ levels:[['4','Excellent, detailed and accurate knowledge and understanding.'],['3','Good, accurate knowledge.'],
+  ['2','Satisfactory, generally accurate knowledge.'],['1','Basic knowledge.']]},
+
+{id:'c1_2023_4c',year:2023,comp:1,sec:'B',topic:'Audience',marks:12,ao:'AO1 1a/1b',
+ qnum:'Q4(c)',product:'The Sun newspaper',texts:['The Sun'],
+ question:'Explain why audiences read <strong>print newspapers</strong>. Refer to <em>The Sun</em> and audience theory to support your points.',
+ must:[],
+ points:['DIVERSION — Audiences use The Sun to be entertained and diverted by celebrity gossip, sport and human interest stories — the tabloid format prioritises entertainment.',
+  'SURVEILLANCE — Audiences use The Sun to keep informed about current events and news, though the paper frames stories through a specific ideological lens that aligns with its readership\'s worldview.',
+  'PERSONAL IDENTITY — Readers use The Sun to reinforce their own values and worldview; the paper\'s right-leaning politics appeals to audiences who share this outlook.',
+  'PERSONAL RELATIONSHIPS — Stories in The Sun (particularly sport and showbiz) can be discussed with others, building a sense of community and shared cultural reference.',
+  'The ritualistic nature of newspaper reading — many readers buy The Sun as part of a daily routine, giving structure to their day.',
+  'Apply Blumler and Katz\'s Uses and Gratifications theory throughout — link each of the four gratifications to specific content in The Sun.'],
+ levels:[['10–12','Excellent, detailed and accurate knowledge. Excellent reference to the set product and theoretical perspectives. Highly appropriate use of subject-specific terminology.'],
+  ['7–9','Good, accurate knowledge. Good reference to the set product and theory.'],
+  ['4–6','Satisfactory, generally accurate knowledge. Satisfactory reference to the set product and theory.'],
+  ['1–3','Basic knowledge. Basic reference to the set product. Basic, if any, use of theory.']]},
+
+{id:'c1_2024_3a',year:2024,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q3(a)',product:'The Archers',texts:['Archers'],
+ question:'Name the organisation that produces <em>The Archers</em>.',
+ must:[],points:['The BBC (British Broadcasting Corporation)'],levels:[]},
+
+{id:'c1_2024_3b',year:2024,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q3(b)',product:'Radio industry',texts:[],
+ question:'Name the organisation that <strong>regulates the radio industry</strong> in the UK.',
+ must:[],points:['Ofcom / The Office of Communications'],levels:[]},
+
+{id:'c1_2024_3c',year:2024,comp:1,sec:'B',topic:'Industry',marks:4,ao:'AO1 1a/1b',
+ qnum:'Q3(c)',product:'Radio industry',texts:[],
+ question:'Briefly explain the <strong>different types of funding</strong> for radio in the UK.',
+ must:[],
+ points:['The BBC is publicly funded through the TV licence fee and has a public service remit — it must provide content for all audiences.',
+  'Commercial radio stations (e.g. Heart, Capital, Talk Radio) are funded by advertising and sponsorship and are primarily profit-driven.',
+  'Some community and local radio stations receive grants, Arts Council funding or government support and rely partly on voluntary contributions.',
+  'The type of funding affects the content produced — PSBs must serve all audiences; commercial stations programme for the largest possible audience to attract advertisers.'],
+ levels:[['4','Excellent, detailed and accurate knowledge of the different types of funding.'],
+  ['3','Good, accurate knowledge.'],['2','Satisfactory, generally accurate knowledge.'],['1','Basic knowledge.']]},
+
+{id:'c1_2025_3a',year:2025,comp:1,sec:'B',topic:'Industry',marks:1,ao:'AO1 1a',
+ qnum:'Q3(a)',product:'Film industry',texts:[],
+ question:'Name the organisation that regulates <strong>film</strong> in the UK.',
+ must:[],points:['BBFC / British Board of Film Classification'],levels:[]},
+
+{id:'c1_2025_3b',year:2025,comp:1,sec:'B',topic:'Industry',marks:4,ao:'AO1 1a/1b',
+ qnum:'Q3(b)',product:'Film industry',texts:[],
+ question:'Briefly explain the <strong>advantages of vertical integration</strong> for the film industry.',
+ must:[],
+ points:['A company can control multiple stages of the production and distribution process — e.g. a studio that owns production, distribution and exhibition (cinemas).',
+  'This gives conglomerates greater control over profits and reduces reliance on third parties.',
+  'A studio that also owns cinemas and a streaming platform (e.g. Disney owning Disney+) can maximise revenue from a single film across multiple windows.',
+  'Vertical integration reduces risk by spreading costs and profits across multiple business arms.',
+  'It allows companies to coordinate marketing and release strategies more effectively across all platforms they own.'],
+ levels:[['4','Excellent, detailed and accurate knowledge of the advantages of vertical integration. Highly appropriate use of subject-specific terminology.'],
+  ['3','Good accurate knowledge. Appropriate use of terminology.'],
+  ['2','Satisfactory, generally accurate knowledge.'],['1','Basic knowledge and understanding.']]},
+
+// ═══════════════════════════════════════════════════════════
+// COMPONENT 2 — SECTION A: Television
+// ═══════════════════════════════════════════════════════════
+{id:'c2_2019_1a',year:2019,comp:2,sec:'A',topic:'Television',marks:8,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'Luther / The IT Crowd extract',texts:['Luther','IT Crowd'],
+ question:'Choose <strong>two camera shots</strong> used in this extract. Explore <strong>why</strong> they are used. (4 marks per shot)',
+ must:[],
+ points:['LUTHER — Low angle tracking shot used to establish the factory location — makes it look intimidating and isolated, typical of crime drama settings.',
+  'LUTHER — High angle shot inside the location makes the character running look small and vulnerable — connotes danger and powerlessness.',
+  'LUTHER — Medium close-up shots of Henry denote his emotions (scared, panicked) — gives the audience access to character interiority.',
+  'LUTHER — Over-the-shoulder tracking shot of the pursuer creates enigmas (we don\'t see his face) and positions the audience with the "villain" tracking the "victim".',
+  'LUTHER — Extreme close-ups of the two characters\' eyes at the climax connote the intensity of their rivalry and the emotional stakes.',
+  'LUTHER — High angle shot of Luther looking over Henry at the end emphasises his dominance and signals the resolution of the chase.',
+  'IT CROWD — Wide pan shot tracks Roy and connotes we\'re joining him in the middle of his explanation — creates intimacy with the characters.',
+  'IT CROWD — Medium low angle shot associates the audience with Maurice\'s perspective.',
+  'IT CROWD — Close up of Douglas opening the door a second time to check Jen has gone creates comedy through timing and suspense.'],
+ levels:[['4 (per shot)','Excellent, detailed analysis of a camera shot. Consistent focus on why the shot is used.'],
+  ['3','Good, reasonably detailed analysis. Focus on why the shot is used.'],
+  ['2','Satisfactory analysis. General focus on why the shot is used, lapses into description.'],
+  ['1','Basic, if any, analysis. Tends to list shots in a generalised way.']]},
+
+{id:'c2_2019_1b',year:2019,comp:2,sec:'A',topic:'Television',marks:12,ao:'AO2 1a/1b',
+ qnum:'Q1(b)',product:'Luther / The IT Crowd extract',texts:['Luther','IT Crowd'],
+ question:'How far are the <strong>settings</strong> in this extract <strong>typical of the genre</strong>? Explore examples from the extract to support your points.',
+ must:[],
+ points:['LUTHER — The establishing shot of an isolated location is typical and immediately generates enigmas, something which is conventional of the crime genre.',
+  'LUTHER — The dangers that settings pose to characters are typical of a crime drama — the barbed wire, the rickety walkway, the deserted factory all connote threat.',
+  'LUTHER — Binary oppositions between the characters\' formal dress codes and the factory setting connote they don\'t belong there — typical crime drama shorthand.',
+  'LUTHER — The factory location forms a "dead end" in which Henry is trapped, creating a conventional hero/villain standoff.',
+  'LUTHER — The more mundane suburban street and house locations emphasise that this crime drama, like most others, is grounded in "real life".',
+  'LUTHER — The settings all appear to involve filming on location and at night — connotes the programme\'s typically high production values.',
+  'IT CROWD — The basement setting is cluttered with stereotypically "nerdy" iconography (comic book posters, action figures, games, stickers) — gives the audience a shorthand way of understanding the characters.',
+  'IT CROWD — The basement setting connotes the low status of Jen, Roy and Moss: Roy\'s desk is below a dusty air duct and the door has a "danger of death" sign.',
+  'IT CROWD — The upstairs corridor is more corporate, emphasising the binary opposition between characters working at the "bottom" and "top" of the company.',
+  'IT CROWD — The basement and corridor settings are framed to place the home audience with the studio audience — the "fourth wall" is not broken, which is conventional of sitcoms.'],
+ levels:[['10–12','Excellent, detailed analysis of the settings. Highly appropriate judgements and conclusions regarding how far the settings are typical of the genre.'],
+  ['7–9','Good, reasonably detailed analysis. Appropriate judgements and conclusions.'],
+  ['4–6','Satisfactory analysis. Generally appropriate judgements.'],
+  ['1–3','Basic, if any, analysis. Basic, if any, judgements.']]},
+
+{id:'c2_2019_2',year:2019,comp:2,sec:'A',topic:'Television',marks:10,ao:'AO1 1a/1b',
+ qnum:'Q2',product:'Luther / The IT Crowd',texts:['Luther','IT Crowd'],
+ question:'How does <strong>Uses and Gratifications theory</strong> explain why audiences watch crime dramas or sitcoms? Refer to <em>Luther</em> or <em>The IT Crowd</em> to support your response.',
+ must:[],
+ points:['LUTHER — DIVERSION: crime dramas contain multiple enigmas and working to solve these helps audiences escape everyday problems. The "whodunnit"/"howdunnit" narrative encourages audiences to identify with the hero.',
+  'LUTHER — SURVEILLANCE: Luther gives audiences information about how a modern detective might operate, the types of crimes they might solve and the effects the job has on detectives themselves.',
+  'LUTHER — PERSONAL RELATIONSHIPS: Luther can be a "water cooler" programme — audiences are likely to discuss narrative arcs, enigmas and twists with friends, family, colleagues and online.',
+  'LUTHER — PERSONAL IDENTITY: Luther offers the conventional "flawed hero" and strong female characters like Alice, reflecting changing gender roles in society.',
+  'IT CROWD — DIVERSION: the primary function of a sitcom is entertainment; The IT Crowd uses multiple conventions (humorous situations, jokes, comedic characters) to achieve this.',
+  'IT CROWD — DIVERSION: the conventional sitcom structure (central problem resolved by the end of the episode) appeals to time-poor audiences — no need to watch in order.',
+  'IT CROWD — SURVEILLANCE: The IT Crowd represents "thirtysomething" characters — audiences could use the situations these characters face as a comparison to their own lives.',
+  'IT CROWD — PERSONAL IDENTITY: The IT Crowd\'s representations of IT workers / "nerd/geek" characters appeal to audiences with direct experience of those environments.'],
+ levels:[['9–10','Excellent, detailed and accurate knowledge of audiences. Excellent understanding of Uses and Gratifications theory — highly appropriate links between aspects of the theory and specific aspects of the set product.'],
+  ['7–8','Good, accurate knowledge. Good understanding of the theory — appropriate links to the set product.'],
+  ['5–6','Satisfactory, generally accurate knowledge. Satisfactory understanding of the theory — links made but may be undeveloped.'],
+  ['3–4','Basic knowledge. Basic, if any, understanding of the theory — links between theory and product unlikely to be made.'],
+  ['1–2','Minimal knowledge. Links between theory and set product not made; brief or incomplete.']]},
+
+{id:'c2_2020_1a',year:2020,comp:2,sec:'A',topic:'Television',marks:8,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'Luther / The IT Crowd extract',texts:['Luther','IT Crowd'],
+ question:'Explore how <strong>media language</strong> is used in this extract to show the <strong>roles of two characters</strong>. (4 marks per character)',
+ must:[],
+ points:['LUTHER — Luther can function as an anti-hero: his dialogue ("Come on!") and actions (lighting the blow torch) sometimes lack the morality of a conventional hero.',
+  'LUTHER — Luther fulfils the role of detective: his conversation with DSU Rose Teller in her office makes this explicit. His dialogue ("I told you, boss") shows him as a determined, talented detective.',
+  'LUTHER — The action of lighting the blow torch as Luther leaves the office shows his role as maverick detective — hinting at the anger issues that define the flawed hero archetype.',
+  'LUTHER — The tracking shot following Luther as he walks to Alice\'s flat positions the audience to see his role as protagonist/hero driving the narrative.',
+  'LUTHER — Luther breaking into Alice\'s flat confirms his role as "flawed" hero — willing to break the rules to solve the case (Propp\'s hero function).',
+  'IT CROWD — Roy\'s extended explanation about the window cleaner establishes his role as the group\'s everyman/comic protagonist.',
+  'IT CROWD — Douglas fulfils the role of antagonist/obstacle in the narrative — his bizarre behaviour creates the episode\'s central mystery.'],
+ levels:[['4 (per character)','Excellent, detailed analysis of the character\'s role. Consistent focus on specific aspects of media language.'],
+  ['3','Good, reasonably detailed analysis. Focus on specific aspects of media language.'],
+  ['2','Satisfactory analysis — tendency to describe.'],
+  ['1','Basic, if any, analysis — descriptive, brief or incomplete.']]},
+
+{id:'c2_2021_1a',year:2021,comp:2,sec:'A',topic:'Television',marks:10,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'Luther / The IT Crowd extract',texts:['Luther','IT Crowd'],
+ question:'Explore how the <strong>settings</strong> in this extract construct a <strong>representation of reality</strong>.',
+ must:[],
+ points:['LUTHER — The location filming and night-time settings connote high production values — the gritty, realistic world of London crime.',
+  'LUTHER — Everyday, recognisable street settings (suburban streets, houses) ground the crime drama in a reality audiences can relate to, making the threat feel real.',
+  'LUTHER — Rose\'s office setting is realistically detailed with contemporary police iconography — filing systems, computers, formal furniture — anchoring the narrative in a credible institutional reality.',
+  'IT CROWD — The studio set of the basement is not truly realistic but the detailed props and iconography (action figures, computers, comic posters) create a recognisable "nerd" environment.',
+  'IT CROWD — The studio setup (with its implicit "fourth wall") creates a particular kind of represented reality — the characters exist in a "sitcom world" rather than a naturalistic one.',
+  'IT CROWD — The contrast between the basement and the upstairs corridor creates a representational reality where the characters\' social status is physically mapped onto the building.'],
+ levels:[['9–10','Excellent, detailed analysis of how a representation of reality is constructed. Consistent focus on the settings in the extract.'],
+  ['7–8','Good, reasonably detailed analysis. Focus on the settings.'],
+  ['5–6','Satisfactory analysis. General focus on the settings.'],
+  ['3–4','Basic analysis. Lacks focus on settings, tends to describe.'],
+  ['1–2','Minimal, if any, analysis. Brief, descriptive or incomplete.']]},
+
+{id:'c2_2022_1a',year:2022,comp:2,sec:'A',topic:'Television',marks:8,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'Luther / The IT Crowd extract',texts:['Luther','IT Crowd'],
+ question:'Explore how <strong>sound</strong> is used in this extract.',
+ must:[],
+ points:['LUTHER — Non-diegetic score creates tension and builds atmosphere — the sparse, electronic score is typical of the crime drama genre and connotes psychological threat.',
+  'LUTHER — Diegetic sound (dialogue, ambient noise, footsteps echoing in the factory) grounds the scene in a realistic setting and adds to the atmosphere of danger.',
+  'LUTHER — Use of silence or reduction in score at key dramatic moments (e.g. before a revelation) is used to create suspense — the audience is made to wait.',
+  'LUTHER — The contrast between the quiet domestic sounds of the suburban scenes and the tense factory chase sounds emphasises the binary opposition between "everyday life" and criminal danger.',
+  'IT CROWD — The laugh track/studio audience reinforces comedy moments and invites the home audience to laugh along — a convention of the traditional sitcom format.',
+  'IT CROWD — Diegetic dialogue between Roy and Moss establishes the comedy of their relationship through the content and delivery of their lines.',
+  'IT CROWD — Non-diegetic theme music signals the show\'s genre and tone at the start of the sequence.'],
+ levels:[['7–8','Excellent, detailed analysis of the use of sound. Consistent focus on the specific effects of the sound used.'],
+  ['5–6','Good, reasonably detailed analysis. Focus on the specific effects.'],
+  ['3–4','Satisfactory analysis. General focus on effects, lapses into description.'],
+  ['1–2','Basic, if any, analysis. Tends to describe aspects of the sound.']]},
+
+{id:'c2_2023_1a',year:2023,comp:2,sec:'A',topic:'Television',marks:10,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'Luther / The IT Crowd extract',texts:['Luther','IT Crowd'],
+ question:'Explore how <strong>costumes</strong> create meaning in this extract.',
+ must:[],
+ points:['LUTHER — Luther\'s dark, formal overcoat and suit connote authority, seriousness and a detachment from conventional police procedure — he dresses as a detective, not a uniformed officer.',
+  'LUTHER — The costume creates a visual binary opposition between Luther\'s dark professionalism and the more casual clothes of the civilians he encounters.',
+  'LUTHER — Supporting police characters\' more conventional attire creates a contrast with Luther, reinforcing his maverick, individual status within the institution.',
+  'LUTHER — Suspects/victims in civilian clothing connote vulnerability and ordinariness against Luther\'s imposing presence.',
+  'IT CROWD — Roy and Moss\'s casual, stereotypically "geeky" clothing (graphic tees, untidy appearance) connotes their low status, their interests and their disconnection from corporate norms.',
+  'IT CROWD — Jen\'s more professional, stylish clothing marks her out as different from Roy and Moss — she belongs to (and aspires to belong to) the corporate world upstairs.',
+  'IT CROWD — Douglas\'s formal but eccentric clothing connotes his management status while also signalling his bizarre, unpredictable character.',
+  'Costumes are part of mise-en-scène — they are a form of visual shorthand helping audiences quickly understand character roles, social status and relationships.'],
+ levels:[['9–10','Excellent, detailed analysis of costumes. Consistent focus on how specific examples create meaning. Consistently appropriate use of subject-specific terminology.'],
+  ['7–8','Good, reasonably detailed analysis. Focus on how specific examples create meaning.'],
+  ['5–6','Satisfactory analysis — general focus, lapses into description.'],
+  ['3–4','Basic analysis. Tends to describe costumes in a generalised way.'],
+  ['1–2','Minimal, if any, analysis. Brief, descriptive or incomplete.']]},
+
+{id:'c2_2024_1a',year:2024,comp:2,sec:'A',topic:'Television',marks:10,ao:'AO2 1a',
+ qnum:'Q1(a)',product:'Luther / Man Like Mobeen / Modern Family extract',texts:['Luther','Mobeen','Modern Family'],
+ question:'Explore the <strong>representations of gender</strong> in this extract.',
+ must:[],
+ points:['LUTHER — Luther is presented as conventionally masculine (physically imposing, emotionally driven) but his complex relationships with female characters like Alice subvert some stereotypes.',
+  'LUTHER — Alice Morgan is represented as highly intelligent and equal to Luther in terms of wit and narrative agency — an unconventional female role in crime drama.',
+  'MAN LIKE MOBEEN — Mobeen navigates traditional masculine expectations (as the protective older brother/father figure) alongside more vulnerable, emotional moments.',
+  'MAN LIKE MOBEEN — Khadijah is represented as assertive and capable, challenging stereotypical representations of Muslim women as passive or oppressed.',
+  'MODERN FAMILY — Phil is represented as a well-meaning but bumbling father figure — a common sitcom subversion of the traditionally authoritative patriarch.',
+  'MODERN FAMILY — Female characters may be represented in ways that both reinforce and challenge traditional domestic roles.',
+  'Apply representation theory — how gender is selected, constructed and mediated differently across the three programmes.',
+  'Consider whether representations reinforce or challenge dominant ideologies of gender — and how social/cultural context shapes this.',
+  'Reference feminist perspectives on representation (e.g. van Zoonen) where appropriate.'],
+ levels:[['9–10','Excellent, detailed analysis of specific examples. Consistent focus on how representations of gender are constructed.'],
+  ['7–8','Good, reasonably detailed analysis. Focus on how representations of gender are constructed.'],
+  ['5–6','Satisfactory analysis. General focus, lapses into description.'],
+  ['3–4','Basic analysis. Tends to describe representations of gender.'],
+  ['1–2','Minimal, if any, analysis. Brief, descriptive or incomplete.']]},
+
+{id:'c2_2024_2',year:2024,comp:2,sec:'A',topic:'Television',marks:10,ao:'AO1 1a/1b',
+ qnum:'Q2',product:'Luther / Man Like Mobeen / Modern Family',texts:['Luther','Mobeen','Modern Family'],
+ question:'Explain how <strong>digital technologies</strong> change the ways in which audiences <strong>consume television</strong>.',
+ must:[],
+ points:['Crime dramas and sitcoms released as DVD box sets encourage audiences to "binge-watch" entire series — changing viewing from a scheduled, weekly experience to an on-demand one.',
+  'Streaming platforms (BBC iPlayer, Disney+, All4) allow audiences to watch programmes at any time and on any device — Luther, Man Like Mobeen and Modern Family are all available on streaming services.',
+  'Audiences can consume programmes on portable devices (laptops, tablets, smartphones) in different locations — changing television from a domestic, shared activity.',
+  'Audiences have become more fragmented due to changes in technology, affecting television viewing as a shared or social activity — "water cooler" TV is less common when everyone watches at different times.',
+  'Websites and social media have affected audience consumption — audiences interact with programmes online through fan communities, social media discussions and official accounts.',
+  'Apply Blumler and Katz\'s Uses and Gratifications theory — how have digital technologies expanded the ways audiences can fulfil their needs through television?'],
+ levels:[['9–10','Excellent, detailed and accurate knowledge of how digital technologies influence audience consumption. Excellent use of the set products. Highly appropriate use of subject-specific terminology.'],
+  ['7–8','Good, accurate knowledge. Good use of the set products.'],
+  ['5–6','Satisfactory, generally accurate knowledge. Satisfactory use of the set products.'],
+  ['3–4','Basic knowledge. Basic use of the set products.'],
+  ['1–2','Minimal knowledge. Minimal use of the set products; brief or incomplete.']]},
+
+// ═══════════════════════════════════════════════════════════
+// COMPONENT 2 — SECTION B: Music
+// ═══════════════════════════════════════════════════════════
+{id:'c2_2019_3',year:2019,comp:2,sec:'B',topic:'Music',marks:20,ao:'AO2 1a/1b',
+ qnum:'Q3',product:'Music websites — Katy Perry / Taylor Swift / Bruno Mars',texts:['Katy Perry','Taylor Swift','Bruno Mars'],
+ question:'How far do the <strong>representations</strong> in music websites <strong>reinforce particular messages and values</strong>?',
+ must:['Explore examples from the two websites you have studied','Refer to relevant media contexts','Make judgements and draw conclusions'],
+ points:['KATY PERRY WEBSITE — Representations are consistently built around Perry as a brand linked to the latest album/single. During the Witness campaign, the website reinforced ideologies of Perry as a "normal", accessible star — galleries show her falling over and being hit by basketballs in the Swish Swish video.',
+  'KATY PERRY WEBSITE — Values of altruism: the website promotes Perry\'s charity work (Boys & Girls Club of America) alongside commercial values (store tab linking to merch, fragrances and Cover Girl).',
+  'KATY PERRY WEBSITE — Messages of success: promotion of high-profile collaborations (Nicki Minaj), news such as "Witness debuts at #1 on Billboard 200".',
+  'TAYLOR SWIFT WEBSITE — Messages and values are constructed to link to the current album. The Reputation album was represented by a stark black and white colour palette and "gothic"-style fonts, reinforcing the more serious, self-referential ideas of the album.',
+  'TAYLOR SWIFT WEBSITE — The viewpoint that Swift is a valuable brand is evident through stories detailing her links with UPS and Target.',
+  'TAYLOR SWIFT WEBSITE — The website promotes the belief that Swift is connected with her fans — "Listen to songs Taylor loves on Spotify!" and links to fan interaction.',
+  'BRUNO MARS WEBSITE — Messages and values linked to Mars as a "current" star — each new single prompts a website rebrand. The Versace on the Floor promotion linked to Mars as a "modern retro" star (heavy use of neon, retro dress codes, Mars at a piano).',
+  'Apply representation theory — how are the artists selected, constructed and mediated across these websites? What messages and values are reinforced or challenged?',
+  'Link to relevant contexts — social context of celebrity culture, cultural context of digital convergence, commercial context of the music industry.'],
+ levels:[['17–20','Excellent, detailed analysis of both products. Excellent, consistent use of the theoretical framework and terminology. Excellent, well-reasoned judgements and conclusions.'],
+  ['13–16','Good, reasonably detailed analysis. Good use of the theoretical framework. Good judgements.'],
+  ['9–12','Satisfactory analysis. Satisfactory use of the theoretical framework. Generally reasoned judgements.'],
+  ['5–8','Basic analysis, tending to describe. Basic use of the theoretical framework.'],
+  ['1–4','Minimal analysis. Minimal use of the theoretical framework.']]},
+
+{id:'c2_2020_3',year:2020,comp:2,sec:'B',topic:'Music',marks:20,ao:'AO2 1a/1b',
+ qnum:'Q3',product:'Music artists\' social media — Katy Perry / Taylor Swift / Bruno Mars / Pharrell',texts:['Katy Perry','Taylor Swift','Bruno Mars','Pharrell'],
+ question:'How far are these two artists able to <strong>represent themselves through social media</strong>?',
+ must:['Explore examples from the social media of the two artists','Refer to relevant media contexts','Make judgements and draw conclusions'],
+ points:['All images used in online media are constructed representations — the artist we see is the star persona, carefully managed and monitored by social media managers.',
+  'KATY PERRY — Many positive representations of Perry as a "real" person across a range of online media. A link on her website to a YouTube video of Perry performing in the finale of American Idol represents her as a mentor and aspirational role model.',
+  'KATY PERRY — The KatyCats.com fan site invites members to be part of an interactive online community — represents Perry as connected to and caring about her fans.',
+  'TAYLOR SWIFT — Social media enables Swift to represent personal beliefs alongside her constructed star persona — e.g. political statements, support for causes, personal posts.',
+  'TAYLOR SWIFT — Swift\'s "Connect with Taylor" social media links promote the belief that she is closely connected with her fans — though this is itself a carefully constructed representation.',
+  'PHARRELL WILLIAMS — Social media offers a platform for Pharrell to represent his political views and campaigns (e.g. his support for Black Lives Matter and social justice causes).',
+  'LIMITATION — Social media representations are still mediated and constructed — convergence across platforms creates a consistent brand identity that is managed rather than spontaneous.',
+  'Apply representation theory — the selected, constructed and mediated nature of even "authentic" social media posts.',
+  'Link to contexts — cultural context of selfie culture and celebrity; social context of digital technologies changing artist-audience relationships.'],
+ levels:[['17–20','Excellent, detailed analysis. Excellent use of the theoretical framework. Excellent linking of products to contexts. Excellent judgements.'],
+  ['13–16','Good, reasonably detailed analysis. Good use of the theoretical framework. Good linking to contexts.'],
+  ['9–12','Satisfactory analysis. Satisfactory use of the theoretical framework. Some linking to contexts.'],
+  ['5–8','Basic analysis, tending to describe. Basic use of the theoretical framework.'],
+  ['1–4','Minimal analysis. Minimal use of the theoretical framework.']]},
+
+{id:'c2_2021_3',year:2021,comp:2,sec:'B',topic:'Music',marks:20,ao:'AO2 1a/1b',
+ qnum:'Q3',product:'Music videos — Katy Perry (Roar) / Taylor Swift (Bad Blood)',texts:['Katy Perry','Taylor Swift'],
+ question:'How <strong>typical</strong> are the <strong>narratives</strong> of the two music videos you have studied?',
+ must:['Explore the narratives of the two music videos you have studied','Make links to relevant media contexts','Make judgements and draw conclusions'],
+ points:['ROAR — The video constructs a linear narrative depicting Perry\'s journey of self-discovery from passive female to empowered queen of the jungle ("from zero to hero"). This "arc of transformation" is a typical narrative element (Todorov\'s equilibrium disrupted then restored at a higher level).',
+  'ROAR — Intertextual references to Tarzan, Muhammad Ali ("floating like a butterfly") and Helen Reddy ("hear me roar") add layers of meaning and are typical of music video narratives.',
+  'ROAR — The leopard print fabric acts as a symbolic motif representing Perry\'s empowerment — it starts as a scarf, becomes a belt, then part of her spear, then a bra top. Use of symbolic motifs is a typical element of narratives.',
+  'ROAR — An application of Propp reveals the male character begins as the apparent hero but is quickly revealed as a "false hero" — Perry herself is the real protagonist. This makes the narrative less typical.',
+  'ROAR — The narrative reflects the social context of female empowerment and the personal context of Perry\'s split from Russell Brand — autobiographical elements are often typical of music video narratives.',
+  'BAD BLOOD — The video uses film conventions including a pre-title action sequence — establishing characters before the song begins is typical of action films but less typical of music video narratives.',
+  'BAD BLOOD — Women are represented as violent action heroes — a less typical character function. The action hero role is constructed through shots of weaponry, fighting, riding motorbikes and boxing.',
+  'BAD BLOOD — Wide range of intertextual references to action and sci-fi films (Tron, The Fifth Element, The Hunger Games) — typical of music video narratives.',
+  'BAD BLOOD — The split screen showing Swift and Lamar side by side constructs a sense of equality in terms of gender and ethnicity — less typical in music video narratives.',
+  'BAD BLOOD — No clear resolution at the end of the narrative — a disruption to Todorov\'s theory that makes the narrative less conventional.'],
+ levels:[['17–20','Excellent, detailed analysis engaging fully with complex aspects of narratives. Excellent use of the theoretical framework. Excellent linking to contexts. Excellent judgements.'],
+  ['13–16','Good, reasonably detailed analysis. Good use of the theoretical framework. Good linking to contexts.'],
+  ['9–12','Satisfactory analysis. Satisfactory use of the theoretical framework. Some linking to contexts.'],
+  ['5–8','Basic analysis, tending to describe. Basic use of the theoretical framework.'],
+  ['1–4','Minimal analysis. Minimal use of the theoretical framework.']]},
+
+{id:'c2_2022_3',year:2022,comp:2,sec:'B',topic:'Music',marks:20,ao:'AO2 1a/1b',
+ qnum:'Q3',product:'Music videos — Katy Perry (Roar) / Taylor Swift (Bad Blood) / Bruno Mars (Uptown Funk) / Pharrell Williams (Freedom)',texts:['Katy Perry','Taylor Swift','Bruno Mars','Pharrell'],
+ question:'How far do these two music videos <strong>reinforce gender stereotypes</strong>?',
+ must:['Explore representations of gender in the two music videos you have studied','Refer to relevant media contexts','Make judgements and draw conclusions'],
+ points:['ROAR — At the beginning of the video, the male takes selfies — a subversion of the typical stereotype of females as vain. His gesture codes connote he is vain and self-obsessed.',
+  'ROAR — The female character is initially submissive and inferior to the male, but once he is out of the picture she grows stronger — finding an inner strength she didn\'t realise she possessed.',
+  'ROAR — There is a potential binary opposition between the video\'s feminist message and its visual representations (scantily clad, sexualised dress codes) — is this empowerment or objectification?',
+  'BAD BLOOD — Powerful female representations — direct mode of address, dress codes, gesture codes. Action heroines dominant in physical fighting scenes.',
+  'BAD BLOOD — Sexual objectification through tight-fitting leather and lycra clothing. Swift as a "femme fatale" and the gender stereotypes associated with this archetype.',
+  'BAD BLOOD — Link to feminist perspectives — both strong but also reinforcing stereotypes of women in conflict (the song\'s allegedly about the "war" between Swift and Katy Perry).',
+  'BAD BLOOD — Men are represented as weak (defeated in opening scenes) and less important than the female characters — Kendrick Lamar\'s role is limited to single, static locations.',
+  'UPTOWN FUNK — Masculinity represented as (hetero)sexually predatory and full of bravado. Men are dominant — make direct mode of address, dominate the frame.',
+  'UPTOWN FUNK — "Ideal" women shown in shots of body parts (legs, bottoms) — stereotypically attractive, given no characterisation.',
+  'UPTOWN FUNK — Stereotypes of masculinity are undercut by less stereotypical images of men at the salon in curlers — reflecting the "metrosexual" male.',
+  'FREEDOM — Earnest, selfless, message-led music video relatively non-stereotypical of a male artist. Women are not objectified — shown in working roles.',
+  'Apply feminist perspectives — Mulvey\'s male gaze, van Zoonen\'s feminist media studies. Link to social and cultural contexts.'],
+ levels:[['17–20','Excellent, detailed analysis engaging fully with complex aspects of gender representation. Excellent use of the theoretical framework including theoretical perspectives. Excellent linking to contexts. Excellent judgements.'],
+  ['13–16','Good, reasonably detailed analysis. Good use of the theoretical framework. Good linking to contexts.'],
+  ['9–12','Satisfactory analysis. Satisfactory use of the theoretical framework. Some linking to contexts.'],
+  ['5–8','Basic analysis, tending to describe. Basic use of the theoretical framework.'],
+  ['1–4','Minimal analysis. Minimal use of the theoretical framework.']]},
+
+{id:'c2_2023_3',year:2023,comp:2,sec:'B',topic:'Music',marks:20,ao:'AO2 1a/1b',
+ qnum:'Q3',product:'Music videos — Justin Bieber (Intentions) / Uptown Funk (Bruno Mars) / Taylor Swift (Bad Blood) / Katy Perry (Roar)',texts:['Intentions','Bruno Mars','Taylor Swift','Katy Perry'],
+ question:'How <strong>stereotypical</strong> is the <strong>representation of ethnicity</strong> in the two music videos you have studied?',
+ must:['Explore representations of ethnicity in the two music videos you have studied','Refer to relevant media contexts','Make judgements and draw conclusions'],
+ points:['INTENTIONS — Positive representation of women from different ethnic groups as a supportive, diverse community — shown through the wide shot of Bhari in the centre of a line of girls from the shelter.',
+  'INTENTIONS — Stereotypical representation of black women and children as victims in need. However, in the context of Intentions, the representation is empowering as they are on a journey towards stability and independence.',
+  'INTENTIONS — Shot of Bieber and Quavo hugging near the end represents them as supportive and caring, reinforcing the message of racial harmony.',
+  'INTENTIONS — Through its support of Alexandria House, the video reflects the social context of campaigning for racial equality. Bieber used Instagram to post images in support of #BlackLivesMatter.',
+  'UPTOWN FUNK — Stereotypical representations of black culture such as the "hood", gold chains and "bling".',
+  'UPTOWN FUNK — The theme of community between the "brothers" is stereotypical and represented through the settings of the barber shop and jazz club.',
+  'UPTOWN FUNK — The issue of racial oppression is addressed through the shoe shine scene which reflects historical contexts and subverts them to challenge traditional racial stereotypes.',
+  'UPTOWN FUNK — The women in the video are sexually objectified — a stereotypical representation of young black women in music videos.',
+  'BAD BLOOD — Taylor Swift represented as a stereotypical white, blonde female, in opposition to Lamar who is represented in stereotypical dress codes relating to black culture (sunglasses, cap and hoodie).',
+  'BAD BLOOD — Asian character Trinity is represented stereotypically as a technology expert.',
+  'BAD BLOOD — The range of representations of ethnicity in the video could be seen as challenging stereotypes and reflecting the social context of cultural diversity.',
+  'ROAR — There is a lack of ethnic minority characters in the video — this under-representation could be described as typical for white music artists.',
+  'ROAR — The references to Perry as Mowgli are an example of cultural whitewashing, appropriating a non-white narrative for a predominantly white audience.',
+  'Apply relevant theoretical perspectives — Said\'s concept of Orientalism; Stuart Hall\'s ideas about stereotyping and power.'],
+ levels:[['17–20','Excellent, detailed analysis engaging fully with complex aspects of representation. Excellent use of the theoretical framework and terminology. Excellent linking to contexts. Excellent judgements.'],
+  ['13–16','Good, reasonably detailed analysis. Good use of the theoretical framework. Good linking to contexts.'],
+  ['9–12','Satisfactory analysis. Satisfactory use of the theoretical framework. Some linking to contexts.'],
+  ['5–8','Basic analysis, tending to describe. Basic use of the theoretical framework.'],
+  ['1–4','Minimal analysis. Minimal use of the theoretical framework.']]},
+
+{id:'c2_2024_3',year:2024,comp:2,sec:'B',topic:'Music',marks:20,ao:'AO2 1a/1b',
+ qnum:'Q3',product:'Music videos — Lizzo (Good as Hell) / Taylor Swift (Bad Blood) / Bruno Mars (Uptown Funk)',texts:['Lizzo','Taylor Swift','Bruno Mars'],
+ question:'How far are the two music videos you have studied <strong>typical in their use of codes and conventions</strong>?',
+ must:['Explore the use of codes and conventions in the two music videos you have studied','Refer to relevant media contexts','Make judgements and draw conclusions'],
+ points:['GOOD AS HELL — MORE CONVENTIONAL: largely performance-based, featuring Lizzo singing and dancing alongside a large cast — following music video conventions.',
+  'GOOD AS HELL — MORE CONVENTIONAL: Lizzo\'s gold costume reflects her star persona, connoting glamour and success. Many shots show Lizzo centred in the frame, establishing her as the star.',
+  'GOOD AS HELL — MORE CONVENTIONAL: There is a strong narrative with three strands, each following one of the female students as the hero on their narrative journey (Propp).',
+  'GOOD AS HELL — LESS CONVENTIONAL: Lizzo first appears at 00.43 — the three young women are introduced first. The first shot of Lizzo shows her from behind, skipping into position.',
+  'GOOD AS HELL — LESS CONVENTIONAL: Diegetic sound is used during the last shot — an "outtake" style panning shot capturing students cheering and dancing after band practice.',
+  'GOOD AS HELL — LESS CONVENTIONAL: Lizzo is represented as a successful black plus-size woman who is confident and proud of her body — challenging stereotypical representations of females in music videos which have upheld western beauty ideals.',
+  'GOOD AS HELL — LESS CONVENTIONAL: The entirely black cast and HBCU setting represent black empowerment and success — linking to social contexts including #BlackLivesMatter.',
+  'BAD BLOOD — MORE CONVENTIONAL: Swift and her friends are arguably objectified for the male gaze through costume codes (stiletto heels, thigh-length boots, slim, long-legged figures).',
+  'BAD BLOOD — MORE CONVENTIONAL: The video uses the conventions of performance — Swift sings the song and addresses the audience directly.',
+  'BAD BLOOD — LESS CONVENTIONAL: No conventional dance routines — the video features acrobatic fight sequences instead.',
+  'BAD BLOOD — LESS CONVENTIONAL: Technical codes used are more conventional for action movies than music videos — balletic fight scenes, slow motion, special effects.',
+  'Apply theoretical perspectives: Propp\'s character functions, Neale\'s "repetition and difference", Goodwin\'s music video theory.'],
+ levels:[['17–20','Excellent, detailed analysis engaging fully with complex aspects of codes and conventions. Excellent use of the theoretical framework. Excellent linking to contexts. Excellent judgements.'],
+  ['13–16','Good, reasonably detailed analysis. Good use of the theoretical framework. Good linking to contexts.'],
+  ['9–12','Satisfactory analysis. Satisfactory use of the theoretical framework. Some linking to contexts.'],
+  ['5–8','Basic analysis, tending to describe. Basic use of the theoretical framework.'],
+  ['1–4','Minimal analysis. Minimal use of the theoretical framework.']]},
+
+{id:'c2_2025_4b',year:2025,comp:2,sec:'B',topic:'Audience',marks:4,ao:'AO1 1a/1b',
+ qnum:'Q4(b)',product:'Fortnite',texts:['Fortnite'],
+ question:'Briefly explain how <strong>video games target audiences through marketing</strong>. Refer to Fortnite to support your points.',
+ must:[],
+ points:['References to convergence — Fortnite is available across multiple platforms (PlayStation, PC, Xbox, Switch, Android); the website advertises this with logos for each platform.',
+  'Intertextuality — Fortnite collaborates with major franchises (Spiderman, Avengers, Batman, Star Wars, Karate Kid) to attract fans of those properties.',
+  'Engagement with social media — Facebook, X, Twitch, YouTube, Instagram, Snapchat — with international variations of the website accessible to a global audience.',
+  'The Fortnite website includes subcategories for merchandise, cosplay, V-Bucks and competitions — extending the brand beyond the game itself.',
+  'Options for personalisation through logging into the website; direct link to the Epic Games online store.',
+  'Collaborations and star appeal with celebrities from sport, music and television — e.g. Travis Scott\'s Astronomical concert event.'],
+ levels:[['4','Excellent, thorough understanding of audiences and how different marketing strategies will appeal to them. Highly appropriate use of subject-specific terminology.'],
+  ['3','Good accurate knowledge of audiences and how marketing strategies appeal to them.'],
+  ['2','Satisfactory, generally accurate knowledge.'],['1','Basic knowledge.']]},
+
+{id:'c2_2025_4c',year:2025,comp:2,sec:'B',topic:'Audience',marks:12,ao:'AO1 1a/1b',
+ qnum:'Q4(c)',product:'Fortnite',texts:['Fortnite'],
+ question:'Explain how audiences <strong>interact with video games</strong>. Refer to <strong>Uses and Gratifications theory</strong> and Fortnite to support your points.',
+ must:[],
+ points:['DIVERSION — Audiences play Fortnite to escape everyday life — the game\'s Battle Royale world offers an alternative reality where players can be powerful, heroic characters.',
+  'PERSONAL IDENTITY — Players can customise avatars, purchase skins and battle passes, constructing a unique digital identity. Collaborations with Marvel, Blade etc. allow players to embody aspirational characters.',
+  'SOCIAL INTERACTION / PERSONAL RELATIONSHIPS — Fortnite\'s multiplayer features allow players to interact with friends and strangers worldwide, building communities. Fortnite\'s Squad mode makes it explicitly social.',
+  'SURVEILLANCE — Players acquire information about game strategies, meta-game changes and new events through the website, social media, YouTube guides and Twitch streamers.',
+  'Fortnite\'s live in-game events (Travis Scott Astronomical concert, 27 million concurrent players), seasonal updates and collaborations maintain ongoing audience engagement beyond individual play sessions.',
+  'The Fortnite website itself functions as a hub for audience interaction — news, merchandise, V-Bucks, competitions and community features all drive engagement.',
+  'Apply Blumler and Katz\'s Uses and Gratifications theory explicitly — link each of the four gratifications (diversion, personal identity, social interaction, surveillance) to specific features of Fortnite.'],
+ levels:[['10–12','Excellent, detailed and accurate knowledge of audiences and interactivity in relation to Fortnite. Excellent understanding of Uses and Gratifications theory applied to the set product. Detailed reference to theoretical perspectives and excellent subject-specific terminology.'],
+  ['7–9','Good, accurate knowledge. Good understanding of Uses and Gratifications theory applied to Fortnite. Appropriate use of terminology.'],
+  ['4–6','Satisfactory, generally accurate knowledge. Satisfactory understanding of the theory.'],
+  ['1–3','Basic knowledge. Basic, if any, understanding of the theory. Basic use of terminology.']]}
+];
+
+// ═══════════════════════════════════════════════════════════
+// RENDER ENGINE
+// ═══════════════════════════════════════════════════════════
+const answered = {};
+
+function marksBucket(m) {
+  if (m===1) return '1';
+  if (m<=4) return '4';
+  if (m===5) return '5';
+  if (m<=12) return '10';
+  return '20';
+}
+
+function stripeClass(comp, sec) {
+  if (comp===1 && sec==='A') return 'stripe-c1a';
+  if (comp===1 && sec==='B') return 'stripe-c1b';
+  if (comp===2 && sec==='A') return 'stripe-c2a';
+  return 'stripe-c2b';
+}
+
+function buildCard(q) {
+  const minH = q.marks>=20?220:q.marks>=10?160:q.marks>=5?110:60;
+  const mustHTML = q.must.length
+    ? `<div class="q-must-label">In your answer, you must:</div>${q.must.map(b=>`<p class="q-bullet">• ${b}</p>`).join('')}`
+    : '';
+  const hasLevels = q.levels && q.levels.length>0;
+  const levBtn = hasLevels && q.marks>1
+    ? `<button class="btn btn-levels" onclick="toggleLv('${q.id}')">Levels grid</button>` : '';
+  const compCls = q.comp===1?'c1':'c2';
+  const secCls = q.sec==='A'?'seca':'secb';
+  const lvHTML = hasLevels
+    ? `<div class="ms-levels" id="lv-${q.id}">${q.levels.map(l=>`<div class="ms-level-row"><div class="ms-level-marks ${q.comp===2?'c2':''}">${l[0]}</div><div class="ms-level-desc">${l[1]}</div></div>`).join('')}</div>` : '';
+
+  return `<div class="q-card" id="card-${q.id}"
+    data-comp="${q.comp}" data-sec="${q.sec}" data-topic="${q.topic}"
+    data-year="${q.year}" data-marks="${marksBucket(q.marks)}">
+    <div class="q-header">
+      <div class="q-left-stripe ${stripeClass(q.comp,q.sec)}"></div>
+      <div class="q-meta">
+        <div class="q-badges">
+          <span class="badge badge-year">${q.year}</span>
+          <span class="badge badge-comp ${compCls}">Component ${q.comp}</span>
+          <span class="badge badge-sec ${secCls}">Section ${q.sec}</span>
+          <span class="badge badge-marks">${q.marks} mark${q.marks>1?'s':''}</span>
+          <span class="badge badge-ao">${q.ao}</span>
+          <span class="badge badge-topic">${q.topic}</span>
+        </div>
+        <div class="q-number">${q.qnum} — ${q.product}</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <p class="q-text">${q.question}</p>
+      ${mustHTML}
+      <textarea id="ta-${q.id}" style="min-height:${minH}px" placeholder="Write your answer here…"
+        oninput="onType('${q.id}',this)"></textarea>
+      <div class="word-count" id="wc-${q.id}">0 words</div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="showMS('${q.id}')">Show mark scheme</button>
+        ${levBtn}
+        <button class="btn btn-clear" onclick="clearCard('${q.id}')">Clear</button>
+      </div>
+      <div class="mark-scheme" id="ms-${q.id}">
+        <div class="ms-head">Indicative content</div>
+        <p class="ms-intro">Not prescriptive — all valid alternatives should be rewarded. Example points from the official WJEC/Eduqas mark scheme.</p>
+        ${q.points.map(p=>`<div class="ms-point">${p}</div>`).join('')}
+        ${lvHTML}
+        <div class="self-assess">
+          <div class="sa-label">Self-assess your answer</div>
+          <div class="sa-buttons">
+            <button class="sa-btn sa-btn-red" onclick="rate(this)">🔴 Missed it</button>
+            <button class="sa-btn sa-btn-amber" onclick="rate(this)">🟡 Partial</button>
+            <button class="sa-btn sa-btn-green" onclick="rate(this)">🟢 Got it</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderAll() {
+  const list = document.getElementById('questionList');
+  let html = '';
+  let lastGroup = '';
+  const secNames = {
+    'C1A':'Component 1 — Section A: Media Language &amp; Representation',
+    'C1B':'Component 1 — Section B: Industries &amp; Audiences',
+    'C2A':'Component 2 — Section A: Television',
+    'C2B':'Component 2 — Section B: Music'
+  };
+  questions.forEach(q => {
+    const gk = `C${q.comp}${q.sec}`;
+    if (gk !== lastGroup) {
+      html += `<div class="sec-divider" data-group="${gk}"><span>${secNames[gk]}</span></div>`;
+      lastGroup = gk;
+    }
+    html += buildCard(q);
+  });
+  list.innerHTML = html;
+  updateCount();
+}
+
+function applyFilters() {
+  const comp  = document.getElementById('f-comp').value;
+  const sec   = document.getElementById('f-sec').value;
+  const topic = document.getElementById('f-topic').value;
+  const year  = document.getElementById('f-year').value;
+  const marks = document.getElementById('f-marks').value;
+  const text  = document.getElementById('f-text').value;
+  let visible = 0;
+  questions.forEach(q => {
+    const card = document.getElementById('card-'+q.id);
+    if (!card) return;
+    const textMatch = !text || (q.texts && q.texts.some(t => t === text));
+    const match =
+      (!comp  || String(q.comp) === comp)  &&
+      (!sec   || q.sec   === sec)          &&
+      (!topic || q.topic === topic)        &&
+      (!year  || String(q.year) === year)  &&
+      (!marks || marksBucket(q.marks) === marks) &&
+      textMatch;
+    if (match) { card.classList.remove('hidden'); visible++; }
+    else        { card.classList.add('hidden'); }
+  });
+  document.querySelectorAll('.sec-divider').forEach(div => {
+    const gk = div.dataset.group;
+    const any = questions.some(q => {
+      const c = document.getElementById('card-'+q.id);
+      return c && ('C'+q.comp+q.sec) === gk && !c.classList.contains('hidden');
+    });
+    div.style.display = any ? 'flex' : 'none';
+  });
+  const noR = document.getElementById('noResults');
+  if (visible === 0) {
+    noR.style.display = 'block';
+    noR.innerHTML = '<div class="icon">🔍</div><p style="font-size:1rem;color:#333;margin-bottom:0.5rem">No questions match those filters.</p><p style="font-size:0.82rem;color:#7a7060">Try removing one or more filters. For example: <strong>Section A</strong> questions are always worth 5+ marks, so selecting "1 mark" alongside Section A will always return nothing.</p>';
+  } else {
+    noR.style.display = 'none';
+  }
+  document.getElementById('qCountBadge').textContent = visible+' question'+(visible!==1?'s':'');
+}
+
+function resetFilters() {
+  ['f-comp','f-sec','f-topic','f-year','f-marks','f-text'].forEach(id=>document.getElementById(id).value='');
+  applyFilters();
+}
+
+function updateCount() {
+  const v = questions.filter(q=>!document.getElementById('card-'+q.id)?.classList.contains('hidden')).length;
+  document.getElementById('qCountBadge').textContent = `${v} question${v!==1?'s':''}`;
+}
+
+function onType(id, el) {
+  const w = el.value.trim()===''?0:el.value.trim().split(/\s+/).length;
+  document.getElementById('wc-'+id).textContent = w+' word'+(w===1?'':'s');
+  answered[id] = el.value.trim().length>0;
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = questions.length;
+  const done = Object.values(answered).filter(Boolean).length;
+  document.getElementById('progFill').style.width = (done/total*100)+'%';
+  document.getElementById('progCount').textContent = `${done} of ${total} answered`;
+}
+
+function showMS(id) {
+  const ms = document.getElementById('ms-'+id);
+  ms.classList.add('visible');
+  ms.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function toggleLv(id) {
+  const el = document.getElementById('lv-'+id);
+  if (el) el.classList.toggle('open');
+}
+
+function clearCard(id) {
+  const ta = document.getElementById('ta-'+id);
+  ta.value='';
+  document.getElementById('wc-'+id).textContent='0 words';
+  document.getElementById('ms-'+id).classList.remove('visible');
+  const lv = document.getElementById('lv-'+id);
+  if (lv) lv.classList.remove('open');
+  document.querySelectorAll(`#card-${id} .sa-btn`).forEach(b=>b.classList.remove('selected'));
+  answered[id]=false;
+  updateProgress();
+}
+
+// RAG tracking
+const ratings = {}; // id -> 'red'|'amber'|'green'
+
+function rate(btn) {
+  const card = btn.closest('.q-card');
+  const id = card.id.replace('card-','');
+  card.querySelectorAll('.sa-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  if (btn.classList.contains('sa-btn-red'))   ratings[id] = 'red';
+  if (btn.classList.contains('sa-btn-amber')) ratings[id] = 'amber';
+  if (btn.classList.contains('sa-btn-green')) ratings[id] = 'green';
+  updateRagBar();
+}
+
+function updateRagBar() {
+  const vals = Object.values(ratings);
+  const red   = vals.filter(v=>v==='red').length;
+  const amber = vals.filter(v=>v==='amber').length;
+  const green = vals.filter(v=>v==='green').length;
+  const total = vals.length;
+  document.getElementById('ragRed').textContent   = red;
+  document.getElementById('ragAmber').textContent = amber;
+  document.getElementById('ragGreen').textContent = green;
+  // Show bar once anything is rated
+  document.getElementById('ragBar').classList.toggle('visible', total > 0);
+  // Enable button if there's anything to revise
+  const btn = document.getElementById('btnRevise');
+  btn.disabled = (red + amber) === 0;
+  btn.textContent = (red+amber) > 0
+    ? `Show ${red+amber} to revise`
+    : 'Nothing to revise yet';
+}
+
+function openReviseModal() {
+  const redIds   = Object.entries(ratings).filter(([,v])=>v==='red').map(([k])=>k);
+  const amberIds = Object.entries(ratings).filter(([,v])=>v==='amber').map(([k])=>k);
+
+  function makeItems(ids, emoji) {
+    if (ids.length === 0) return '<p class="modal-empty">None</p>';
+    return ids.map(id => {
+      const q = questions.find(q => q.id === id);
+      if (!q) return '';
+      // Strip HTML tags for plain text preview
+      const plainQ = q.question.replace(/<[^>]+>/g, '');
+      const preview = plainQ.length > 80 ? plainQ.slice(0,80)+'…' : plainQ;
+      return `<div class="revise-item" onclick="jumpTo('${id}')">
+        <div class="revise-dot">${emoji}</div>
+        <div class="revise-info">
+          <div class="revise-q">${preview}</div>
+          <div class="revise-meta">${q.year} · Component ${q.comp} · Section ${q.sec} · ${q.marks} mark${q.marks>1?'s':''} · ${q.topic}</div>
+        </div>
+        <div class="revise-arrow">↗</div>
+      </div>`;
+    }).join('');
+  }
+
+  const body = `
+    <div class="modal-sec-label">🔴 Missed it — ${redIds.length} question${redIds.length!==1?'s':''}</div>
+    ${makeItems(redIds,'🔴')}
+    <div class="modal-sec-label">🟡 Partial — ${amberIds.length} question${amberIds.length!==1?'s':''}</div>
+    ${makeItems(amberIds,'🟡')}
+    <p class="modal-note">Click any question to jump to it. Re-rate yourself after another attempt — your list will update automatically.</p>`;
+
+  document.getElementById('reviseModalBody').innerHTML = body;
+  document.getElementById('reviseModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReviseModal() {
+  document.getElementById('reviseModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function jumpTo(id) {
+  closeReviseModal();
+  // Small delay so modal closes first
+  setTimeout(() => {
+    const card = document.getElementById('card-'+id);
+    if (!card) return;
+    // If the card is hidden by filters, reset filters first
+    if (card.classList.contains('hidden')) {
+      ['f-comp','f-sec','f-topic','f-year','f-marks'].forEach(fid => document.getElementById(fid).value='');
+      applyFilters();
+    }
+    setTimeout(() => {
+      card.scrollIntoView({behavior:'smooth', block:'center'});
+      // Flash highlight
+      card.style.outline = '2px solid var(--accent)';
+      setTimeout(() => card.style.outline = '', 1500);
+    }, 150);
+  }, 200);
+}
+
+renderAll();
+applyFilters();
+</script>
+
+<!-- STICKY RAG BAR -->
+<div class="rag-bar" id="ragBar">
+  <span class="rag-bar-label">Self-assessment</span>
+  <div class="rag-counts">
+    <div class="rag-pill red">  🔴 <span id="ragRed">0</span></div>
+    <div class="rag-pill amber">🟡 <span id="ragAmber">0</span></div>
+    <div class="rag-pill green">🟢 <span id="ragGreen">0</span></div>
+  </div>
+  <button class="btn-revise" id="btnRevise" onclick="openReviseModal()" disabled>Show what to revise</button>
+</div>
+
+<!-- REVISION MODAL -->
+<div class="modal-overlay" id="reviseModal" onclick="if(event.target===this)closeReviseModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🎯 Questions to work on</div>
+      <button class="modal-close" onclick="closeReviseModal()">✕ Close</button>
+    </div>
+    <div class="modal-body" id="reviseModalBody">
+    </div>
+  </div>
+</div>
+</body>
+</html>
