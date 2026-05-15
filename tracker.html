@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GCSE Media Studies — Exam Pattern Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #f0efe9;
+  --border: #d8d6ce;
+  --border2: #c0bdb4;
+  --gold: #8a6400;
+  --gold-light: #a07800;
+  --text: #1a1a16;
+  --text-muted: #5a5850;
+  --text-dim: #9a9890;
+  --film-bg: #ddeeff; --film-text: #0c3d6e;
+  --mag-bg: #e8e6ff;  --mag-text: #2e2880;
+  --advert-bg: #d6f5e8; --advert-text: #065038;
+  --news-bg: #fff0d0;  --news-text: #5a3300;
+  --game-bg: #e4f5cc;  --game-text: #1e4a00;
+  --radio-bg: #ffe4ef; --radio-text: #6a1a38;
+  --ml-bg: #ffe4e4;   --ml-text: #8a1010;
+  --rep-bg: #e4f4d0;  --rep-text: #2a5808;
+  --aud-bg: #fff3d8;  --aud-text: #6a3a00;
+  --ctx-bg: #ddeeff;  --ctx-text: #0a3868;
+  --ind-bg: #fde4ee;  --ind-text: #7a1a48;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; }
+header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.header-left h1 { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--gold); letter-spacing: 0.04em; }
+.header-left span { font-size: 11px; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; display: block; margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.edit-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 3px; letter-spacing: 0.05em; }
+.edit-badge.view { background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); }
+.edit-badge.editing { background: #e4f4d0; color: #2a5808; border: 1px solid #b0d880; }
+.edit-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 4px; border: 1px solid var(--border2); background: var(--surface); color: var(--text-muted); cursor: pointer; letter-spacing: 0.03em; transition: all 0.15s; }
+.edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+.tabs { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.tab-btn { background: none; border: none; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; padding: 11px 20px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; letter-spacing: 0.04em; transition: color 0.15s; }
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-panel { display: none; padding: 20px 24px; }
+.tab-panel.active { display: block; }
+.layout { display: grid; grid-template-columns: 1fr 260px; gap: 20px; align-items: start; }
+@media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; table-layout: fixed; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+th, td { border: 1px solid var(--border); padding: 7px 8px; font-size: 11px; vertical-align: top; text-align: center; }
+th { background: var(--surface2); font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--text-muted); font-size: 10px; letter-spacing: 0.05em; }
+td.q-label { text-align: left; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 10px; color: var(--text-muted); background: var(--surface2); white-space: nowrap; width: 68px; min-width: 68px; }
+td.year-2026 { background: #fffbf0; }
+th.year-2026 { background: #fff5d8; color: var(--gold); }
+.cell-inner { display: flex; flex-direction: column; gap: 3px; min-height: 22px; }
+.chip { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; text-align: center; line-height: 1.5; letter-spacing: 0.02em; transition: opacity 0.1s; }
+.chip.editable { cursor: pointer; }
+.chip.editable:hover { opacity: 0.65; }
+.chip-film      { background: var(--film-bg);   color: var(--film-text); }
+.chip-magazine  { background: var(--mag-bg);    color: var(--mag-text); }
+.chip-advert    { background: var(--advert-bg); color: var(--advert-text); }
+.chip-newspaper { background: var(--news-bg);   color: var(--news-text); }
+.chip-game      { background: var(--game-bg);   color: var(--game-text); }
+.chip-radio     { background: var(--radio-bg);  color: var(--radio-text); }
+.chip-ml  { background: var(--ml-bg);  color: var(--ml-text); }
+.chip-rep { background: var(--rep-bg); color: var(--rep-text); }
+.chip-aud { background: var(--aud-bg); color: var(--aud-text); }
+.chip-ctx { background: var(--ctx-bg); color: var(--ctx-text); }
+.chip-ind { background: var(--ind-bg); color: var(--ind-text); }
+.section-divider td { background: #f8f7f2; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; text-align: left; padding: 4px 8px; }
+.sidebar { display: flex; flex-direction: column; gap: 14px; }
+.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+.sidebar-card h3 { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.sidebar-locked { background: var(--surface2); border: 1px dashed var(--border2); border-radius: 8px; padding: 24px 14px; text-align: center; }
+.sidebar-locked .lock-icon { font-size: 24px; display: block; margin-bottom: 10px; color: var(--border2); }
+.sidebar-locked p { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-dim); line-height: 1.7; }
+.q-select-wrap { margin-bottom: 10px; }
+.q-select-wrap label { display: block; font-size: 10px; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-bottom: 4px; letter-spacing: 0.04em; }
+select, input[type="text"] { width: 100%; background: var(--surface2); border: 1px solid var(--border2); color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 6px 8px; border-radius: 4px; }
+select:focus, input[type="text"]:focus { outline: 1px solid var(--gold); }
+.btn-group-label { font-size: 9px; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; margin: 10px 0 5px; }
+.btn-group { display: flex; flex-wrap: wrap; gap: 4px; }
+.txt-btn { padding: 3px 8px; border-radius: 3px; border: 1px solid var(--border2); font-size: 10px; font-weight: 500; font-family: 'IBM Plex Mono', monospace; cursor: pointer; background: var(--surface2); color: var(--text-muted); transition: border-color 0.1s, color 0.1s; }
+.txt-btn:hover { border-color: var(--gold); color: var(--gold); }
+.txt-btn:active { transform: scale(0.97); }
+.fw-btn { padding: 4px 10px; border-radius: 3px; border: 1px solid transparent; font-size: 10px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; cursor: pointer; letter-spacing: 0.02em; }
+.fw-btn:active { transform: scale(0.97); }
+.fw-ml  { background: var(--ml-bg);  color: var(--ml-text);  border-color: #f0b0b0; }
+.fw-rep { background: var(--rep-bg); color: var(--rep-text); border-color: #a8d880; }
+.fw-aud { background: var(--aud-bg); color: var(--aud-text); border-color: #f0d090; }
+.fw-ctx { background: var(--ctx-bg); color: var(--ctx-text); border-color: #a0c8f0; }
+.fw-ind { background: var(--ind-bg); color: var(--ind-text); border-color: #f0a0c0; }
+.insight-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-top: 16px; }
+.insight-box h3 { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.insight-box p { font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+.insight-box strong { color: var(--gold-light); font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 12px; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+.leg-dot { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.save-notice { font-size: 10px; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; text-align: right; margin-top: 6px; }
+.rep-sub { font-size: 9px; color: inherit; opacity: 0.75; font-family: 'IBM Plex Mono', monospace; display: block; margin-top: 1px; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 100; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; width: 300px; }
+.modal h2 { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.modal p { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
+.modal input[type="password"] { width: 100%; background: var(--surface2); border: 1px solid var(--border2); color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 18px; padding: 8px 12px; border-radius: 5px; letter-spacing: 0.25em; margin-bottom: 8px; }
+.modal input[type="password"]:focus { outline: 1px solid var(--gold); }
+.modal-error { font-size: 11px; color: #a01010; font-family: 'IBM Plex Mono', monospace; min-height: 16px; margin-bottom: 12px; }
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; }
+.modal-btns button { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; padding: 6px 14px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border2); background: var(--surface2); color: var(--text-muted); }
+.modal-btns button.primary { background: var(--gold); color: #fff; border-color: var(--gold); }
+.modal-btns button.primary:hover { background: var(--gold-light); }
+</style>
+</head>
+<body>
+
+<div class="modal-overlay" id="pin-modal">
+  <div class="modal">
+    <h2>Teacher edit mode</h2>
+    <p>Enter your PIN to unlock editing for this session.</p>
+    <input type="password" id="pin-input" placeholder="·····" maxlength="10" autocomplete="off">
+    <div class="modal-error" id="pin-error"></div>
+    <div class="modal-btns">
+      <button onclick="closeModal()">Cancel</button>
+      <button class="primary" onclick="submitPin()">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-left">
+    <h1>GCSE Media Studies — Exam Pattern Tracker</h1>
+    <span id="mode-hint">View mode — students can see but not edit</span>
+  </div>
+  <div class="header-right">
+    <span class="edit-badge view" id="edit-badge">View only</span>
+    <button class="edit-btn" id="edit-btn" onclick="handleEditBtn()">Teacher login</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('c1')">Component 1</button>
+  <button class="tab-btn" onclick="switchTab('c2')">Component 2</button>
+</div>
+
+<div id="panel-c1" class="tab-panel active">
+  <div class="layout">
+    <div>
+      <div class="legend" id="c1-legend"></div>
+      <div class="table-wrap"><table><thead id="c1-thead"></thead><tbody id="c1-tbody"></tbody></table></div>
+      <p class="save-notice" id="c1-save"></p>
+    </div>
+    <div class="sidebar" id="c1-sidebar"></div>
+  </div>
+  <div class="insight-box"><h3>Pattern notes</h3><p id="c1-insight">Loading…</p></div>
+</div>
+
+<div id="panel-c2" class="tab-panel">
+  <div class="layout">
+    <div>
+      <div class="legend" id="c2-legend"></div>
+      <div class="table-wrap"><table><thead id="c2-thead"></thead><tbody id="c2-tbody"></tbody></table></div>
+      <p class="save-notice" id="c2-save"></p>
+    </div>
+    <div class="sidebar" id="c2-sidebar"></div>
+  </div>
+  <div class="insight-box"><h3>Pattern notes</h3><p id="c2-insight">Loading…</p></div>
+</div>
+
+<script>
+const PIN = '13329';
+let editMode = false;
+
+const YEARS = ['2019','2020','2021','2022','2023','2024','2025','2026?'];
+
+function handleEditBtn() {
+  if (editMode) { editMode = false; updateEditUI(); }
+  else { document.getElementById('pin-modal').classList.add('open'); document.getElementById('pin-input').value=''; document.getElementById('pin-error').textContent=''; setTimeout(()=>document.getElementById('pin-input').focus(),50); }
+}
+function closeModal() { document.getElementById('pin-modal').classList.remove('open'); }
+function submitPin() {
+  if (document.getElementById('pin-input').value.trim()===PIN) {
+    editMode=true; closeModal(); updateEditUI();
+  } else {
+    document.getElementById('pin-error').textContent='Incorrect PIN. Try again.';
+    document.getElementById('pin-input').value='';
+    document.getElementById('pin-input').focus();
+  }
+}
+document.getElementById('pin-input').addEventListener('keydown',e=>{if(e.key==='Enter')submitPin();});
+document.getElementById('pin-modal').addEventListener('click',e=>{if(e.target===document.getElementById('pin-modal'))closeModal();});
+
+function updateEditUI() {
+  const badge=document.getElementById('edit-badge'),btn=document.getElementById('edit-btn'),hint=document.getElementById('mode-hint');
+  if(editMode){badge.className='edit-badge editing';badge.textContent='Editing';btn.textContent='Lock';hint.textContent='Edit mode active — click chips to remove, use sidebar to add';}
+  else{badge.className='edit-badge view';badge.textContent='View only';btn.textContent='Teacher login';hint.textContent='View mode — students can see but not edit';}
+  renderC1Table();buildC1Sidebar();renderC2Table();buildC2Sidebar();
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['c1','c2'][i]===id));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+id));
+}
+
+const C1Q=[{id:'q1',label:'Q1\nML',section:'A'},{id:'q2',label:'Q2\nRep',section:'A'},{id:'q3',label:'Q3\nInd',section:'B'},{id:'q4',label:'Q4\nAud',section:'B'}];
+const C1T={film:['No Time to Die','The Man with the Golden Gun'],magazine:['GQ','Vogue'],advert:['Quality Street','This Girl Can','NHS 111'],newspaper:['The Sun','The Guardian'],game:['Fortnite'],radio:['The Archers']};
+const C1CHIP={film:'chip-film',magazine:'chip-magazine',advert:'chip-advert',newspaper:'chip-newspaper',game:'chip-game',radio:'chip-radio'};
+const C1SH={'No Time to Die':'NTTD','The Man with the Golden Gun':'TMWTGG','Quality Street':'QS','This Girl Can':'TGC','The Guardian':'Guardian','The Archers':'Archers'};
+const s1=n=>C1SH[n]||n;
+
+const C1DEF={
+  q1:{'2019':['GQ|magazine'],'2020':['The Guardian|newspaper'],'2021':['The Man with the Golden Gun|film'],'2022':['This Girl Can|advert'],'2023':['Spectre|film'],'2024':['The Guardian|newspaper'],'2025':['Quality Street|advert'],'2026?':[]},
+  q2:{'2019':['Quality Street|advert'],'2020':['The Man with the Golden Gun|film'],'2021':['The Sun|newspaper'],'2022':['Pride|magazine'],'2023':['GQ|magazine'],'2024':['The Man with the Golden Gun|film'],'2025':['Vogue|magazine'],'2026?':[]},
+  q3:{'2019':['The Archers|radio'],'2020':['Fortnite|game'],'2021':['Fortnite|game'],'2022':['Spectre|film'],'2023':['The Archers|radio'],'2024':['The Archers|radio'],'2025':['No Time to Die|film'],'2026?':[]},
+  q4:{'2019':['The Sun|newspaper'],'2020':['The Archers|radio'],'2021':['The Archers|radio'],'2022':['Fortnite|game'],'2023':['The Sun|newspaper'],'2024':['Fortnite|game'],'2025':['Fortnite|game'],'2026?':[]},
+};
+
+const C2Q=[{id:'q1',label:'Q1\nCD',section:'CD'},{id:'q2',label:'Q2\nCD',section:'CD'},{id:'q3',label:'Q3\nMV',section:'MV'},{id:'q4',label:'Q4\nMV',section:'MV'}];
+const FW={ML:{label:'ML',cls:'chip-ml',btnCls:'fw-ml'},Rep:{label:'Rep',cls:'chip-rep',btnCls:'fw-rep'},Aud:{label:'Aud',cls:'chip-aud',btnCls:'fw-aud'},Context:{label:'Context',cls:'chip-ctx',btnCls:'fw-ctx'},Industry:{label:'Industry',cls:'chip-ind',btnCls:'fw-ind'}};
+const C2DEF={
+  q1:{'2019':['ML|fw'],'2020':['ML|fw'],'2021':['Rep|fw'],'2022':['ML|fw'],'2023':['ML|fw'],'2024':['Rep|fw'],'2025':['ML|fw'],'2026?':[]},
+  q2:{'2019':['Aud|fw'],'2020':['Aud|fw'],'2021':['Aud|fw'],'2022':['Context|fw'],'2023':['Context|fw'],'2024':['Aud|fw'],'2025':['Context|fw'],'2026?':[]},
+  q3:{'2019':['Rep|fw|Websites'],'2020':['Rep|fw|Social Media'],'2021':['ML|fw|Narrative'],'2022':['Rep|fw|Gender'],'2023':['Rep|fw|Ethnicity'],'2024':['ML|fw|Conventions'],'2025':['Rep|fw|Social Issues'],'2026?':[]},
+  q4:{'2019':['Context|fw|KP'],'2020':['Context|fw|PW'],'2021':['Context|fw|PW'],'2022':['Industry|fw|KP'],'2023':['Industry|fw|KP'],'2024':['Context|fw|TLC'],'2025':['Aud|fw|Website'],'2026?':[]},
+};
+
+function load(key,def){try{const s=localStorage.getItem(key);if(s)return JSON.parse(s);}catch(e){}return JSON.parse(JSON.stringify(def));}
+function save(key,data,noticeId){try{localStorage.setItem(key,JSON.stringify(data));const el=document.getElementById(noticeId);if(el)el.textContent='Saved '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+
+const c1D=load('gcse_tracker_c1_v2',C1DEF);
+const c2D=load('gcse_tracker_c2_v2',C2DEF);
+
+function buildC1Legend(){
+  document.getElementById('c1-legend').innerHTML=[{l:'Film poster',bg:'#ddeeff',c:'#0c3d6e'},{l:'Magazine',bg:'#e8e6ff',c:'#2e2880'},{l:'Advert',bg:'#d6f5e8',c:'#065038'},{l:'Newspaper',bg:'#fff0d0',c:'#5a3300'},{l:'Video game',bg:'#e4f5cc',c:'#1e4a00'},{l:'Radio',bg:'#ffe4ef',c:'#6a1a38'}]
+  .map(i=>`<span class="leg"><span class="leg-dot" style="background:${i.bg};border:1px solid ${i.c}50"></span>${i.l}</span>`).join('');
+}
+
+function renderC1Table(){
+  document.getElementById('c1-thead').innerHTML='<tr><th style="width:68px"></th>'+YEARS.map(y=>`<th class="${y==='2026?'?'year-2026':''}">${y}</th>`).join('')+'</tr>';
+  const tbody=document.getElementById('c1-tbody');tbody.innerHTML='';
+  let lastS='';
+  C1Q.forEach(q=>{
+    if(q.section!==lastS){
+      const d=document.createElement('tr');d.className='section-divider';
+      d.innerHTML=`<td colspan="${YEARS.length+1}">${q.section==='A'?'Section A — Media Language & Representation':'Section B — Industry & Audience'}</td>`;
+      tbody.appendChild(d);lastS=q.section;
+    }
+    const tr=document.createElement('tr');
+    const lbl=document.createElement('td');lbl.className='q-label';lbl.innerHTML=q.label.replace('\n','<br>');tr.appendChild(lbl);
+    YEARS.forEach(yr=>{
+      const td=document.createElement('td');if(yr==='2026?')td.className='year-2026';
+      const inner=document.createElement('div');inner.className='cell-inner';
+      (c1D[q.id][yr]||[]).forEach(entry=>{
+        const type=entry.split('|')[1]||'film',name=entry.split('|')[0];
+        const chip=document.createElement('span');
+        chip.className='chip '+(C1CHIP[type]||'chip-film');
+        chip.textContent=s1(name);
+        if(editMode){chip.classList.add('editable');chip.title='Click to remove';chip.onclick=()=>{c1D[q.id][yr]=c1D[q.id][yr].filter(e=>e!==entry);save('gcse_tracker_c1_v2',c1D,'c1-save');renderC1Table();updateC1Insights();};}
+        inner.appendChild(chip);
+      });
+      td.appendChild(inner);tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function buildC1Sidebar(){
+  const sb=document.getElementById('c1-sidebar');sb.innerHTML='';
+  if(!editMode){sb.innerHTML='<div class="sidebar-locked"><span class="lock-icon">&#128274;</span><p>Editing is locked.<br>Teachers: use the login button<br>above to make changes.</p></div>';return;}
+  const card=document.createElement('div');card.className='sidebar-card';card.innerHTML='<h3>Add to 2026?</h3>';
+  const qw=document.createElement('div');qw.className='q-select-wrap';qw.innerHTML='<label>Question</label>';
+  const sel=document.createElement('select');sel.id='c1-q-select';
+  C1Q.forEach(q=>{const o=document.createElement('option');o.value=q.id;o.textContent=q.label.replace('\n',' — ');sel.appendChild(o);});
+  qw.appendChild(sel);card.appendChild(qw);
+  [{label:'Film posters',texts:C1T.film,type:'film'},{label:'Magazines',texts:C1T.magazine,type:'magazine'},{label:'Adverts',texts:C1T.advert,type:'advert'},{label:'Newspapers',texts:C1T.newspaper,type:'newspaper'},{label:'Video games (Sec B)',texts:C1T.game,type:'game'},{label:'Radio (Sec B)',texts:C1T.radio,type:'radio'}]
+  .forEach(g=>{
+    const lbl=document.createElement('div');lbl.className='btn-group-label';lbl.textContent=g.label;card.appendChild(lbl);
+    const bg=document.createElement('div');bg.className='btn-group';
+    g.texts.forEach(t=>{
+      const btn=document.createElement('button');btn.className='txt-btn';btn.textContent='+ '+s1(t);
+      btn.onclick=()=>{const qid=document.getElementById('c1-q-select').value,entry=t+'|'+g.type;if(!c1D[qid]['2026?'].includes(entry)){c1D[qid]['2026?'].push(entry);save('gcse_tracker_c1_v2',c1D,'c1-save');renderC1Table();updateC1Insights();}};
+      bg.appendChild(btn);
+    });
+    card.appendChild(bg);
+  });
+  sb.appendChild(card);
+}
+
+function updateC1Insights(){
+  const counts={},allT=Object.values(C1T).flat();
+  C1Q.forEach(q=>{YEARS.filter(y=>y!=='2026?').forEach(yr=>{(c1D[q.id][yr]||[]).forEach(e=>{const n=e.split('|')[0];counts[n]=(counts[n]||0)+1;});});});
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]),gaps=allT.filter(n=>!counts[n]);
+  let txt='';
+  if(sorted.length)txt+=`Most frequent: <strong>${sorted[0][0]}</strong> (${sorted[0][1]}x across all questions). `;
+  if(gaps.length)txt+=`Never appeared: ${gaps.map(g=>'<strong>'+g+'</strong>').join(', ')}. `;
+  const l=c1D.q1['2025']?.[0];if(l)txt+=`Q1 last year: <strong>${s1(l.split('|')[0])}</strong>.`;
+  document.getElementById('c1-insight').innerHTML=txt||'Historical data loaded. Add 2026 predictions using the teacher login.';
+}
+
+function buildC2Legend(){
+  document.getElementById('c2-legend').innerHTML=[{l:'Media Language',bg:'#ffe4e4',c:'#8a1010'},{l:'Representation',bg:'#e4f4d0',c:'#2a5808'},{l:'Audience',bg:'#fff3d8',c:'#6a3a00'},{l:'Context',bg:'#ddeeff',c:'#0a3868'},{l:'Industry',bg:'#fde4ee',c:'#7a1a48'}]
+  .map(i=>`<span class="leg"><span class="leg-dot" style="background:${i.bg};border:1px solid ${i.c}50"></span>${i.l}</span>`).join('');
+}
+
+function renderC2Table(){
+  document.getElementById('c2-thead').innerHTML='<tr><th style="width:68px"></th>'+YEARS.map(y=>`<th class="${y==='2026?'?'year-2026':''}">${y}</th>`).join('')+'</tr>';
+  const tbody=document.getElementById('c2-tbody');tbody.innerHTML='';
+  let lastS='';
+  C2Q.forEach(q=>{
+    if(q.section!==lastS){
+      const d=document.createElement('tr');d.className='section-divider';
+      d.innerHTML=`<td colspan="${YEARS.length+1}">${q.section==='CD'?'Crime Drama — TV texts':'Music Video — MV, website & social media'}</td>`;
+      tbody.appendChild(d);lastS=q.section;
+    }
+    const tr=document.createElement('tr');
+    const lbl=document.createElement('td');lbl.className='q-label';lbl.innerHTML=q.label.replace('\n','<br>');tr.appendChild(lbl);
+    YEARS.forEach(yr=>{
+      const td=document.createElement('td');if(yr==='2026?')td.className='year-2026';
+      const inner=document.createElement('div');inner.className='cell-inner';
+      (c2D[q.id][yr]||[]).forEach(entry=>{
+        const parts=entry.split('|'),area=parts[0],sub=parts[2]||'';
+        const fw=FW[area]||FW.ML;
+        const chip=document.createElement('span');chip.className='chip '+fw.cls;
+        if(editMode){chip.classList.add('editable');chip.title='Click to remove';chip.onclick=()=>{c2D[q.id][yr]=c2D[q.id][yr].filter(e=>e!==entry);save('gcse_tracker_c2_v2',c2D,'c2-save');renderC2Table();updateC2Insights();};}
+        chip.innerHTML=fw.label+(sub?'<span class="rep-sub">'+sub+'</span>':'');
+        inner.appendChild(chip);
+      });
+      td.appendChild(inner);tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function buildC2Sidebar(){
+  const sb=document.getElementById('c2-sidebar');sb.innerHTML='';
+  if(!editMode){sb.innerHTML='<div class="sidebar-locked"><span class="lock-icon">&#128274;</span><p>Editing is locked.<br>Teachers: use the login button<br>above to make changes.</p></div>';return;}
+  const card=document.createElement('div');card.className='sidebar-card';card.innerHTML='<h3>Add to 2026?</h3>';
+  const qw=document.createElement('div');qw.className='q-select-wrap';qw.innerHTML='<label>Question</label>';
+  const sel=document.createElement('select');sel.id='c2-q-select';
+  C2Q.forEach(q=>{const o=document.createElement('option');o.value=q.id;o.textContent=q.label.replace('\n',' — ');sel.appendChild(o);});
+  qw.appendChild(sel);card.appendChild(qw);
+  const lbl=document.createElement('div');lbl.className='btn-group-label';lbl.textContent='Framework area';card.appendChild(lbl);
+  const bg=document.createElement('div');bg.className='btn-group';
+  Object.entries(FW).forEach(([key,fw])=>{
+    const btn=document.createElement('button');btn.className='fw-btn '+fw.btnCls;btn.textContent=fw.label;
+    btn.onclick=()=>{
+      const qid=document.getElementById('c2-q-select').value,sub=document.getElementById('c2-sub').value.trim();
+      const entry=key+'|fw'+(sub?'|'+sub:'');
+      if(!c2D[qid]['2026?'].includes(entry)){c2D[qid]['2026?'].push(entry);save('gcse_tracker_c2_v2',c2D,'c2-save');renderC2Table();updateC2Insights();}
+    };
+    bg.appendChild(btn);
+  });
+  card.appendChild(bg);
+  const sw=document.createElement('div');sw.className='q-select-wrap';sw.style.marginTop='10px';
+  sw.innerHTML='<label>Sub-topic (optional)</label><input id="c2-sub" type="text" placeholder="e.g. Gender, Social Issues…">';
+  card.appendChild(sw);sb.appendChild(card);
+}
+
+function updateC2Insights(){
+  const q1c={ML:0,Rep:0},q2c={Aud:0,Context:0,Industry:0};
+  YEARS.filter(y=>y!=='2026?').forEach(yr=>{
+    (c2D.q1[yr]||[]).forEach(e=>{const a=e.split('|')[0];if(q1c[a]!==undefined)q1c[a]++;});
+    (c2D.q2[yr]||[]).forEach(e=>{const a=e.split('|')[0];if(q2c[a]!==undefined)q2c[a]++;});
+  });
+  const l1=c2D.q1['2025']?.[0],l2=c2D.q2['2025']?.[0],l3=c2D.q3['2025']?.[0],l4=c2D.q4['2025']?.[0];
+  let txt='';
+  if(l1)txt+=`Q1 last year: <strong>${l1.split('|')[0]}</strong>. `;
+  if(l2)txt+=`Q2 last year: <strong>${l2.split('|')[0]}</strong>. `;
+  if(l3){const s=l3.split('|')[2];txt+=`Q3 last year: <strong>${l3.split('|')[0]}${s?' — '+s:''}</strong>. `;}
+  if(l4){const s=l4.split('|')[2];txt+=`Q4 last year: <strong>${l4.split('|')[0]}${s?' ('+s+')':''}</strong>. `;}
+  txt+=`Q1 split (2019–2025): ML ${q1c.ML}x, Rep ${q1c.Rep}x. Q2 split: Audience ${q2c.Aud}x, Context ${q2c.Context}x, Industry ${q2c.Industry}x.`;
+  document.getElementById('c2-insight').innerHTML=txt;
+}
+
+buildC1Legend();renderC1Table();buildC1Sidebar();updateC1Insights();
+buildC2Legend();renderC2Table();buildC2Sidebar();updateC2Insights();
+</script>
+</body>
+</html>
