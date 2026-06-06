@@ -1,0 +1,36 @@
+GCSE Media Revision Hub v15 Build Specification
+
+KEY TERMS MASTERY INTEGRATION
+
+1. Persist ratings per key term:
+Weak=1, Developing=2, Secure=4, Exam Ready=5
+
+2. Dashboard:
+- Exam Ready count
+- Secure count
+- Developing count
+- Weak count
+- Overall Mastery %
+
+3. Filters:
+All | Weak | Developing | Secure | Exam Ready
+
+4. Completion Map:
+Show completion %, confidence rating, key term mastery %
+
+5. Smart Missions:
+Generate missions from weak terms and weak frameworks.
+
+6. Synchronisation:
+Confidence Tracker -> Completion Map -> Mission Card -> Smart Missions
+
+7. Completion Map Cards:
+Show stars, weak term counts, confidence scores.
+
+8. Replace 'average' wording with:
+- % complete
+- Confidence X/5
+- Weak areas identified
+
+SUCCESS:
+Key terms become the diagnostic engine for the hub.
