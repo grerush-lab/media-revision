@@ -1306,6 +1306,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
 
     <div class="rj-actions rj-resource-actions">
       <button class="rj-btn" onclick="rjJump('factcheck')">📋 Open Factsheet Quiz</button>
+      <button class="rj-btn" onclick="rjJump('recaps')">🍭 Open Set Text Recaps</button>
       <button class="rj-btn" onclick="rjJump('questions')">📝 Open Questions</button>
       <button class="rj-btn" onclick="rjJump('examskills')">🎯 Open Exam Skills</button>
       <button class="rj-btn" onclick="rjJump('theorygames')">🎮 Open Theory Games</button>
@@ -5788,7 +5789,7 @@ var RJ_SPEC = [
   {comp:'Component 2', section:'Section B: Music Video / Online', id:'tlc', text:'TLC - Waterfalls', focuses:['Media Language','Representation','Context'], links:['questions','examskills','theorygames']}
 ];
 var RJ_STEPS = [
-  {group:'LEARN', items:['Read notes from school workbook','Read the fact sheet']},
+  {group:'LEARN', items:['Read notes from school workbook','Read the fact sheet','Go through the Set Text Recap']},
   {group:'RECALL', items:['Complete one fact sheet quiz','Complete second fact sheet quiz']},
   {group:'APPLY', items:['Complete one exam skills task','Complete at least one past question']}
 ];
@@ -6050,7 +6051,7 @@ function rjGenerateMission(){
     '<p style="margin:.25rem 0 .55rem;color:var(--muted);font-size:.82rem;">'+dateText+'</p>',
     '<p><strong>'+pick.item.text+'</strong> — '+pick.focus+'</p>',
     '<ol style="margin-left:1.2rem;line-height:1.7;font-size:.86rem;">',
-      '<li><strong>Learn:</strong> Read notes from school workbook, then read the fact sheet.</li>',
+      '<li><strong>Learn:</strong> Read notes from school workbook, read the fact sheet, then go through the Set Text Recap.</li>',
       '<li><strong>Recall:</strong> Complete one fact sheet quiz, then complete a second fact sheet quiz.</li>',
       '<li><strong>Apply:</strong> '+rjFocusExamTask(pick.focus)+'</li>',
       '<li><strong>Confidence:</strong> Return here and rate how exam-ready you feel.</li>',
@@ -6059,6 +6060,7 @@ function rjGenerateMission(){
     '<div class="rj-actions">',
       '<button class="rj-btn gold" id="rjLoadMissionBtn">Load this mission</button>',
       '<button class="rj-btn" onclick="rjJump(&quot;factcheck&quot;)">Open Factsheet Quiz</button>',
+      '<button class="rj-btn" onclick="rjJump(&quot;recaps&quot;)">Open Set Text Recaps</button>',
       '<button class="rj-btn" onclick="rjJump(&quot;terms&quot;)">Open Key Terms</button>',
       '<button class="rj-btn" onclick="rjJump(&quot;questions&quot;)">Open Questions</button>',
     '</div>'
@@ -6898,7 +6900,7 @@ function rjResetProgressConfirm(){
   };
   // Ensure workflow is simplified even if an older cached script tries to restore it.
   window.RJ_STEPS=[
-    {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet']},
+    {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet','Go through the Set Text Recap']},
     {group:'RECALL',items:['Complete one fact sheet quiz','Complete second fact sheet quiz']},
     {group:'APPLY',items:['Complete one exam skills task','Complete at least one past question']}
   ];
@@ -6933,7 +6935,7 @@ function rjResetProgressConfirm(){
   function q(id){return document.getElementById(id);}
   function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   window.RJ_STEPS=[
-    {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet']},
+    {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet','Go through the Set Text Recap']},
     {group:'RECALL',items:['Complete one fact sheet quiz','Complete second fact sheet quiz']},
     {group:'APPLY',items:['Complete one exam skills task','Complete at least one past question']}
   ];
@@ -7739,7 +7741,7 @@ function rjResetProgressConfirm(){
   }
   function pct(item,focus){
     var steps=window.RJ_STEPS || [
-      {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet']},
+      {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet','Go through the Set Text Recap']},
       {group:'RECALL',items:['Complete one fact sheet quiz','Complete second fact sheet quiz']},
       {group:'APPLY',items:['Complete one exam skills task','Complete at least one past question']}
     ];
@@ -8177,7 +8179,7 @@ function rjResetProgressConfirm(){
   }
   function pct(item,focus){
     var steps=window.RJ_STEPS || [
-      {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet']},
+      {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet','Go through the Set Text Recap']},
       {group:'RECALL',items:['Complete one fact sheet quiz','Complete second fact sheet quiz']},
       {group:'APPLY',items:['Complete one exam skills task','Complete at least one past question']}
     ];
