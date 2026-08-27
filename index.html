@@ -547,6 +547,7 @@
 .tq-section { padding: 1rem 1.2rem; border-bottom: 1px solid var(--border); }
 .tq-section:last-child { border-bottom: none; }
 .tq-section-label { font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+.tq-section-interactive { background: #fbf9f4; }
 
 .tq-thisyear-box { background: #f0f6f0; border: 1px solid var(--success); border-radius: 2px; padding: 0.8rem 1rem; margin-bottom: 0.6rem; }
 .tq-thisyear-q { font-style: italic; font-size: 0.9rem; line-height: 1.6; white-space: pre-line; color: var(--ink); }
@@ -560,11 +561,13 @@
 .tq-steps li { counter-increment: tqstep; position: relative; padding-left: 2.1rem; margin-bottom: 0.7rem; font-size: 0.87rem; line-height: 1.6; }
 .tq-steps li::before { content: counter(tqstep); position: absolute; left: 0; top: -0.05rem; width: 1.5rem; height: 1.5rem; background: var(--c1col); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; font-weight: 600; }
 
+.tq-history-hint { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-bottom: 0.5rem; }
 .tq-history-row { display: flex; gap: 0.6rem; padding: 0.4rem 0; border-bottom: 1px dashed var(--border); font-size: 0.82rem; align-items: baseline; }
 .tq-history-row:last-child { border-bottom: none; }
-.tq-history-year { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); min-width: 3.6rem; flex-shrink: 0; }
+.tq-history-year { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); min-width: 4.4rem; flex-shrink: 0; }
 .tq-history-year.thisyear { color: var(--accent); font-weight: 700; }
 .tq-history-text { line-height: 1.5; }
+.tq-history-star { color: var(--gold); margin-right: 0.3rem; }
 .tq-history-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 1px; background: var(--accent); color: white; padding: 0.08rem 0.4rem; border-radius: 2px; margin-left: 0.4rem; white-space: nowrap; }
 
 .tq-watchout { background: #fdf0e8; border-left: 4px solid var(--secb); border-radius: 2px; padding: 0.8rem 1rem; font-size: 0.85rem; line-height: 1.6; }
@@ -592,6 +595,50 @@
 
 .tq-empty-hint { text-align: center; padding: 2.5rem 1.5rem; color: var(--muted); font-size: 0.9rem; }
 .tq-empty-hint .icon { font-size: 2rem; margin-bottom: 0.6rem; }
+
+/* ---- Drag & drop (tap-to-place) ---- */
+.tq-dnd-wrap { }
+.tq-dnd-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; color: var(--ink); }
+.tq-dnd-instruction { font-size: 0.8rem; color: var(--muted); font-style: italic; margin-bottom: 0.8rem; }
+.tq-chip-pool { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; min-height: 2.4rem; padding: 0.6rem; background: #fff; border: 1.5px dashed var(--border); border-radius: 3px; }
+.tq-chip-empty { font-size: 0.8rem; color: var(--success); font-style: italic; padding: 0.3rem; }
+.tq-chip { background: var(--c1col); color: white; font-size: 0.82rem; line-height: 1.4; padding: 0.5rem 0.8rem; border-radius: 3px; cursor: pointer; transition: all 0.15s; box-shadow: 0 2px 4px rgba(0,0,0,0.15); max-width: 260px; user-select: none; }
+.tq-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+.tq-chip.selected { background: var(--gold); outline: 3px solid rgba(184,134,11,0.35); transform: scale(1.03); }
+.tq-bucket-row { display: grid; gap: 0.7rem; margin-bottom: 0.6rem; }
+.tq-bucket-row-2 { grid-template-columns: repeat(2, 1fr); }
+.tq-bucket-row-3 { grid-template-columns: repeat(3, 1fr); }
+.tq-bucket-row-4 { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 640px) { .tq-bucket-row-3, .tq-bucket-row-4 { grid-template-columns: 1fr; } }
+.tq-bucket { background: #fff; border: 2px solid var(--border); border-radius: 3px; padding: 0.6rem; min-height: 5rem; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.tq-bucket:hover { border-color: var(--gold); background: #fffaf0; }
+.tq-bucket-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.75rem; text-align: center; margin-bottom: 0.5rem; color: var(--ink); text-transform: uppercase; letter-spacing: 1px; }
+.tq-bucket-items { display: flex; flex-direction: column; gap: 0.4rem; }
+.tq-bucket-hint { font-size: 0.7rem; color: var(--muted); text-align: center; font-style: italic; padding: 0.4rem 0; }
+.tq-placed-chip { background: #eee6d6; color: var(--ink); font-size: 0.78rem; line-height: 1.4; padding: 0.45rem 0.6rem; border-radius: 3px; cursor: pointer; border: 1.5px solid var(--border); }
+.tq-placed-chip.correct { background: #e3f2e9; border-color: var(--success); color: #1e5c42; }
+.tq-placed-chip.incorrect { background: #fbe3e0; border-color: #c0392b; color: #8e2a1f; }
+.tq-dnd-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.4rem; }
+.tq-mini-btn { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; padding: 0.4rem 0.9rem; border-radius: 2px; border: 2px solid var(--accent); background: var(--accent); color: white; cursor: pointer; transition: all 0.15s; }
+.tq-mini-btn:hover { background: #a93226; border-color: #a93226; }
+.tq-mini-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.tq-mini-btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
+.tq-mini-btn-ghost:hover { border-color: var(--ink); color: var(--ink); background: transparent; }
+.tq-dnd-feedback { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; }
+.tq-fb-perfect { color: var(--success); }
+.tq-fb-partial { color: var(--gold); }
+
+/* ---- Sentence checker ---- */
+.tq-sentence-prompt { font-size: 0.87rem; line-height: 1.6; margin-bottom: 0.6rem; color: var(--ink); }
+.tq-sentence-input { width: 100%; border: 1.5px solid var(--border); border-radius: 2px; padding: 0.7rem; font-family: 'Lora', serif; font-size: 0.88rem; line-height: 1.65; resize: vertical; color: var(--ink); background: #fdfbf8; }
+.tq-sentence-input:focus { outline: none; border-color: var(--accent); background: white; }
+.tq-sentence-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+.tq-sentence-result { margin-top: 0.7rem; font-size: 0.85rem; line-height: 1.6; }
+.tq-sr-good { padding: 0.7rem 0.9rem; background: #eaf5ee; border-left: 4px solid var(--success); border-radius: 2px; }
+.tq-sr-retry { padding: 0.7rem 0.9rem; background: #fdf3e3; border-left: 4px solid var(--gold); border-radius: 2px; }
+.tq-sr-warn { padding: 0.7rem 0.9rem; background: #f5ece3; border-left: 4px solid var(--muted); border-radius: 2px; }
+.tq-exemplar { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border); font-style: italic; }
+.tq-sentence-note { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; }
 
 </style>
 <style>
@@ -7897,12 +7944,10 @@ function rjResetProgressConfirm(){
 
 <script>
 // ============================================================
-// TRICKY QUESTIONS DECODER — data
-// Sourced from: WJEC/Eduqas SAMs + mark schemes (2017 sample, and
-// live papers 2019, 2022-2025), plus the department's own record
-// of every past question 2019-2026. Where 2026 has no published
-// mark scheme yet, indicative content is marked "Our best guess"
-// rather than presented as official.
+// TRICKY QUESTIONS DECODER — data (v2, interactive)
+// History entries marked hl:true are the ones highlighted yellow
+// in the department's master past-questions document — these are
+// the examples flagged as most important/illustrative.
 // ============================================================
 
 var TQ_DATA = [
@@ -7915,29 +7960,52 @@ var TQ_DATA = [
     colour: 'c1a',
     thisYear: {
       text: 'How does this GQ magazine front cover communicate meaning? Explore: (a) Narrative [5] (b) Genre conventions [10]',
-      note: 'National curveball — narrative and genre had never been examined together on a magazine cover before. If this came up in your exam, you weren\u2019t alone in finding it hard.'
+      note: 'Flagged as a national curveball — narrative and genre had never been examined together on a magazine cover before.'
     },
     decode: [
-      { label: 'The trap', text: 'Q1 always names TWO or THREE media language elements to explore — and the exam board rotates which elements go with which text type every single year. You might have drilled "media language on a magazine cover" using layout and images, then get asked about narrative and genre instead. The text is familiar; the angle isn\u2019t.' },
-      { label: 'What it actually wants', text: 'Not "what do you see" — WHY the producer made that specific choice, and what effect it has. Every sentence should follow: choice → term → effect on the audience/meaning.' },
-      { label: 'The mark split', text: 'Each part is marked completely separately (max 5 marks each, or however the tariff splits). A brilliant answer on part (a) gets you nothing on part (b) — you must properly address both.' },
+      { label: 'The trap', text: 'Q1 always names TWO elements to explore, and the exam board rotates which elements go with which text type every year. The text is familiar; the angle isn\u2019t.' },
+      { label: 'What it actually wants', text: 'Not "what do you see" — WHY the producer made that specific choice, and what effect it has. Every sentence should follow: choice \u2192 term \u2192 effect on the audience/meaning.' },
+      { label: 'The mark split', text: 'Each part is marked completely separately. A brilliant answer on part (a) gets you nothing on part (b) — you must properly address both.' },
     ],
     steps: [
-      'Identify the TWO elements named in the question (e.g. "narrative" and "genre conventions") — write them down before you start.',
-      'For each element, pick 2-3 specific, nameable details from the product (a specific image, a specific font choice, a specific pose) — not vague description.',
-      'For each detail, use the pattern: "The [detail] connotes/suggests [meaning], which constructs [narrative enigma / genre expectation / etc.]"',
-      'Use the correct terminology for THAT element — genre needs words like "iconography," "conventions," "hybrid"; narrative needs "enigma code," "action code," "equilibrium."',
-      'Do not drift into the other element\u2019s vocabulary — analysing "narrative" using genre terms won\u2019t gain marks on that part.',
+      'Identify the TWO elements named in the question — write them down before you start.',
+      'For each element, pick 2-3 specific, nameable details from the product — not vague description.',
+      'Use the pattern: "The [detail] connotes/suggests [meaning], which constructs [narrative enigma / genre expectation]"',
+      'Use the correct terminology for THAT element — don\u2019t drift into the other element\u2019s vocabulary.',
     ],
     history: [
       { year: '2019', text: 'GQ cover — images / text / layout and design' },
       { year: '2021', text: 'Bond poster — colour / genre conventions' },
       { year: '2022', text: "This Girl Can advert — written language / visual codes" },
-      { year: '2023', text: 'Spectre poster — narrative / genre' },
+      { year: '2023', text: 'Spectre poster — narrative / genre', hl: true },
       { year: '2025', text: 'Quality Street advert — layout and design / images' },
-      { year: '2026', text: 'GQ cover — narrative / genre conventions', tag: 'this year' },
+      { year: '2026', text: 'GQ cover — narrative / genre conventions', hl: true, tag: 'this year' },
     ],
-    watchout: 'The elements change every year, but the SAME set text can reappear (GQ has come up before, in a totally different way). Never assume "I know this product" means "I know this question."'
+    watchout: 'The elements change every year, but the SAME set text can reappear in a totally different way (GQ has come up three times now, never asked the same way twice).',
+    interactive: {
+      dragdrop: {
+        title: 'Sort each detail: Narrative or Genre?',
+        instruction: 'Drag \u2014 or tap, then tap a box \u2014 to sort each observation about a magazine cover into the correct box.',
+        buckets: ['Narrative', 'Genre conventions'],
+        items: [
+          { text: 'The model\u2019s intense, direct eye contact hints at a story of confrontation or challenge', bucket: 0 },
+          { text: 'Bold masthead font and monochrome colour palette are typical of this magazine type', bucket: 1 },
+          { text: 'A single cover line creates an enigma about what the interview will reveal', bucket: 0 },
+          { text: 'The use of a well-known celebrity follows industry-standard cover star conventions', bucket: 1 },
+          { text: 'The pose suggests a before/after transformation, implying a narrative journey', bucket: 0 },
+          { text: 'Standard positioning of masthead, barcode and cover lines follows the format readers expect', bucket: 1 },
+        ]
+      },
+      sentence: {
+        prompt: 'Write ONE sentence analysing genre conventions on a magazine cover, using this pattern: "The [detail] is a typical convention of this genre because it [effect]."',
+        keywordGroups: [
+          ['convention', 'conventions', 'typical', 'genre'],
+          ['because', 'as it', 'this shows', 'suggests', 'connotes']
+        ],
+        hint: 'Make sure you (1) name it as a convention/typical of the genre, and (2) explain WHY with a "because"/effect clause \u2014 not just a description.',
+        exemplar: 'The bold, minimalist masthead is a typical convention of this genre because it signals a serious, high-status lifestyle publication to the reader.'
+      }
+    }
   },
 
   {
@@ -7949,28 +8017,54 @@ var TQ_DATA = [
     colour: 'c1a',
     thisYear: {
       text: "Explain how cultural contexts influence adverts. Refer to This Girl Can to support your points. [5]",
-      note: "Last year This Girl Can appears for the final time — from next year this slot moves to NHS 111. The context TYPE (cultural, social, political, historical) rotates independently of the text, so don\u2019t assume the same context always goes with the same product."
+      note: "This is the last year This Girl Can appears \u2014 from next year this slot moves to NHS 111."
     },
     decode: [
-      { label: 'The trap', text: 'There are 4 context types (social, cultural, political, historical) and around 8 set texts. The exam board can pair any context with almost any text, and the SAME text can be asked about under a DIFFERENT context type in a different year (compare 2023\u2019s "cultural contexts... GQ" against 2026 asking about a different text under cultural context).' },
-      { label: 'What it actually wants', text: 'Not "what is [context type]" as a definition — it wants you to explain HOW that specific context shaped choices in THIS specific product, with a named example from the product.' },
-      { label: 'Why it\u2019s only 5 marks but still costs marks', text: 'Because it\u2019s short, students often either write a definition (no marks) or write everything they know about the whole text (wastes time, most of it irrelevant to the named context type).' },
+      { label: 'The trap', text: 'There are 4 context types (social, cultural, political, historical) and around 8 set texts. The board can pair any context with almost any text, and the SAME text can reappear under a DIFFERENT context type later.' },
+      { label: 'What it actually wants', text: 'Not "what is [context type]" as a definition \u2014 it wants you to explain HOW that specific context shaped choices in THIS specific product, with a named example.' },
+      { label: 'Why it still costs marks at just 5', text: 'Because it\u2019s short, students often either write a definition (no marks) or write everything they know about the whole text (wastes time on irrelevant material).' },
     ],
     steps: [
-      'Underline the context TYPE named in the question (cultural / social / political / historical) — that is your only lens.',
-      'Recall 2-3 bullet points you\u2019ve prepared in advance for that text under that specific context type (this is worth pre-learning per text, not improvising in the exam).',
-      'State the context factor, then link it explicitly to a feature of the product: "[Context factor] means that [specific choice in the product] was made, which shows/reflects..."',
-      'Stop once you\u2019ve made 2-3 well-explained links — for 5 marks, depth on fewer points beats a long list.',
+      'Underline the context TYPE named in the question \u2014 that is your only lens.',
+      'Recall 2-3 bullet points prepared in advance for that text under that specific context type.',
+      'State the context factor, then link it explicitly: "[Context factor] means that [specific choice in the product] was made, which shows..."',
+      'Stop once you\u2019ve made 2-3 well-explained links \u2014 depth beats a long list at 5 marks.',
     ],
     history: [
-      { year: '2019', text: 'Historical context — Quality Street advert' },
-      { year: '2021', text: 'General "contexts" — The Sun' },
-      { year: '2023', text: 'Cultural context — GQ magazine' },
-      { year: '2024', text: 'Historical context — Golden Gun poster' },
-      { year: '2025', text: 'Social AND cultural context — Vogue' },
-      { year: '2026', text: 'Cultural context — This Girl Can', tag: 'this year' },
+      { year: '2019', text: 'Historical context — Quality Street advert', hl: true },
+      { year: '2020', text: 'Cultural context — The Man with the Golden Gun poster', hl: true },
+      { year: '2021', text: 'General "contexts" — The Sun', hl: true },
+      { year: '2022', text: 'Political context — Pride magazine', hl: true },
+      { year: '2023', text: 'Cultural context — GQ magazine', hl: true },
+      { year: '2024', text: 'Historical context — Golden Gun poster', hl: true },
+      { year: '2025', text: 'Social AND cultural context — Vogue', hl: true },
+      { year: '2026', text: 'Cultural context — This Girl Can', hl: true, tag: 'this year' },
     ],
-    watchout: 'Prepare 2-3 bullet points for EVERY context type against EVERY set text in advance. Trying to invent a context link live in the exam is where most marks are lost.'
+    watchout: 'Every single year of this question is flagged as important to know \u2014 prepare 2-3 bullet points for EVERY context type against EVERY set text in advance.',
+    interactive: {
+      dragdrop: {
+        title: 'Match the clue to the context type',
+        instruction: 'Drag \u2014 or tap, then tap a box \u2014 to sort each clue into the context type it\u2019s really describing.',
+        buckets: ['Social', 'Cultural', 'Political', 'Historical'],
+        items: [
+          { text: 'The advert reflects widespread body-image pressures affecting how women see themselves', bucket: 0 },
+          { text: 'The product draws on shared beliefs, traditions and values within a particular group', bucket: 1 },
+          { text: 'The front page reflects the newspaper owner\u2019s support for a particular party or policy', bucket: 2 },
+          { text: 'The poster reflects attitudes and events specific to the decade it was produced in', bucket: 3 },
+          { text: 'The magazine reflects current debates around class, community or lifestyle', bucket: 0 },
+          { text: 'The campaign reflects a shift in what a specific fanbase or subculture values', bucket: 1 },
+        ]
+      },
+      sentence: {
+        prompt: 'Pick a context type (social / cultural / political / historical) and write ONE sentence using: "[Context type] context means that [choice in the product] was made, which shows..."',
+        keywordGroups: [
+          ['social', 'cultural', 'political', 'historical'],
+          ['means that', 'shows', 'because', 'reflects', 'suggests']
+        ],
+        hint: 'Name the context type explicitly AND link it to one specific, real choice in the product.',
+        exemplar: 'Cultural context means that the advert used empowering, inclusive imagery of women exercising, which reflects a wider shift in attitudes towards body positivity.'
+      }
+    }
   },
 
   {
@@ -7985,90 +8079,165 @@ var TQ_DATA = [
       note: null
     },
     decode: [
-      { label: 'The three bullet points ARE the structure', text: 'Every 2(b) gives you the same three "must consider" bullet points: (1) the choices producers made, (2) how the representation is SIMILAR across both products, (3) how it is DIFFERENT. These are not optional extras — they are literally how the mark scheme is organised.' },
-      { label: 'What "compare" means here', text: 'Not "describe product A, then describe product B" one after another. The best answers move between both products within the same paragraph — "whereas Product A does X, Product B instead does Y."' },
-      { label: 'Why nobody gets full marks', text: 'Top band needs excellent analysis of BOTH products, explicit similarity AND difference, consistent terminology, AND a reasoned judgement — all four at once. Most answers are strong on 2-3 of these but not all four.' },
+      { label: 'The three bullet points ARE the structure', text: 'Every 2(b) gives you the same three "must consider" bullet points: (1) the choices producers made, (2) how the representation is SIMILAR, (3) how it is DIFFERENT.' },
+      { label: 'What "compare" means here', text: 'Not "describe product A, then describe product B." The best answers move between both products within the same paragraph.' },
+      { label: 'Why nobody gets full marks', text: 'Top band needs excellent analysis of BOTH products, explicit similarity AND difference, consistent terminology, AND a reasoned judgement \u2014 all four at once.' },
     ],
     steps: [
-      'Before writing, jot the specific representation group named in the question (women / men / ethnicity / gender — whatever it says) — everything must tie back to that.',
-      'Plan one similarity point and one difference point BEFORE you start writing, so you\u2019re not discovering the comparison as you go.',
-      'For each point: name the technique in Product A, name the technique in Product B, then state explicitly whether that makes the representation similar or different and WHY.',
-      'Use comparative connectives throughout: "whereas," "similarly," "in contrast," "unlike Product A..." — these words are doing real structural work, not just decoration.',
-      'End with a short judgement sentence: overall, is the representation more similar or more different across the two products, and what does that suggest?',
+      'Note the specific representation group named in the question \u2014 everything ties back to that.',
+      'Plan one similarity point and one difference point BEFORE writing.',
+      'For each point: name the technique in Product A, name it in Product B, then state explicitly whether that\u2019s similar or different and WHY.',
+      'Use comparative connectives throughout: "whereas," "similarly," "in contrast," "unlike Product A..."',
+      'End with a short judgement: overall, more similar or more different, and what that suggests.',
     ],
     history: [
       { year: '2019', text: 'Gender — Quality Street vs Axe Peace' },
-      { year: '2021', text: 'Messages — The Sun vs Daily Mirror' },
+      { year: '2020', text: 'Men — Golden Gun vs Holding The Man' },
+      { year: '2021', text: 'Messages — The Sun vs Daily Mirror', hl: true },
       { year: '2022', text: 'Ethnicity — Pride vs Essence' },
       { year: '2024', text: 'Gender — Golden Gun vs Spy' },
       { year: '2025', text: 'Ethnicity — Vogue vs Grazia' },
       { year: '2026', text: 'Women — This Girl Can vs Nike', tag: 'this year' },
     ],
-    watchout: 'The representation GROUP changes every year (gender, ethnicity, messages, issues, women, men) but the THREE-BULLET STRUCTURE never changes. Learn the structure, not the group.'
+    watchout: 'The representation GROUP changes every year but the THREE-BULLET STRUCTURE never changes. Learn the structure, not the group.',
+    interactive: {
+      dragdrop: {
+        title: 'Similarity or Difference?',
+        instruction: 'These are comparison points about two imaginary adverts, A and B. Sort each into the correct box.',
+        buckets: ['Similarity', 'Difference'],
+        items: [
+          { text: 'Both adverts use active, mid-action poses to represent strength', bucket: 0 },
+          { text: 'Advert A uses natural lighting; Advert B uses heavily edited, glossy studio lighting', bucket: 1 },
+          { text: 'Both adverts avoid traditional idealised beauty standards in their casting', bucket: 0 },
+          { text: 'Advert A focuses on a single relatable individual; Advert B features a large, diverse group', bucket: 1 },
+          { text: 'Both use direct mode of address to create a personal connection with the viewer', bucket: 0 },
+          { text: 'Advert A\u2019s tagline is aspirational; Advert B\u2019s tagline is confrontational and challenging', bucket: 1 },
+        ]
+      },
+      sentence: {
+        prompt: 'Write ONE comparative sentence about two products, using a connective: "whereas," "similarly," "in contrast," or "unlike."',
+        keywordGroups: [
+          ['whereas', 'similarly', 'in contrast', 'unlike', 'while'],
+          ['represent', 'representation', 'shows', 'constructs', 'portrays']
+        ],
+        hint: 'The connective word is essential \u2014 without it, you\u2019re describing, not comparing. Name both products.',
+        exemplar: 'Whereas This Girl Can represents women through candid, unposed action shots, Nike instead uses polished, professionally staged imagery.'
+      }
+    }
   },
 
   {
     id: 'q3c',
     comp: 'C1', compFull: 'Component 1 — Section B',
     badge: 'Q3(c)',
-    title: 'Industry — "briefly explain" (not just name)',
+    title: 'Industry — "briefly explain" a piece of tricky vocabulary',
     tariff: '/4',
     colour: 'secb',
     thisYear: {
       text: 'Briefly explain two ways that Fortnite is regulated. [4]',
-      note: 'This was the biggest single class-to-class spread on Component 1 this year — a 19-point gap between the strongest and weakest class despite three of the four classes sharing a teacher. It rewards recall + explanation, not just recall.'
+      note: 'This was the biggest single class-to-class spread on Component 1 this year \u2014 a 19-point gap between the strongest and weakest class despite three of the four classes sharing a teacher.'
     },
     decode: [
-      { label: 'The trap', text: 'Q3(a) and (b) are pure recall (name the regulator, name two examples) — 1 mark for a correct word. Q3(c) LOOKS the same but isn\u2019t: "briefly explain" means you need to say what the thing IS or DOES, not just name it.' },
-      { label: 'The mark structure', text: '"Explain two ways" on a 4-mark question is almost always 2 marks per way: 1 for naming the mechanism, 1 for explaining what it does or why it matters. Naming both ways with no explanation caps you at half marks.' },
+      { label: 'The trap', text: 'Q3(a) and (b) are pure recall \u2014 1 mark for a correct word. Q3(c) LOOKS the same but "briefly explain" means you need to say what the thing IS or DOES, and it often uses tricky industry vocabulary.' },
+      { label: 'The mark structure', text: '"Explain two ways/things" on a 4-mark question is almost always 2 marks each: 1 for naming the mechanism, 1 for explaining what it does.' },
     ],
     steps: [
-      'Count the marks and divide by the number of things asked for — 4 marks, "two ways" = 2 marks each. That tells you how much detail each point needs.',
-      'For each point: name the specific mechanism (not a vague category), then add one sentence saying what it does or why it exists.',
-      'Use the product/organisation named in the question in your explanation, not a generic version of the same fact.',
-      'Keep it brief — this is not the place for an extended answer. Two tight, explained points beat one long paragraph.',
+      'Count the marks and divide by the number of things asked for.',
+      'For each point: name the specific mechanism, then add one sentence saying what it does or why it exists.',
+      'Use the product/organisation named in the question in your explanation, not a generic fact.',
+      'Keep it brief \u2014 two tight, explained points beat one long paragraph.',
     ],
     history: [
-      { year: '2019', text: 'Briefly explain the difference between public service and commercial radio funding [4]' },
-      { year: '2020', text: 'Briefly explain the effect of regulation on Pokémon Go [4]' },
-      { year: '2022', text: 'Briefly explain what a media conglomerate is / what convergence is [2+2]' },
-      { year: '2025', text: 'Briefly explain the advantages of vertical integration [4]' },
+      { year: '2022', text: 'Briefly explain what a media conglomerate is [2] / what convergence is [2]', hl: true },
+      { year: '2025', text: 'Briefly explain the advantages of vertical integration [4]', hl: true },
       { year: '2026', text: 'Briefly explain two ways Fortnite is regulated [4]', tag: 'this year' },
     ],
-    watchout: 'This question type moves around the paper (sometimes it\u2019s about funding, sometimes regulation, sometimes conglomerates) — the skill of "name it, then explain it in one sentence" is what to practise, not one topic.'
+    watchout: 'This question type often tests exactly the abstract industry terms students find hardest \u2014 conglomerate, convergence, vertical integration. Learn the DEFINITION and a real example for each.',
+    interactive: {
+      dragdrop: {
+        title: 'Match the term to its definition',
+        instruction: 'Sort each definition into the box for the correct industry term.',
+        buckets: ['Convergence', 'Vertical integration', 'Conglomerate'],
+        items: [
+          { text: 'When a company owns different stages of production, from making a product to distributing it', bucket: 1 },
+          { text: 'When previously separate media technologies or platforms combine into one', bucket: 0 },
+          { text: 'A large company made up of several smaller companies operating in different industries', bucket: 2 },
+          { text: 'A single device now lets you watch TV, play games, and browse the internet', bucket: 0 },
+          { text: 'A film studio that also owns cinemas to show its own films in', bucket: 1 },
+          { text: 'One parent company owning a film studio, a TV network, and a theme park', bucket: 2 },
+        ]
+      },
+      sentence: {
+        prompt: 'Pick one term (convergence / vertical integration / conglomerate) and briefly explain it in ONE sentence, with a real example.',
+        keywordGroups: [
+          ['convergence', 'vertical integration', 'conglomerate', 'integration'],
+          ['example', 'such as', 'for example', 'like']
+        ],
+        hint: 'Name the term AND give a specific real example \u2014 a definition alone won\u2019t get full marks.',
+        exemplar: 'Vertical integration is when a company controls multiple stages of production, for example a games company that develops, publishes and distributes its own titles.'
+      }
+    }
   },
 
   {
     id: 'q3d4d',
     comp: 'C1', compFull: 'Component 1 — Section B',
     badge: 'Q3(d) / Q4(d)',
-    title: 'The 12-mark "explain how X uses Y to Z" extended response',
-    tariff: '/12 each',
+    title: 'The extended "explain how X uses Y to Z" question',
+    tariff: '/10-12 each',
     colour: 'secb',
     thisYear: {
       text: 'Q3d: Explain how video games use websites to promote their product, referring to Fortnite. [12]\nQ4d: Explain how audiences use news websites to meet their needs, referring to The Sun website. [12]',
       note: null
     },
     decode: [
-      { label: 'The trap', text: 'This is the hardest question on the paper by results, every year, for every cohort — nationally, not just here. It sits right at the end of each section when students are running low on time, and it asks for sustained explanation rather than a quick recall answer.' },
-      { label: 'What it actually wants', text: 'Not "tell me everything you know about the website." It wants you to draw together knowledge from ACROSS the whole course — industry facts, audience theory, media language — and apply all of it specifically to the named product.' },
-      { label: 'The band descriptors, in plain English', text: 'Top band = thorough, ACCURATE, DETAILED knowledge specifically about this product, not generic media theory with the product\u2019s name dropped in. Bottom band = "basic, if any, understanding" — often means the answer never actually engaged with the named example.' },
+      { label: 'The trap', text: 'This is the hardest question on the paper by results, every year, for every cohort \u2014 nationally, not just here. It sits right at the end of each section when time is short.' },
+      { label: 'What it actually wants', text: 'It wants you to draw together knowledge from ACROSS the whole course \u2014 industry facts, audience theory, media language \u2014 and apply all of it specifically to the named product.' },
+      { label: 'The band descriptors, in plain English', text: 'Top band = thorough, ACCURATE, DETAILED knowledge specifically about this product. Bottom band = generic media theory with the product\u2019s name dropped in.' },
     ],
     steps: [
-      'Underline the named product (Fortnite / The Sun website / whatever it is this year) — every point must be tied to it specifically, not to "video games" or "newspapers" in general.',
-      'Plan 3 separate points before writing — each should draw on a DIFFERENT part of the course (e.g. one industry point, one audience theory point, one media language point) rather than three versions of the same idea.',
-      'For each point: state the concept/theory, then give a specific, real detail about the named product, then explain the effect or purpose.',
-      'If you have a relevant theory (e.g. Uses and Gratifications for audiences), name it explicitly — theory application is specifically rewarded in the higher bands.',
-      'Do not run out of time here. This question is worth as much as several shorter questions combined — protect time for it rather than leaving it for whatever\u2019s left.',
+      'Underline the named product \u2014 every point must be tied to it specifically.',
+      'Plan 3 separate points, each drawing on a DIFFERENT part of the course (industry, audience theory, media language).',
+      'For each point: state the concept/theory, give a specific real detail about the named product, then explain the effect or purpose.',
+      'Name any relevant theory explicitly \u2014 theory application is specifically rewarded.',
+      'Protect your time for this question \u2014 it\u2019s worth as much as several shorter questions combined.',
     ],
     history: [
-      { year: '2019', text: 'Q4d: Explain why audiences interpret media products differently — The Sun [12]' },
-      { year: '2020', text: 'Q3d: How do websites enable video games to reach global audiences? — Pokémon [12]' },
-      { year: '2022', text: 'Q4d: Why do users visit the Fortnite website? (Uses & Gratifications) [12]' },
-      { year: '2024', text: 'Q4d: Explain why audiences play video games — Fortnite [12]' },
-      { year: '2026', text: 'Q3d: Fortnite website promotion / Q4d: Sun website audience needs', tag: 'this year' },
+      { year: '2019 (Q4d)', text: 'Explain why audiences interpret the same media product differently — The Sun [12]', hl: true },
+      { year: '2019 (Q3c)', text: 'Explain how radio programmes use technologies to reach audiences — The Archers [12]', hl: true },
+      { year: '2020 (Q3c)', text: 'How do websites enable video games to reach global audiences? — Pok\u00e9mon [12]', hl: true },
+      { year: '2020 (Q4c)', text: 'Explain how audiences use radio programmes to meet their needs — The Archers [12]', hl: true },
+      { year: '2021 (Q4b)', text: 'Explain how audiences actively engage with radio programmes — The Archers [12]', hl: true },
+      { year: '2023 (Q3)', text: 'Explain how the BBC uses different platforms to distribute radio programmes — The Archers', hl: true },
+      { year: '2024 (Q3)', text: 'Explain how the radio industry uses technology to promote its products — The Archers [10]', hl: true },
+      { year: '2025 (Q3)', text: 'Explain how the film industry uses convergence to promote films — 007 website [12]', hl: true },
+      { year: '2026 (Q3d)', text: 'Explain how video games use websites to promote their product — Fortnite [12]', hl: true, tag: 'this year' },
+      { year: '2026 (Q4d)', text: 'Explain how audiences use news websites to meet their needs — The Sun website [12]', hl: true, tag: 'this year' },
     ],
-    watchout: 'This question rewards drawing together the WHOLE course, not just the section it sits in. If your only preparation is industry facts for Q3(d) and audience facts for Q4(d), you\u2019re missing marks — the best answers blend both.'
+    watchout: 'This question rewards drawing together the WHOLE course. If your only preparation is industry facts for Q3(d) and audience facts for Q4(d), you\u2019re missing marks \u2014 the best answers blend both.',
+    interactive: {
+      dragdrop: {
+        title: 'Build a top-band point',
+        instruction: 'Drag the four sentence parts into the correct order to build one complete, top-band explanation.',
+        buckets: ['1st', '2nd', '3rd', '4th'],
+        mode: 'order',
+        items: [
+          { text: 'Audiences use the Uses and Gratifications theory to explain why they seek out media —', order: 0 },
+          { text: 'for example, The Sun website offers a "surveillance" function by providing constantly updated news alerts.', order: 1 },
+          { text: 'This allows readers to feel informed and in control of current events at any time of day,', order: 2 },
+          { text: 'which meets their need for information more effectively than a single daily print edition ever could.', order: 3 },
+        ]
+      },
+      sentence: {
+        prompt: 'Write ONE sentence that names a specific theory AND applies it to a specific detail of a named product.',
+        keywordGroups: [
+          ['theory', 'uses and gratifications', 'active audience', 'passive audience'],
+          ['for example', 'such as', 'specifically', 'this shows']
+        ],
+        hint: 'You need BOTH a named theory/concept AND a specific, real product detail.',
+        exemplar: 'Using Uses and Gratifications theory, audiences visit the Fortnite website for the surveillance function, checking patch notes to stay informed before playing.'
+      }
+    }
   },
 
   {
@@ -8083,24 +8252,49 @@ var TQ_DATA = [
       note: null
     },
     decode: [
-      { label: 'Two different jobs in one question', text: 'Part (a) is pure ANALYSIS — what\u2019s in the extract and what it means. Part (b) is a JUDGEMENT question — "how typical" or "how far" requires you to actually weigh up evidence and reach a conclusion, not just describe.' },
-      { label: 'The trap in part (b)', text: 'Students often answer "how typical of the genre is X" by just describing X in the extract and never actually comparing it to what\u2019s TYPICAL of the genre elsewhere. Without that comparison, you can\u2019t access the top bands.' },
-      { label: 'Which element gets asked varies every year', text: 'Costume, camerawork, sound, settings, characters have all been used in both slots across different years — you must be ready to apply the same analysis method to whichever element comes up.' },
+      { label: 'Two different jobs in one question', text: 'Part (a) is pure ANALYSIS. Part (b) is a JUDGEMENT question \u2014 "how typical" requires you to weigh up evidence and reach a conclusion, not just describe.' },
+      { label: 'The trap in part (b)', text: 'Students often answer "how typical" by just describing the extract and never actually comparing it to what\u2019s TYPICAL of the genre elsewhere.' },
+      { label: 'Which element gets asked varies every year', text: 'Costume, camerawork, sound, settings, characters have all been used in both slots across different years.' },
     ],
     steps: [
-      'For part (a): pick 2 specific, nameable moments in the extract for the named element — don\u2019t generalise about the whole clip.',
+      'For part (a): pick 2 specific, nameable moments in the extract for the named element.',
       'For part (a): for each moment, state what it shows, then what it connotes or achieves.',
-      'For part (b): state what\u2019s typical of the genre for this element FIRST (your genre knowledge), then check the extract against that.',
-      'For part (b): reach an actual verdict — "this is largely typical because..." or "this subverts expectations because..." — don\u2019t just describe and stop.',
+      'For part (b): state what\u2019s typical of the genre for this element FIRST, then check the extract against that.',
+      'For part (b): reach an actual verdict \u2014 don\u2019t just describe and stop.',
     ],
     history: [
+      { year: 'SAM 1(a)', text: 'How does this extract represent a version of reality? [10]', hl: true },
       { year: '2019', text: '(a) camera shots [8] / (b) settings, how typical of genre [12]' },
       { year: '2021', text: '(a) settings construct reality [10] / (b) how stereotypical are representations of men [10]' },
       { year: '2023', text: '(a) costumes create meaning [10] / (b) how typical are the locations [10]' },
       { year: '2025', text: '(a) camerawork creates meaning [10] / (b) how typical are the characters [10]' },
       { year: '2026', text: '(a) facial expressions/body language / (b) how typical is the camerawork', tag: 'this year' },
     ],
-    watchout: 'Part (b) is a judgement question in disguise — treat "how typical" and "how stereotypical" the same way you\u2019d treat "to what extent," with a genuine weighing-up, not a description.'
+    watchout: 'Part (b) is a judgement question in disguise \u2014 treat "how typical" the same way you\u2019d treat "to what extent," with a genuine weighing-up, not a description.',
+    interactive: {
+      dragdrop: {
+        title: 'Typical or Atypical of the crime drama genre?',
+        instruction: 'Sort each technique into the correct box for a TYPICAL crime drama.',
+        buckets: ['Typical of genre', 'Atypical / subverts genre'],
+        items: [
+          { text: 'Low-key, high-contrast lighting creating shadows and tension', bucket: 0 },
+          { text: 'Bright, cheerful daytime lighting throughout a confrontation scene', bucket: 1 },
+          { text: 'A brooding, morally complex detective as the protagonist', bucket: 0 },
+          { text: 'An upbeat pop soundtrack playing over a violent chase scene', bucket: 1 },
+          { text: 'Close-up shots of evidence to build enigma and suspense', bucket: 0 },
+          { text: 'A criminal shown as entirely sympathetic with no consequences for their actions', bucket: 1 },
+        ]
+      },
+      sentence: {
+        prompt: 'Write ONE judgement sentence about whether a technique is typical of a genre, giving a reason.',
+        keywordGroups: [
+          ['typical', 'atypical', 'conventional', 'subverts', 'unconventional'],
+          ['because', 'this suggests', 'whereas', 'unlike most']
+        ],
+        hint: 'A judgement word (typical/atypical/conventional) PLUS a reason clause \u2014 description alone isn\u2019t a judgement.',
+        exemplar: 'The use of low-key lighting is highly typical of the crime genre because it builds tension and suggests moral ambiguity, as audiences expect from this genre.'
+      }
+    }
   },
 
   {
@@ -8112,31 +8306,56 @@ var TQ_DATA = [
     colour: 'seca',
     thisYear: {
       text: 'Q2 (TV): Explain the impact of media convergence on the distribution of TV crime dramas, referring to examples you have studied. [10]\nQ4 (Music): Explain how online media reflects the culture and society in which it is produced, referring to the official website of Lizzo. [10]',
-      note: 'Q2 was the single weakest question on either exam paper this year (38.8% nationally) — this is the first time TV crime drama has been examined from an INDUSTRY angle rather than audiences or context, and "convergence" + "distribution" in one stem is a genuinely new combination.'
+      note: 'Q2 was the single weakest question on either exam paper this year (38.8% nationally) \u2014 the first time TV crime drama has been examined from an INDUSTRY angle rather than audiences or context.'
     },
     decode: [
-      { label: 'The trap', text: 'Unlike Q1 and Q3 (which are always the same "job" every year — extract analysis, and a 20-mark judgement essay), Q2 and Q4 rotate between THREE completely different areas of the theoretical framework: Industry, Audience, and Context. You cannot predict which one you\u2019ll get.' },
-      { label: 'Why that matters for revision', text: 'If you only revise "context" for this slot because that\u2019s what came up last year, you are gambling. You need all three areas (industry, audience, context) prepped and ready for BOTH the TV question and the Music question.' },
-      { label: 'This year\u2019s specific difficulty', text: 'Convergence and distribution are both abstract industry terms, and this is the first time they\u2019ve been combined in one question about TV crime drama specifically (previously this slot always asked about audiences or context for TV).' },
+      { label: 'The trap', text: 'Unlike Q1 and Q3 (always the same "job" every year), Q2 and Q4 rotate between THREE completely different areas: Industry, Audience, and Context. You cannot predict which one you\u2019ll get.' },
+      { label: 'Why that matters for revision', text: 'If you only revise "context" because that\u2019s what came up last year, you\u2019re gambling. You need all three areas prepped for BOTH the TV question and the Music question.' },
+      { label: 'This year\u2019s specific difficulty', text: 'Convergence and distribution are both abstract industry terms, combined in one question about TV crime drama for the first time.' },
     ],
     steps: [
-      'Identify which of the three areas this is (industry / audience / context) from the command word and key terms in the question.',
-      'If it\u2019s industry: think ownership, funding, regulation, convergence, distribution, production processes.',
-      'If it\u2019s audience: think targeting, reception, uses and gratifications, active/passive audiences.',
-      'If it\u2019s context: think how the historical/social/cultural/political moment shaped the product.',
-      'Whichever it is, use the NAMED product/example throughout — generic theory with no specific reference to the set text caps your mark.',
-      'For abstract terms like "convergence" or "distribution," define the term in your own words in one sentence before applying it — this shows the examiner you understand the term, not just that you\u2019ve memorised it.',
+      'Identify which of the three areas this is (industry / audience / context) from the command word and key terms.',
+      'If industry: think ownership, funding, regulation, convergence, distribution, production processes.',
+      'If audience: think targeting, reception, uses and gratifications, active/passive audiences.',
+      'If context: think how the historical/social/cultural/political moment shaped the product.',
+      'Whichever it is, use the NAMED product/example throughout.',
+      'For abstract terms like "convergence," define it in your own words in one sentence first.',
     ],
     history: [
-      { year: '2019 (TV)', text: 'Audiences — Uses & Gratifications, Luther' },
-      { year: '2022 (TV)', text: 'Context — social/cultural context, Luther' },
-      { year: '2024 (TV)', text: 'Audiences — digital technologies and consumption' },
-      { year: '2026 (TV)', text: 'Industry — convergence & distribution', tag: 'this year, new angle' },
-      { year: '2022 (Music)', text: 'Industry — how music websites make money' },
-      { year: '2024 (Music)', text: 'Context — how music videos reflect their time' },
-      { year: '2026 (Music)', text: 'Context — digitalisation, Lizzo website', tag: 'this year' },
+      { year: 'SAM 1', text: 'Industry: How do production processes influence crime dramas? [10]', hl: true },
+      { year: 'SAM 1', text: 'Context: How do crime dramas reflect the time in which they are made? [10]', hl: true },
+      { year: '2020 (TV)', text: 'Audience: Crime dramas aimed at a range of audiences [10]', hl: true },
+      { year: '2021 (TV)', text: 'Audience: Why might audience responses change over time? [10]', hl: true },
+      { year: '2023 (TV)', text: 'Context: How do media contexts influence crime dramas? [10]', hl: true },
+      { year: '2024 (TV)', text: 'Audience: How digital technologies change consumption [10]', hl: true },
+      { year: '2026 (TV)', text: 'Industry: Convergence & distribution', hl: true, tag: 'this year, new angle' },
+      { year: '2026 (Music)', text: 'Context: Digitalisation, Lizzo website', hl: true, tag: 'this year' },
     ],
-    watchout: 'This is the question type most worth over-preparing for, because it\u2019s genuinely unpredictable. Make sure you have industry, audience, AND context content ready for both the TV set texts and the Music set texts — not just whichever one came up last time.'
+    watchout: 'This is the question type most worth over-preparing for \u2014 genuinely unpredictable. Have industry, audience, AND context content ready for both the TV and Music set texts.',
+    interactive: {
+      dragdrop: {
+        title: 'Industry, Audience, or Context?',
+        instruction: 'Sort each question stem into the area it\u2019s really testing.',
+        buckets: ['Industry', 'Audience', 'Context'],
+        items: [
+          { text: 'Explain how ownership affects the production of...', bucket: 0 },
+          { text: 'Explain how different groups engage with...', bucket: 1 },
+          { text: 'Explain how the time period shaped...', bucket: 2 },
+          { text: 'Explain how convergence has changed the distribution of...', bucket: 0 },
+          { text: 'Explain why users interact with this website in different ways...', bucket: 1 },
+          { text: 'Explain how social attitudes are reflected in...', bucket: 2 },
+        ]
+      },
+      sentence: {
+        prompt: 'Define "convergence" OR "distribution" in your own words, in one sentence, with an example.',
+        keywordGroups: [
+          ['convergence', 'distribution'],
+          ['example', 'such as', 'means that', 'for instance']
+        ],
+        hint: 'A one-sentence definition in your own words PLUS a concrete example.',
+        exemplar: 'Convergence means different media technologies combining into one device, such as a smart TV that streams shows, browses the internet, and plays games.'
+      }
+    }
   },
 
   {
@@ -8148,35 +8367,58 @@ var TQ_DATA = [
     colour: 'secb',
     thisYear: {
       text: 'How far do these two music videos challenge stereotypes of social groups? [20]',
-      note: 'The wording "social groups" is deliberately broad — it can mean ethnicity, gender, social class, wealth, or several at once. Knowing WHICH social group to focus on is half the challenge.'
+      note: 'The wording "social groups" is deliberately broad \u2014 it can mean ethnicity, gender, social class, wealth, or several at once.'
     },
     decode: [
-      { label: 'The trap', text: 'This is Component 2\u2019s equivalent of Q2(b) — the biggest single question on the paper, always a "how far / to what extent" judgement about TWO set products, always with the same three bullet-point structure underneath.' },
-      { label: 'The extra trap this year', text: '"Social groups" isn\u2019t one thing. Past years have named the group directly (gender, ethnicity) — this year you have to decide for yourself which group(s) to focus on, and a vague answer that doesn\u2019t commit to a specific group loses marks.' },
-      { label: 'What "how far" means', text: 'You must reach a genuine verdict — do these videos challenge stereotypes A LOT, A LITTLE, or NOT AT ALL — and defend it with evidence from both videos, not just describe what happens in each.' },
+      { label: 'The trap', text: 'This is Component 2\u2019s equivalent of Q2(b) \u2014 the biggest single question on the paper, always a "how far" judgement about TWO products, always the same three-bullet structure underneath.' },
+      { label: 'The extra trap this year', text: '"Social groups" isn\u2019t one thing. Past years named the group directly (gender, ethnicity) \u2014 this year you decide, and a vague answer that doesn\u2019t commit to a specific group loses marks.' },
+      { label: 'What "how far" means', text: 'You must reach a genuine verdict \u2014 A LOT, A LITTLE, or NOT AT ALL \u2014 and defend it with evidence from both videos.' },
     ],
     steps: [
-      'Pick ONE specific social group to focus your answer on (e.g. gender, or ethnicity, or social class) — don\u2019t try to cover all of them thinly.',
-      'State your overall judgement early: do these videos challenge or reinforce stereotypes of that group? You can complicate this later, but commit to a position first.',
-      'For each video, find one moment that supports your judgement and one that complicates it (nothing is ever 100% one thing) — use both.',
-      'Compare the two videos directly using connectives ("whereas," "similarly," "unlike") rather than discussing them in two separate halves.',
-      'Refer to relevant theory or context (e.g. feminist theory, representation theory) by name where it fits.',
-      'End with a conclusion that actually answers "how far" — a number-free verdict like "largely" / "to a limited extent" / "significantly."',
+      'Pick ONE specific social group to focus your answer on \u2014 don\u2019t try to cover all of them thinly.',
+      'State your overall judgement early: challenge or reinforce? Commit to a position first.',
+      'For each video, find one moment that supports your judgement and one that complicates it.',
+      'Compare the two videos directly using connectives, not two separate halves.',
+      'Refer to relevant theory or context by name where it fits.',
+      'End with a conclusion that actually answers "how far" \u2014 "largely" / "to a limited extent" / "significantly."',
     ],
     history: [
       { year: '2021', text: 'How typical are the narratives of the two music videos? [20]' },
       { year: '2022', text: 'How far do these two music videos reinforce gender stereotypes? [20]' },
       { year: '2023', text: 'How stereotypical is the representation of ethnicity? [20]' },
-      { year: '2024', text: 'How far do these two products challenge the conventions of music videos? [20]' },
-      { year: '2025', text: 'How far do music videos represent social issues? [20]' },
-      { year: '2026', text: 'How far do these two music videos challenge stereotypes of social groups?', tag: 'this year' },
+      { year: '2024', text: 'How far do these two products challenge the conventions of music videos? [20]', hl: true },
+      { year: '2025', text: 'How far do music videos represent social issues? [20]', hl: true },
+      { year: '2026', text: 'How far do these two music videos challenge stereotypes of social groups?', hl: true, tag: 'this year' },
     ],
-    watchout: 'When a question uses a broad, undefined term ("social groups," "social issues," "conventions"), the FIRST thing to do is narrow it down to something specific yourself — don\u2019t let the vagueness of the question make your answer vague too.'
+    watchout: 'When a question uses a broad, undefined term ("social groups," "social issues"), the FIRST thing to do is narrow it down to something specific yourself.',
+    interactive: {
+      dragdrop: {
+        title: 'Challenges or Reinforces the stereotype?',
+        instruction: 'Sort each moment from a music video into the correct box.',
+        buckets: ['Challenges stereotype', 'Reinforces stereotype'],
+        items: [
+          { text: 'A male artist is shown crying openly and discussing his emotions', bucket: 0 },
+          { text: 'Women in the video are shown only as background dancers with no dialogue', bucket: 1 },
+          { text: 'A working-class character is portrayed as intelligent and articulate, defying assumptions', bucket: 0 },
+          { text: 'The video only features conventionally attractive, able-bodied performers', bucket: 1 },
+          { text: 'An artist from a marginalised group is shown in a position of authority and control', bucket: 0 },
+          { text: 'Wealth is repeatedly equated with happiness and success throughout the video', bucket: 1 },
+        ]
+      },
+      sentence: {
+        prompt: 'Write ONE verdict sentence answering "how far" \u2014 pick a degree word and back it with a reason.',
+        keywordGroups: [
+          ['largely', 'significantly', 'to a limited extent', 'to some extent', 'entirely', 'partially'],
+          ['because', 'as', 'this is shown by', 'evidenced by']
+        ],
+        hint: 'A degree/hedging word ("largely," "to a limited extent") is what makes this a JUDGEMENT rather than a description.',
+        exemplar: 'These music videos largely challenge gender stereotypes, as both feature artists defying traditional expectations through assertive lyrics and non-conforming visual choices.'
+      }
+    }
   },
 ];
 
-// Tariff → generic band descriptor (from the official generic assessment grids,
-// which stay the same shape every year even though the topic changes)
+// Tariff → generic band descriptor (reference panel under each card)
 var TQ_BANDS = {
   '5': [
     { band: '5 marks', text: 'Excellent, detailed analysis with consistent focus on how specific codes/conventions are used.' },
@@ -8189,6 +8431,14 @@ var TQ_BANDS = {
   '4': [
     { band: '3-4 marks', text: '2 marks per valid point: 1 for naming the mechanism, 1 for explaining what it does.' },
     { band: '1-2 marks', text: 'Points named but with little or no explanation of what they do.' },
+    { band: '0', text: 'No response, or nothing worthy of credit.' },
+  ],
+  '10': [
+    { band: '9-10 marks', text: 'Excellent, thorough, accurate, DETAILED knowledge specific to the named product; excellent terminology.' },
+    { band: '7-8 marks', text: 'Good, secure understanding; accurate knowledge specific to the product.' },
+    { band: '5-6 marks', text: 'Satisfactory but less developed; sometimes generic rather than product-specific.' },
+    { band: '3-4 marks', text: 'Basic understanding; limited product-specific detail.' },
+    { band: '1-2 marks', text: 'Minimal, if any, understanding.' },
     { band: '0', text: 'No response, or nothing worthy of credit.' },
   ],
   '12': [
@@ -8217,9 +8467,10 @@ var TQ_BANDS = {
 };
 
 
-// ============ TRICKY QUESTIONS DECODER — logic ============
+// ============ TRICKY QUESTIONS DECODER — logic (v2, interactive) ============
 (function(){
   var TQ_STORE_KEY = 'tqConfidence_v1';
+  var TQ_DND_STATE = {}; // per-question drag/drop working state, kept in memory only
 
   function tqLoadStore(){
     try { return JSON.parse(localStorage.getItem(TQ_STORE_KEY)) || {}; }
@@ -8235,10 +8486,10 @@ var TQ_BANDS = {
     var store = tqLoadStore();
     grid.innerHTML = TQ_DATA.map(function(q){
       var rating = store[q.id];
-      var icon = rating === 3 ? '🟢' : rating === 2 ? '🟡' : rating === 1 ? '🔴' : '';
+      var icon = rating === 3 ? '\uD83D\uDFE2' : rating === 2 ? '\uD83D\uDFE1' : rating === 1 ? '\uD83D\uDD34' : '';
       return '<button class="tq-card-btn ' + q.colour + '" data-id="' + q.id + '" onclick="tqOpenCard(\'' + q.id + '\', this)">' +
         (icon ? '<span class="tq-card-status">' + icon + '</span>' : '') +
-        '<div class="tq-card-badge">' + q.comp + ' · ' + q.badge + '</div>' +
+        '<div class="tq-card-badge">' + q.comp + ' \u00b7 ' + q.badge + '</div>' +
         '<div class="tq-card-title">' + q.title + '</div>' +
         '<div class="tq-card-tariff">' + q.tariff + '</div>' +
         '</button>';
@@ -8256,8 +8507,180 @@ var TQ_BANDS = {
     if (count) count.textContent = green + ' / ' + total + ' rated green';
   }
 
+  function tqEsc(s){
+    return String(s).replace(/'/g, "\\'");
+  }
+
+  // ---------- Drag & drop (tap-to-place, touch-friendly) ----------
+  function tqInitDndState(q){
+    var dd = q.interactive.dragdrop;
+    var shuffled = dd.items.map(function(item, idx){ return { item: item, origIdx: idx }; });
+    // simple shuffle
+    for (var i = shuffled.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = tmp;
+    }
+    TQ_DND_STATE[q.id] = {
+      order: shuffled.map(function(s){ return s.origIdx; }),
+      placed: {},      // origIdx -> bucketIdx (or position for 'order' mode)
+      selected: null,  // currently tapped chip origIdx
+      checked: false
+    };
+  }
+
+  function tqRenderDnd(qid){
+    var q = TQ_DATA.filter(function(x){ return x.id === qid; })[0];
+    if (!q) return '';
+    var dd = q.interactive.dragdrop;
+    var state = TQ_DND_STATE[qid];
+    var isOrderMode = dd.mode === 'order';
+
+    var chipsHtml = state.order.filter(function(idx){ return state.placed[idx] === undefined; }).map(function(idx){
+      var item = dd.items[idx];
+      var selected = state.selected === idx;
+      return '<div class="tq-chip' + (selected ? ' selected' : '') + '" onclick="tqSelectChip(\'' + qid + '\',' + idx + ')">' + item.text + '</div>';
+    }).join('');
+    if (!chipsHtml) chipsHtml = '<div class="tq-chip-empty">All sorted! Check your answers below.</div>';
+
+    var bucketsHtml = dd.buckets.map(function(label, bIdx){
+      var itemsInBucket = Object.keys(state.placed).filter(function(idx){ return state.placed[idx] === bIdx; });
+      var itemsHtml = itemsInBucket.map(function(idxStr){
+        var idx = parseInt(idxStr, 10);
+        var item = dd.items[idx];
+        var cls = 'tq-placed-chip';
+        if (state.checked) {
+          var correctBucket = isOrderMode ? item.order : item.bucket;
+          cls += (correctBucket === bIdx) ? ' correct' : ' incorrect';
+        }
+        return '<div class="' + cls + '" onclick="' + (state.checked ? '' : 'tqUnplaceChip(\'' + qid + '\',' + idx + ')') + '">' + item.text + '</div>';
+      }).join('');
+      return '<div class="tq-bucket" onclick="tqPlaceSelected(\'' + qid + '\',' + bIdx + ')">' +
+        '<div class="tq-bucket-label">' + label + '</div>' +
+        '<div class="tq-bucket-items">' + (itemsHtml || '<div class="tq-bucket-hint">Tap a card, then tap here</div>') + '</div>' +
+        '</div>';
+    }).join('');
+
+    var allPlaced = Object.keys(state.placed).length === dd.items.length;
+
+    return '<div class="tq-dnd-wrap">' +
+      '<div class="tq-dnd-title">\uD83C\uDFAF ' + dd.title + '</div>' +
+      '<div class="tq-dnd-instruction">' + dd.instruction + '</div>' +
+      '<div class="tq-chip-pool" id="tqChipPool-' + qid + '">' + chipsHtml + '</div>' +
+      '<div class="tq-bucket-row tq-bucket-row-' + dd.buckets.length + '">' + bucketsHtml + '</div>' +
+      '<div class="tq-dnd-actions">' +
+        '<button class="tq-mini-btn" onclick="tqCheckDnd(\'' + qid + '\')" ' + (allPlaced ? '' : 'disabled') + '>Check my sorting</button>' +
+        '<button class="tq-mini-btn tq-mini-btn-ghost" onclick="tqResetDnd(\'' + qid + '\')">Reset &amp; shuffle</button>' +
+        '<span class="tq-dnd-feedback" id="tqDndFeedback-' + qid + '"></span>' +
+      '</div>' +
+    '</div>';
+  }
+
+  window.tqSelectChip = function(qid, idx){
+    var state = TQ_DND_STATE[qid];
+    if (!state || state.checked) return;
+    state.selected = (state.selected === idx) ? null : idx;
+    tqRefreshDnd(qid);
+  };
+
+  window.tqPlaceSelected = function(qid, bucketIdx){
+    var state = TQ_DND_STATE[qid];
+    if (!state || state.checked || state.selected === null) return;
+    state.placed[state.selected] = bucketIdx;
+    state.selected = null;
+    tqRefreshDnd(qid);
+  };
+
+  window.tqUnplaceChip = function(qid, idx){
+    var state = TQ_DND_STATE[qid];
+    if (!state || state.checked) return;
+    delete state.placed[idx];
+    tqRefreshDnd(qid);
+  };
+
+  window.tqCheckDnd = function(qid){
+    var q = TQ_DATA.filter(function(x){ return x.id === qid; })[0];
+    var state = TQ_DND_STATE[qid];
+    if (!q || !state) return;
+    state.checked = true;
+    var dd = q.interactive.dragdrop;
+    var isOrderMode = dd.mode === 'order';
+    var correct = 0;
+    dd.items.forEach(function(item, idx){
+      var target = isOrderMode ? item.order : item.bucket;
+      if (state.placed[idx] === target) correct++;
+    });
+    tqRefreshDnd(qid);
+    var fb = document.getElementById('tqDndFeedback-' + qid);
+    if (fb) {
+      var total = dd.items.length;
+      var pct = Math.round((correct/total)*100);
+      var msg = correct === total ? '\uD83C\uDF89 All ' + total + ' correct!' : correct + ' / ' + total + ' correct \u2014 red ones need another look.';
+      fb.textContent = msg;
+      fb.className = 'tq-dnd-feedback ' + (correct === total ? 'tq-fb-perfect' : 'tq-fb-partial');
+    }
+  };
+
+  window.tqResetDnd = function(qid){
+    var q = TQ_DATA.filter(function(x){ return x.id === qid; })[0];
+    if (!q) return;
+    tqInitDndState(q);
+    tqRefreshDnd(qid);
+    var fb = document.getElementById('tqDndFeedback-' + qid);
+    if (fb) { fb.textContent = ''; fb.className = 'tq-dnd-feedback'; }
+  };
+
+  function tqRefreshDnd(qid){
+    var el = document.getElementById('tqDndArea-' + qid);
+    if (el) el.innerHTML = tqRenderDnd(qid);
+  }
+
+  // ---------- Sentence self-check ----------
+  window.tqCheckSentence = function(qid){
+    var q = TQ_DATA.filter(function(x){ return x.id === qid; })[0];
+    if (!q) return;
+    var ta = document.getElementById('tqSentenceInput-' + qid);
+    var resultEl = document.getElementById('tqSentenceResult-' + qid);
+    if (!ta || !resultEl) return;
+    var text = (ta.value || '').toLowerCase().trim();
+
+    if (text.length < 8) {
+      resultEl.className = 'tq-sentence-result tq-sr-warn';
+      resultEl.innerHTML = 'Write a full sentence first \u2014 you\u2019ve got this!';
+      return;
+    }
+
+    var groups = q.interactive.sentence.keywordGroups;
+    var groupResults = groups.map(function(group){
+      return group.some(function(kw){ return text.indexOf(kw.toLowerCase()) !== -1; });
+    });
+    var metCount = groupResults.filter(Boolean).length;
+    var allMet = metCount === groups.length;
+
+    var attemptsEl = document.getElementById('tqSentenceAttempts-' + qid);
+    var attempts = attemptsEl ? (parseInt(attemptsEl.dataset.count || '0', 10) + 1) : 1;
+    if (attemptsEl) attemptsEl.dataset.count = attempts;
+
+    if (allMet) {
+      resultEl.className = 'tq-sentence-result tq-sr-good';
+      resultEl.innerHTML = '\u2705 <strong>Nice \u2014 that hits the key ingredients.</strong> Compare with the exemplar below to see another way to phrase it.' +
+        '<div class="tq-exemplar"><strong>Exemplar:</strong> ' + q.interactive.sentence.exemplar + '</div>';
+    } else {
+      resultEl.className = 'tq-sentence-result tq-sr-retry';
+      resultEl.innerHTML = '\uD83D\uDD04 <strong>Not quite yet (attempt ' + attempts + ') \u2014 try again.</strong><br>' + q.interactive.sentence.hint;
+    }
+  };
+
+  window.tqShowExemplar = function(qid){
+    var q = TQ_DATA.filter(function(x){ return x.id === qid; })[0];
+    if (!q) return;
+    var el = document.getElementById('tqSentenceResult-' + qid);
+    if (el) {
+      el.className = 'tq-sentence-result tq-sr-good';
+      el.innerHTML = '<div class="tq-exemplar"><strong>Exemplar:</strong> ' + q.interactive.sentence.exemplar + '</div>';
+    }
+  };
+
   function tqBandsKeyFromTariff(tariffStr){
-    // tariffStr like "/5" or "/12 each" or "/5 and /10 (15 total)"
     var m = tariffStr.match(/\/(\d+)/g);
     if (!m) return null;
     return m.map(function(x){ return x.replace('/',''); });
@@ -8272,6 +8695,8 @@ var TQ_BANDS = {
     var store = tqLoadStore();
     var currentRating = store[id];
 
+    tqInitDndState(q);
+
     var decodeHtml = q.decode.map(function(d){
       return '<div class="tq-decode-item"><div class="tq-decode-label">' + d.label + '</div><div class="tq-decode-text">' + d.text + '</div></div>';
     }).join('');
@@ -8281,7 +8706,8 @@ var TQ_BANDS = {
     var historyHtml = q.history.map(function(h){
       var yrClass = h.tag ? 'thisyear' : '';
       var tag = h.tag ? '<span class="tq-history-tag">' + h.tag + '</span>' : '';
-      return '<div class="tq-history-row"><span class="tq-history-year ' + yrClass + '">' + h.year + '</span><span class="tq-history-text">' + h.text + tag + '</span></div>';
+      var star = h.hl ? '<span class="tq-history-star" title="Flagged as a key example">\u2605</span>' : '';
+      return '<div class="tq-history-row"><span class="tq-history-year ' + yrClass + '">' + h.year + '</span><span class="tq-history-text">' + star + h.text + tag + '</span></div>';
     }).join('');
 
     var tariffKeys = tqBandsKeyFromTariff(q.tariff) || [];
@@ -8298,36 +8724,57 @@ var TQ_BANDS = {
 
     var noteHtml = q.thisYear.note ? '<div class="tq-thisyear-note">' + q.thisYear.note + '</div>' : '';
 
+    var sentenceData = q.interactive.sentence;
+
     var html =
       '<div class="tq-detail open"><div class="tq-detail-card">' +
         '<div class="tq-detail-head">' +
           '<div class="tq-detail-badges"><span class="badge badge-comp ' + (q.comp==='C1'?'c1':'c2') + '">' + q.comp + '</span><span class="badge badge-marks">' + q.tariff + '</span></div>' +
-          '<div class="tq-detail-title">' + q.badge + ' — ' + q.title + '</div>' +
+          '<div class="tq-detail-title">' + q.badge + ' \u2014 ' + q.title + '</div>' +
           '<div class="tq-detail-comp">' + q.compFull + '</div>' +
         '</div>' +
 
         '<div class="tq-section">' +
-          '<div class="tq-section-label">📌 This year\'s question</div>' +
+          '<div class="tq-section-label">\uD83D\uDCCC This year\'s question</div>' +
           '<div class="tq-thisyear-box"><div class="tq-thisyear-q">' + q.thisYear.text + '</div>' + noteHtml + '</div>' +
         '</div>' +
 
         '<div class="tq-section">' +
-          '<div class="tq-section-label">🔍 What it\'s actually asking</div>' +
+          '<div class="tq-section-label">\uD83D\uDD0D What it\'s actually asking</div>' +
           decodeHtml +
         '</div>' +
 
         '<div class="tq-section">' +
-          '<div class="tq-section-label">🪜 Step-by-step approach</div>' +
+          '<div class="tq-section-label">\uD83E\uDE9C Step-by-step approach</div>' +
           stepsHtml +
         '</div>' +
 
+        '<div class="tq-section tq-section-interactive">' +
+          '<div class="tq-section-label">\uD83C\uDFAE Try it yourself</div>' +
+          '<div id="tqDndArea-' + id + '">' + tqRenderDnd(id) + '</div>' +
+        '</div>' +
+
+        '<div class="tq-section tq-section-interactive">' +
+          '<div class="tq-section-label">\u270D\uFE0F Write your own sentence</div>' +
+          '<div class="tq-sentence-prompt">' + sentenceData.prompt + '</div>' +
+          '<textarea class="tq-sentence-input" id="tqSentenceInput-' + id + '" rows="3" placeholder="Type your sentence here..."></textarea>' +
+          '<div class="tq-sentence-actions">' +
+            '<button class="tq-mini-btn" onclick="tqCheckSentence(\'' + id + '\')">Check my sentence</button>' +
+            '<button class="tq-mini-btn tq-mini-btn-ghost" onclick="tqShowExemplar(\'' + id + '\')">Show me an exemplar</button>' +
+            '<span id="tqSentenceAttempts-' + id + '" data-count="0" style="display:none;"></span>' +
+          '</div>' +
+          '<div class="tq-sentence-result" id="tqSentenceResult-' + id + '"></div>' +
+          '<div class="tq-sentence-note">You can try as many times as you like \u2014 this checks for the key ingredients of a good answer, not exact wording.</div>' +
+        '</div>' +
+
         '<div class="tq-section">' +
-          '<div class="tq-section-label">📜 How this has been asked before (2019-2026)</div>' +
+          '<div class="tq-section-label">\uD83D\uDCDC How this has been asked before (2019-2026)</div>' +
+          '<div class="tq-history-hint">\u2605 = flagged as a key example to know</div>' +
           historyHtml +
         '</div>' +
 
         (bandsHtml ? '<div class="tq-section">' +
-          '<button class="tq-bands-toggle" onclick="tqToggleBands(this)">Show official mark scheme bands ▾</button>' +
+          '<button class="tq-bands-toggle" onclick="tqToggleBands(this)">Show official mark scheme bands \u25be</button>' +
           '<div class="tq-bands-table">' + bandsHtml + '</div>' +
         '</div>' : '') +
 
@@ -8338,9 +8785,9 @@ var TQ_BANDS = {
         '<div class="tq-assess-box">' +
           '<div class="tq-assess-label">How confident do you feel tackling this question type now?</div>' +
           '<div class="tq-assess-buttons">' +
-            '<button class="tq-assess-btn" data-v="1" onclick="tqRate(\'' + id + '\',1,this)">🔴 Still shaky</button>' +
-            '<button class="tq-assess-btn" data-v="2" onclick="tqRate(\'' + id + '\',2,this)">🟡 Getting there</button>' +
-            '<button class="tq-assess-btn" data-v="3" onclick="tqRate(\'' + id + '\',3,this)">🟢 Confident</button>' +
+            '<button class="tq-assess-btn" data-v="1" onclick="tqRate(\'' + id + '\',1,this)">\uD83D\uDD34 Still shaky</button>' +
+            '<button class="tq-assess-btn" data-v="2" onclick="tqRate(\'' + id + '\',2,this)">\uD83D\uDFE1 Getting there</button>' +
+            '<button class="tq-assess-btn" data-v="3" onclick="tqRate(\'' + id + '\',3,this)">\uD83D\uDFE2 Confident</button>' +
           '</div>' +
         '</div>' +
       '</div></div>';
@@ -8359,7 +8806,7 @@ var TQ_BANDS = {
   window.tqToggleBands = function(btn){
     var table = btn.nextElementSibling;
     table.classList.toggle('open');
-    btn.textContent = table.classList.contains('open') ? 'Hide official mark scheme bands ▴' : 'Show official mark scheme bands ▾';
+    btn.textContent = table.classList.contains('open') ? 'Hide official mark scheme bands \u25b4' : 'Show official mark scheme bands \u25be';
   };
 
   window.tqRate = function(id, val, btn){
@@ -8370,7 +8817,6 @@ var TQ_BANDS = {
     container.querySelectorAll('.tq-assess-btn').forEach(function(b){ b.classList.remove('selected'); });
     btn.classList.add('selected');
     tqRenderGrid();
-    // re-select the active card button visually
     var cardBtn = document.querySelector('.tq-card-btn[data-id="' + id + '"]');
     if (cardBtn) cardBtn.classList.add('active');
   };
