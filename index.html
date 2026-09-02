@@ -2446,6 +2446,34 @@ trRenderC2();trBuildC2Sidebar();trC2Insights();
 .fq-pool2-btn:disabled { border-color:#aaa; color:#aaa; cursor:default; background:transparent; }
 @keyframes fq-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 .fq-ai-btn.loading { animation:fq-pulse 1.2s ease-in-out infinite; }
+
+/* ── "Apply it" official-website drag/tap activity ── */
+.fqwa-wrap { margin-top:1.6rem; background:#faf8f4; border:1px solid var(--border); border-radius:2px; padding:1.1rem 1.2rem; }
+.fqwa-title { font-family:'Syne',sans-serif; font-size:0.92rem; font-weight:800; color:var(--ink); margin:0 0 0.35rem; }
+.fqwa-sub { font-size:0.78rem; color:var(--muted); margin:0 0 0.9rem; line-height:1.6; }
+.fqwa-scorebar { display:flex; align-items:center; gap:0.7rem; margin-bottom:0.9rem; flex-wrap:wrap; }
+.fqwa-score { font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--ink); font-weight:700; }
+.fqwa-reset { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; text-transform:uppercase; letter-spacing:1px; background:transparent; border:1px solid var(--border); color:var(--muted); padding:0.28rem 0.65rem; border-radius:2px; cursor:pointer; }
+.fqwa-reset:hover { border-color:var(--ink); color:var(--ink); }
+.fqwa-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:start; }
+@media (max-width:640px){ .fqwa-grid { grid-template-columns:1fr; } }
+.fqwa-col-label { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:0.5rem; }
+.fqwa-pool { display:flex; flex-direction:column; gap:0.5rem; min-height:40px; }
+.fqwa-item { background:var(--card); border:1.5px solid var(--border); border-radius:2px; padding:0.5rem 0.65rem; font-size:0.78rem; line-height:1.45; color:var(--ink); cursor:grab; transition:border-color .15s, background .15s, transform .1s, box-shadow .15s; }
+.fqwa-item:hover { border-color:var(--gold); }
+.fqwa-item.selected { border-color:var(--gold); background:#fffbf0; box-shadow:0 0 0 2px rgba(200,160,40,0.25); }
+.fqwa-item.dragging { opacity:0.45; }
+.fqwa-item.shake { animation:fqwa-shake 0.35s; }
+@keyframes fqwa-shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+.fqwa-zones { display:flex; flex-direction:column; gap:0.5rem; }
+.fqwa-zone { border:1.5px dashed var(--border); border-radius:2px; padding:0.45rem 0.6rem; min-height:50px; transition:border-color .15s, background .15s; }
+.fqwa-zone.drag-over { border-color:var(--gold); background:#fffbf0; }
+.fqwa-zone.filled { border-style:solid; border-color:#2e7d5e; background:#f0f8f3; }
+.fqwa-zone-label { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; font-weight:700; color:var(--ink); display:flex; align-items:center; gap:0.45rem; line-height:1.3; }
+.fqwa-zone-num { display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px; border-radius:50%; background:#7a1a48; color:#fff; font-size:0.58rem; flex-shrink:0; }
+.fqwa-zone.filled .fqwa-zone-num { background:#2e7d5e; }
+.fqwa-placed { font-size:0.76rem; line-height:1.4; color:#1a5a3a; margin-top:0.35rem; }
+.fqwa-done { margin-top:0.95rem; padding:0.7rem 0.9rem; background:#eaf6ef; border:1px solid #9dccb3; border-radius:2px; font-size:0.8rem; color:#1a5a3a; line-height:1.55; display:none; }
 </style>
 
 <!-- MODE SWITCHER -->
@@ -2637,7 +2665,8 @@ nttd: {
     { head: 'Media Language — Intertextuality & Narrative', tag:'ml', body: `<ul><li><strong>Montage design</strong> (overlapping images) → references previous Bond films, providing familiarity and nostalgia</li><li><strong>Gun logo</strong> = intertextual link to the entire Bond franchise</li><li>No reference to Ian Fleming on this poster → departure from previous films; signifies this is not based on one of his original books</li><li><strong>Exotic locations</strong> (Italy, Cuba) contrasted using warm daylight vs cold neon night for Bar El Nido</li><li>Villain in Noh mask → Noh masks used for ghostly/demonic characters in Japanese theatre = enigma code (Barthes)</li><li>No actor name text on poster → producers confident audiences recognise Daniel Craig; text would detract from the visuals</li></ul>` },
     { head: 'Representation — Gender', tag:'rep', body: `<ul><li>Bond pictured three times — in all instances connotes skill, intelligence and strength</li><li>Thoughtful, care-worn facial expression → reflects more contemporary ideas of masculinity</li><li>Safin (Rami Malek) is second most dominant character → main protagonist and antagonist both male; reflects male-dominated franchise</li><li>All three women on poster are represented using key light and make-up as beautiful → Hollywood convention</li><li>Nomi and Swann given agency through guns — their posture connotes confidence; they are independent, not 'damsels in distress' or 'Proppian princesses'</li><li>Phoebe Waller-Bridge hired as script writer (only the second ever female Bond screenwriter) to develop female characters</li></ul>` },
     { head: 'Industry — Production & Distribution', tag:'ind', body: `<ul><li>Produced by <strong>EON Productions</strong> (British, London-based)</li><li>First Bond film distributed by <strong>Universal Pictures</strong> — acquired international rights after Sony Pictures' contract expired post-<em>Spectre</em></li><li>United Artists Releasing (owned by MGM) holds North America rights + worldwide digital and TV rights</li><li><strong>Amazon bought MGM in 2021</strong> → acquired rights to stream the entire Bond catalogue on Amazon Prime</li><li>Filmed in Italy, Jamaica, Norway, Faroe Islands and Pinewood Studios, London</li><li>Soundtrack by <strong>Billie Eilish</strong> on Interscope (owned by Universal) → star appeal, synergy and convergence</li><li>Brand relationships with Nokia, Triumph, Omega → product placement funding</li></ul>` },
-    { head: 'Industry — Regulation & Audience', tag:'ind', body: `<ul><li>UK cinema release rated <strong>12A</strong>; physical media and VOD streaming rated <strong>15</strong></li><li>Film production stages: development → pre-production → production → post-production → distribution</li><li>The Bond franchise has an established fan base — a US/UK co-production with global theatrical + DVD/Blu-ray + VOD distribution reaching a mass audience</li><li><em>No Time to Die</em> makes an active effort to appeal to contemporary audiences less likely to tolerate the flimsy gender and racial stereotypes of past Bond films</li><li>Specialised audience of core Bond fans still reached through nostalgia and typical narrative conventions</li></ul>` }
+    { head: 'Industry — Regulation & Audience', tag:'ind', body: `<ul><li>UK cinema release rated <strong>12A</strong>; physical media and VOD streaming rated <strong>15</strong></li><li>Film production stages: development → pre-production → production → post-production → distribution</li><li>The Bond franchise has an established fan base — a US/UK co-production with global theatrical + DVD/Blu-ray + VOD distribution reaching a mass audience</li><li><em>No Time to Die</em> makes an active effort to appeal to contemporary audiences less likely to tolerate the flimsy gender and racial stereotypes of past Bond films</li><li>Specialised audience of core Bond fans still reached through nostalgia and typical narrative conventions</li></ul>` },
+    { head: 'Industry — The Official Website (007.com)', tag:'ind', body: `<p><em>No Time to Die</em> and the wider Bond franchise are promoted through the <strong>official website 007.com</strong>. An official website is never just an advert — it serves many purposes at once:</p><ul><li><strong>1. A central hub</strong> — brings together news, the films, cast information and trailers for the whole franchise in one place</li><li><strong>2. Maintains interest between releases</strong> — updated with anniversary features and "Bond is back" news to keep fans engaged in the long gaps between films</li><li><strong>3. Targets different audience segments</strong> — sections for the films, the novels, music and merchandise appeal to different kinds of Bond fan</li><li><strong>4. Generates revenue</strong> — the 007 Store sells merchandise, and the site drives cinema-ticket and streaming sales</li><li><strong>5. Collects audience data</strong> — a newsletter sign-up builds a mailing list of Bond fans for targeted marketing</li><li><strong>6. Links to social media</strong> — links out to the official 007 Instagram, YouTube, Facebook and X</li><li><strong>7. Promotes synergy &amp; brand partnerships</strong> — showcases product-placement partners such as Omega, Aston Martin, Nokia and Bollinger</li><li><strong>8. Gives producers control over brand image</strong> — EON and the producers control the official imagery and narrative, protecting the Bond brand (unlike reviews or social media)</li></ul>` }
   ]
 },
 
@@ -2671,6 +2700,7 @@ sun: {
     { head: 'Media Language — Language & Endorsements', tag:'ml', body: `<ul><li><strong>Pull quotes</strong> from Gary Lineker and Kate Garraway — trusted celebrities with personal Covid experiences → endorsements</li><li><strong>"The Sun says…"</strong> → suggests the paper has real influence; uses flattery ("our fantastic readers") to encourage involvement</li><li>Collective pronouns "us" and "we" + direct address "YOU" → jingoistic tone; creates community</li><li>Off-lead story: Boris Johnson with thumbs up + <strong>"PM: Britain Brexpects"</strong> → intertextual link to Churchill and Nelson speeches; aligns Johnson with great British leaders; clearly pro-Johnson, pro-Brexit ideology</li><li>Barthes' <strong>enigma codes</strong>: headlines tease readers into reading stories</li></ul>` },
     { head: 'Representation — Events & Issues', tag:'rep', body: `<ul><li>Covid-19 represented as an <strong>enemy</strong> — pandemic framed as a war; nationalistic imagery (Union Flag, Big Ben) reinforces this</li><li>Getting vaccinated represented as a <strong>positive act of national pride and urgency</strong></li><li>Brexit represented positively in the off-lead → terms like "heralded" and "dawn" imply a great future away from the EU</li><li>Militaristic language ("frontline", "heroes", "fight and battle disease") is so embedded it has become <strong>normalised</strong> by audiences</li></ul>` },
     { head: 'Industry — Production & Funding', tag:'ind', body: `<ul><li>Newspapers are <strong>self-regulated</strong>; editors follow the Editors' Code of Practice; complaints go to <strong>IPSO</strong></li><li>Revenue from <strong>advertising + cover price</strong>; the internet disrupted this as news was given away free and Google/Facebook captured advertising</li><li><strong>Advertorials</strong>: content written by journalists that looks like editorial but is actually paid-for advertising — carries more weight as it has apparent journalistic validation</li><li>Online content free at thesun.co.uk; digital edition available at £4.99/week via The Sun app</li><li>Diversification: Sun Vegas, Sun Bets, Sun Hols → additional revenue streams beyond journalism</li></ul>` },
+    { head: 'Industry — The Official Website (thesun.co.uk)', tag:'ind', body: `<p>Alongside the print paper, The Sun runs the <strong>official website thesun.co.uk</strong>. For a modern newspaper the website is central to the business, serving many purposes at once:</p><ul><li><strong>1. A central hub</strong> — gathers news, sport, showbiz, TV and money content in one online destination</li><li><strong>2. Maintains interest between editions</strong> — updated 24/7 with breaking news, so readers return even when there is no new print edition</li><li><strong>3. Targets different audience segments</strong> — sub-sections (Sport, Dear Deidre, Fabulous, Sun Money) widen appeal beyond the older C2DE print reader to younger online users</li><li><strong>4. Generates revenue</strong> — advertising, advertorials, Sun Vegas/Sun Bets and the £4.99/week digital subscription</li><li><strong>5. Collects audience data</strong> — account registration and newsletter sign-ups build a database for targeted marketing</li><li><strong>6. Links to social media</strong> — links to The Sun's Facebook, X, TikTok and YouTube (and it supplies free content to Apple News)</li><li><strong>7. Promotes synergy &amp; brand partnerships</strong> — cross-promotes other News UK brands (Sun Bingo, Sun Savers, Dream Team) and advertiser tie-ins</li><li><strong>8. Gives producers control over brand image</strong> — News UK controls exactly what is published, presenting its chosen editorial and political stance</li></ul>` },
     { head: 'Audiences', tag:'aud', body: `<ul><li>Print: majority <strong>male, C2DE, aged 35–64</strong>; online: up to <strong>60% below age 34</strong></li><li><strong>Reading age of 8</strong> (UK average 9) → accessible to those with weaker literacy; bold words, lots of visuals, smaller text chunks</li><li>Sun Hols token promotions → appeals to low-income demographics; builds brand loyalty</li><li><strong>Active vs passive audience</strong>: historically print readers seen as passive (believing what they read); now understood audiences are active — they read according to their own beliefs and values</li><li>The Sun supplies free content to <strong>Apple News</strong> → 23% of page views; reaches beyond its traditional target audience</li></ul>` }
   ]
 },
@@ -2682,6 +2712,7 @@ fortnite: {
     { head: 'Gameplay', tag:'ctx', body: `<p>100 players drop from a flying bus onto a deserted island. The aim is to fight to the death — last player standing wins. Players seek weapons and materials, demolish and rebuild structures into forts and towers. As the game continues, a storm encroaches, driving players into smaller areas and forcing conflict. Fortnite is a fusion of <strong>battle games</strong> (like Battlegrounds) and <strong>construction games</strong> (like Minecraft).</p>` },
     { head: 'Industry — Technology & Convergence', tag:'ind', body: `<ul><li>Fortnite can be accessed on <strong>consoles, PCs, laptops, smartphones and tablets</strong> — can switch between devices mid-game without interrupting gameplay = <strong>technological convergence</strong></li><li>Epic Games developed Fortnite using <strong>Unreal Engine</strong> — also used by professional developers (Batman: Arkham City). Epic makes this available for amateur games designers</li><li><strong>Cross-media convergence</strong>: most viewed game on YouTube; uses Twitch (owned by Amazon) for live competitions; brand collaborations with Marvel (<em>Avengers: Infinity War</em> segment) and Godzilla</li><li>Partnerships with non-gaming celebrities (Drake, NBA athletes) to promote beyond the traditional gaming market</li></ul>` },
     { head: 'Industry — Funding & Business Model', tag:'ind', body: `<ul><li><strong>Games as a Service (GaaS)</strong> model: constant revenue stream from in-game purchases after providing the game for free</li><li><strong>V-bucks</strong>: can be earned in-game or purchased with real money → used for cosmetic items (skins, emotes)</li><li>Cosmetic items are <strong>purely cosmetic</strong> — they do not affect gameplay — but are available for <strong>limited periods only</strong>, increasing their value</li><li><strong>Season passes</strong>: subscription allowing exclusive content over a 'season' — drip-fed limited edition content to paying players</li><li>Fortnite is PEGI rated <strong>12</strong> for "frequent scenes of mild violence"</li></ul>` },
+    { head: 'Industry — The Official Website (fortnite.com)', tag:'ind', body: `<p>Fortnite is promoted through its <strong>official website fortnite.com</strong> (part of the Epic Games site). An official website is never just an advert — it serves many purposes at once:</p><ul><li><strong>1. A central hub</strong> — news, patch notes, game modes, FAQs and download links are all gathered in one place</li><li><strong>2. Maintains interest between updates</strong> — countdown timers and teasers for the next Season and live events keep players returning between content drops</li><li><strong>3. Targets different audience segments</strong> — separate areas for Battle Royale, LEGO Fortnite, Creative and competitive Esports appeal to different types of player</li><li><strong>4. Generates revenue</strong> — the Item Shop sells skins and V-Bucks directly (the GaaS model)</li><li><strong>5. Collects audience data</strong> — signing up for an Epic Games account (with an email) builds a database of players for targeted marketing</li><li><strong>6. Links to social media</strong> — icons direct players to Fortnite's YouTube, TikTok, Instagram and X</li><li><strong>7. Promotes synergy &amp; brand partnerships</strong> — showcases crossover collaborations with Marvel, Star Wars, football clubs and musicians</li><li><strong>8. Gives producers control over brand image</strong> — Epic decides exactly what is published, keeping the message consistent and positive (unlike reviews or social media)</li></ul>` },
     { head: 'Audiences — Targeting & Demographics', tag:'aud', body: `<ul><li>Fortnite audience: <strong>78% male, 22% female; 53% aged 10–25; 42% in full-time employment</strong></li><li>Unrealistic cartoon-style graphics and emphasis on construction (not just killing) make it <strong>appealing to a younger audience</strong></li><li><strong>eSports</strong> stars (e.g. Ninja — 10 million subscribers, earning over $500k/month) create aspirational celebrity role models for audiences</li><li>Non-traditional gamer celebrities (rappers, NBA athletes) and 'Twitch Girls' widen appeal to women and non-traditional gamers</li><li>Use of 'seasons' (with rumours and gossip) follows <strong>cable TV / online subscription drama</strong> — keeps audience engaged between content drops</li></ul>` },
     { head: 'Audiences — Responses & Theory', tag:'aud', body: `<ul><li>Main concern: <strong>addiction</strong> — teachers, parents and Prince Harry ("dangerous") have raised concerns; one psychologist compared it to heroin</li><li><strong>Uses and Gratifications</strong> (Blumler and Katz): Fortnite provides <em>escapism</em>, <em>catharsis</em>, <em>social interaction</em> (collaborative gameplay) and <em>personal identity</em> (aspirational celebrities)</li><li>Relatively little racism or misogyny — free players randomly assigned race and gender skins; collaborative gameplay praised by critics</li><li><strong>Fortnite: Creative</strong> allows players to design skins, emotes and landscapes — active audience engagement</li><li>Epic Games made Unreal Engine available to encourage the next generation of games developers</li></ul>` }
   ]
@@ -2694,6 +2725,7 @@ desert_island: {
     { head: 'Industry — The BBC & Public Service Broadcasting', tag:'ind', body: `<ul><li>BBC Radio 4 is a national radio station produced and run by the <strong>BBC</strong> — an established <strong>global media organisation</strong> whose content is available in over 40 languages</li><li>The BBC describes itself as <strong>"the world's leading public service broadcaster"</strong> — its remit is to act in the public interest, providing output that <strong>informs, educates and entertains</strong></li><li>The BBC's <strong>five Public Purposes</strong> (Royal Charter): (1) impartial news and information; (2) support learning; (3) highest quality/distinctive output; (4) reflect and serve diverse UK communities; (5) reflect UK culture and values to the world</li><li><em>Desert Island Discs</em> fulfils these — it is iconic, distinctive, a recognisable part of the <strong>Radio 4 brand</strong>, and features guests and presenters from across the UK's nations and regions</li><li>Radio 4 is described by the BBC as <strong>"the home of intelligent speech, journalism, comedy and drama"</strong></li></ul>` },
     { head: 'Industry — Funding', tag:'ind', body: `<ul><li>The BBC — and therefore <em>Desert Island Discs</em> — is funded predominantly through <strong>public funding via the licence fee</strong>, paid by all UK households for access to TV channels and services like BBC iPlayer</li><li>This funding model means the BBC is <strong>not driven by advertisers</strong> or the political agendas of private owners/shareholders</li><li>However, the BBC also has <strong>commercial subsidiaries</strong> — notably <strong>BBC Studios</strong>, which creates British content sold to global audiences and maximises revenue from existing BBC content (e.g. spin-offs)</li><li>In this sense, the BBC can be seen as a <strong>conglomerate</strong> (parent company with subsidiaries) that is also <strong>vertically integrated</strong> (containing production, distribution and sales divisions) and has <strong>diversified</strong> from broadcast into digital/online content</li><li>In <strong>2023</strong>, the BBC announced <em>Desert Island Discs</em> would be made by <strong>BBC Studios</strong> — moving from the public service division to its <strong>for-profit arm</strong> — to increase revenue by targeting listeners outside the UK, in the context of a significant drop in Radio 4 listening figures</li><li>The existing Royal Charter expires in <strong>2027</strong>; the current Labour Government (2025) is considering replacing the licence fee as it doesn't generate enough income and is seen as unfairly affecting poorer people</li><li><em>Desert Island Discs</em> is relatively <strong>cheap and easy to produce</strong> but generates <strong>high listening figures</strong> — making it cost effective and an important flagship programme</li></ul>` },
     { head: 'Industry — Convergence & Regulation', tag:'ind', body: `<ul><li>Over <strong>2,400 previous episodes</strong> are available as podcasts on the BBC website — reflecting the <strong>convergent nature</strong> of the radio industry</li><li>The BBC launched <strong>BBC Sounds</strong> (on-demand audio streaming app) in 2018, aiming to "reinvent the BBC for a new generation" — enabling <em>Desert Island Discs</em> to reach beyond the traditional Radio 4 audience to <strong>younger and global listeners</strong></li><li>In 2023, BBC Sounds had a <strong>record-breaking year</strong>, with plays growing by almost 50% year-on-year — some of the most listened-to programmes came from Radio 4, including <em>Desert Island Discs</em></li><li>The BBC is regulated by <strong>Ofcom</strong> — all radio programmes must meet Ofcom's regulatory requirements</li><li>The nature and style of <em>Desert Island Discs</em> means it <strong>rarely receives complaints</strong> that go to Ofcom; producers <strong>self-regulate</strong> prior to broadcast</li></ul>` },
+    { head: 'Industry — The Official Website (BBC & BBC Sounds)', tag:'ind', body: `<p><em>Desert Island Discs</em> has its own page on the <strong>BBC website</strong> and is available through the <strong>BBC Sounds</strong> app. Even for a licence-fee-funded programme, the official website serves many purposes at once:</p><ul><li><strong>1. A central hub</strong> — the programme's BBC page collects the episode archive, presenter information and how-to-listen links in one place</li><li><strong>2. Maintains interest between episodes</strong> — over 2,400 past episodes on demand, plus features like "Motivational Women", keep listeners engaged all week</li><li><strong>3. Targets different audience segments</strong> — BBC Sounds recommendations and the archive help reach younger and global listeners beyond the core Radio 4 audience</li><li><strong>4. Generates revenue</strong> — the BBC carries no adverts (it is licence-fee funded), but BBC Studios uses the site and BBC Sounds to reach global listeners and grow the programme's commercial value</li><li><strong>5. Collects audience data</strong> — signing in with a BBC account (needed for BBC Sounds) lets the BBC gather listening data</li><li><strong>6. Links to social media</strong> — links to the programme's and Radio 4's social media, where clips are shared</li><li><strong>7. Promotes synergy &amp; brand partnerships</strong> — cross-promotes other Radio 4/BBC Sounds programmes (such as the spin-off comedy <em>The Island</em>) and BBC Studios content</li><li><strong>8. Gives producers control over brand image</strong> — as producer, the BBC controls what is published, upholding its public-service, impartial brand image</li></ul>` },
     { head: 'Audiences — Demographics & Targeting', tag:'aud', body: `<ul><li>The core audience is an <strong>older demographic</strong> who have listened over many years — the <em>Desert Island Discs</em> audience reflects the Radio 4 audience, which has been criticised for being <strong>overly middle class and White</strong> and London-centric</li><li>Evidence of this: the most popular guest music choices from 1942–2011 were all <strong>White classical music composers</strong>; a 2011 listener poll was also overwhelmingly White</li><li>However, the format has the potential to appeal to a <strong>wide audience</strong> — a simple, universally appealing idea; a different guest each week from different genders, ages, ethnicities and backgrounds</li><li>The choice of <strong>Lauren Laverne</strong> as presenter is a deliberate strategy — at 46 she is younger than the average audience member, aimed at attracting a <strong>younger demographic</strong> to build a sustainable future audience</li><li>Older listeners may listen live via radio; younger audiences are more likely to use the <strong>BBC Sounds app</strong>, other podcast platforms, or the BBC website on mobile/laptop — on-demand services allow choice of <strong>how, when and where</strong> they engage</li></ul>` },
     { head: 'Audiences — Pleasures & Uses and Gratifications', tag:'aud', body: `<ul><li><em>Desert Island Discs</em> offers a range of pleasures — some listeners enjoy the <strong>music choices</strong>, others the <strong>life stories</strong></li><li>Guests often disclose personal/private information — audiences feel a privileged <strong>sense of connection, sympathy or admiration</strong> (e.g. Jamie Dornan discussing his mother's death)</li><li>Radio is often thought of as having a <strong>soothing effect</strong> — it forms a background to daily life (kitchen, bedtime, garden) and for some listeners is a form of <strong>company</strong></li><li>The consistent presenter creates a <strong>rapport with the audience</strong> even as guests change</li><li><strong>Uses and Gratifications</strong> (Blumler and Katz) — audiences listen for: <em>entertainment/diversion</em> (humour, glimpses of different lives); <em>information/education</em> (issues raised by guests); <em>social interaction</em> (discussing with family/friends, Twitter/Facebook); <em>personal identity</em> (comparing their life with the castaway's)</li><li>Audiences may be <strong>active</strong> — interacting with the programme's webpage, social media, polls — or more <strong>passive</strong> (background listening)</li><li>A <strong>younger demographic</strong> may perceive the programme as boring and staid rather than comfortable and familiar; ethnicity and class may also affect response</li></ul>` },
     { head: 'Historical Contexts', tag:'ctx', body: `<ul><li>First recorded during <strong>World War 2</strong> and aired on the <strong>Forces Programme</strong></li><li>Removed from the airwaves after the war in <strong>1946</strong>, returned in <strong>1951</strong> to the Home Service in time for the <strong>Festival of Britain</strong></li><li>Transferred in <strong>1967</strong> to the newly formed <strong>Radio 4</strong>, where it has remained ever since — becoming a <strong>"heritage" show</strong> and national institution</li><li>The cultural influence of <em>Desert Island Discs</em> can be seen in <em>The Island</em> — a six-part Radio 4 comedy set on the fictional island from the programme, aired from <strong>February 2025</strong></li></ul>` },
@@ -2785,6 +2817,148 @@ function fqGetImg(textId) {
   return el ? el.src : '';
 }
 
+// ── "APPLY IT" — OFFICIAL WEBSITE DRAG/TAP ACTIVITY ──────────────────────────
+// The 8 purposes of an official website (from the "Why Official Websites Matter" infographic)
+var FQ_WEB_PURPOSES = [
+  { id:'hub',      n:1, label:'Central hub for all information' },
+  { id:'interest', n:2, label:'Maintain interest between releases/updates' },
+  { id:'segments', n:3, label:'Target different audience segments' },
+  { id:'revenue',  n:4, label:'Generate revenue' },
+  { id:'data',     n:5, label:'Collect audience data' },
+  { id:'social',   n:6, label:'Link audiences to social media' },
+  { id:'synergy',  n:7, label:'Promote synergy & brand partnerships' },
+  { id:'control',  n:8, label:'Give producers control over brand image' }
+];
+
+// Text-specific website features → the purpose each one serves
+var FQ_WEB_ACTIVITY = {
+  fortnite: { site:'fortnite.com', items:[
+    { p:'hub',      t:'News, patch notes, game modes, FAQs and download links in one place' },
+    { p:'interest', t:'Countdown timers and teasers for the next Season and live events' },
+    { p:'segments', t:'Separate areas for Battle Royale, LEGO Fortnite, Creative and Esports' },
+    { p:'revenue',  t:'The Item Shop selling skins and V-Bucks' },
+    { p:'data',     t:'Signing up for an Epic Games account with your email' },
+    { p:'social',   t:"Icons linking to Fortnite's YouTube, TikTok, Instagram and X" },
+    { p:'synergy',  t:'Crossover collabs with Marvel, Star Wars and football clubs' },
+    { p:'control',  t:'Epic deciding exactly what is published, keeping it on-brand' }
+  ]},
+  nttd: { site:'007.com', items:[
+    { p:'hub',      t:'News, films, cast info and trailers for the whole franchise in one place' },
+    { p:'interest', t:'Anniversary features and "Bond is back" news between films' },
+    { p:'segments', t:'Sections for the films, the novels, music and merchandise' },
+    { p:'revenue',  t:'The 007 Store selling merchandise' },
+    { p:'data',     t:'A newsletter sign-up building a mailing list of fans' },
+    { p:'social',   t:'Links to the official 007 Instagram, YouTube and X' },
+    { p:'synergy',  t:'Showcasing partners like Omega, Aston Martin and Nokia' },
+    { p:'control',  t:'EON controlling the official imagery and narrative' }
+  ]},
+  sun: { site:'thesun.co.uk', items:[
+    { p:'hub',      t:'News, sport, showbiz, TV and money in one destination' },
+    { p:'interest', t:'Updated 24/7 with breaking news between print editions' },
+    { p:'segments', t:'Sub-sections: Sport, Dear Deidre, Fabulous, Sun Money' },
+    { p:'revenue',  t:'Advertising, Sun Bets and the £4.99/week subscription' },
+    { p:'data',     t:'Account registration and newsletter sign-ups' },
+    { p:'social',   t:'Links to Facebook, X, TikTok and Apple News' },
+    { p:'synergy',  t:'Cross-promoting Sun Bingo, Sun Savers and Dream Team' },
+    { p:'control',  t:'News UK controlling exactly what is published' }
+  ]},
+  desert_island: { site:'the BBC & BBC Sounds', items:[
+    { p:'hub',      t:'Episode archive, presenter info and how-to-listen in one place' },
+    { p:'interest', t:'2,400+ past episodes on demand, plus "Motivational Women"' },
+    { p:'segments', t:'BBC Sounds recommendations reaching younger, global listeners' },
+    { p:'revenue',  t:'BBC Studios using BBC Sounds to grow global value (no adverts)' },
+    { p:'data',     t:'Signing in with a BBC account to use BBC Sounds' },
+    { p:'social',   t:'Links to Radio 4 social media where clips are shared' },
+    { p:'synergy',  t:'Cross-promoting other BBC Sounds shows like The Island' },
+    { p:'control',  t:'The BBC controlling what is published to stay impartial' }
+  ]}
+};
+
+var fqwaSelected = null;   // currently tapped pool item (tap-to-place)
+var fqwaDragEl   = null;   // currently dragged pool item
+var fqwaScore    = 0;
+
+function fqwaShuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+function fqwaClearSel(root){ root.querySelectorAll('.fqwa-item.selected').forEach(function(e){ e.classList.remove('selected'); }); }
+
+function fqwaToggleSelect(el, root){
+  if (el.classList.contains('selected')) { el.classList.remove('selected'); fqwaSelected = null; }
+  else { fqwaClearSel(root); el.classList.add('selected'); fqwaSelected = el; }
+}
+
+function fqwaTryPlace(item, zone, root, total){
+  if (zone.classList.contains('filled')) return;
+  if (item.dataset.purpose === zone.dataset.purpose) {
+    item.classList.remove('selected','dragging');
+    fqwaSelected = null;
+    var placed = document.createElement('div');
+    placed.className = 'fqwa-placed';
+    placed.textContent = '✓ ' + item.textContent;
+    zone.appendChild(placed);
+    item.remove();
+    zone.classList.add('filled');
+    fqwaScore++;
+    var sc = root.querySelector('#fqwaScore');
+    if (sc) sc.textContent = 'Matched ' + fqwaScore + ' / ' + total;
+    if (fqwaScore >= total) { var d = root.querySelector('#fqwaDone'); if (d) d.style.display = 'block'; }
+  } else {
+    item.classList.add('shake');
+    setTimeout(function(){ item.classList.remove('shake'); }, 350);
+    zone.style.borderColor = '#c0392b';
+    setTimeout(function(){ zone.style.borderColor = ''; }, 350);
+  }
+}
+
+function fqwaRender(textId){
+  var mount = document.getElementById('fqwaMount');
+  if (!mount) return;
+  var act = FQ_WEB_ACTIVITY[textId];
+  if (!act) { mount.innerHTML = ''; return; }
+  fqwaSelected = null; fqwaDragEl = null; fqwaScore = 0;
+
+  var items = fqwaShuffle(act.items.slice());
+  var total = items.length;
+
+  mount.innerHTML = '<div class="fqwa-wrap">'
+    + '<p class="fqwa-title">🎯 Apply it — the official website: ' + act.site + '</p>'
+    + '<p class="fqwa-sub">Match each real feature of the official website to the purpose it serves. <strong>Drag</strong> a card into the right box — or on a touchscreen <strong>tap</strong> a card then tap a box. Correct matches lock in green; wrong ones bounce back.</p>'
+    + '<div class="fqwa-scorebar"><span class="fqwa-score" id="fqwaScore">Matched 0 / ' + total + '</span>'
+    + '<button class="fqwa-reset" onclick="fqwaRender(\'' + textId + '\')">↺ Reset</button></div>'
+    + '<div class="fqwa-grid">'
+    + '<div><div class="fqwa-col-label">Website features — drag these</div><div class="fqwa-pool" id="fqwaPool"></div></div>'
+    + '<div><div class="fqwa-col-label">Purpose — drop here</div><div class="fqwa-zones" id="fqwaZones"></div></div>'
+    + '</div>'
+    + '<div class="fqwa-done" id="fqwaDone">✅ All matched! You have applied all eight purposes of an official website to ' + act.site + '. In the exam, always be ready to give a real example for each purpose.</div>'
+    + '</div>';
+
+  var pool = mount.querySelector('#fqwaPool');
+  items.forEach(function(it){
+    var el = document.createElement('div');
+    el.className = 'fqwa-item';
+    el.textContent = it.t;
+    el.dataset.purpose = it.p;
+    el.draggable = true;
+    el.addEventListener('dragstart', function(e){ fqwaClearSel(mount); fqwaSelected = null; fqwaDragEl = el; el.classList.add('dragging'); if (e.dataTransfer){ e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', it.p); } catch(err){} } });
+    el.addEventListener('dragend', function(){ el.classList.remove('dragging'); fqwaDragEl = null; });
+    el.addEventListener('click', function(){ fqwaToggleSelect(el, mount); });
+    pool.appendChild(el);
+  });
+
+  var zonesEl = mount.querySelector('#fqwaZones');
+  FQ_WEB_PURPOSES.forEach(function(p){
+    var z = document.createElement('div');
+    z.className = 'fqwa-zone';
+    z.dataset.purpose = p.id;
+    z.innerHTML = '<div class="fqwa-zone-label"><span class="fqwa-zone-num">' + p.n + '</span>' + p.label + '</div>';
+    z.addEventListener('dragover', function(e){ e.preventDefault(); z.classList.add('drag-over'); });
+    z.addEventListener('dragleave', function(){ z.classList.remove('drag-over'); });
+    z.addEventListener('drop', function(e){ e.preventDefault(); z.classList.remove('drag-over'); if (fqwaDragEl) { fqwaTryPlace(fqwaDragEl, z, mount, total); } });
+    z.addEventListener('click', function(){ if (fqwaSelected) { fqwaTryPlace(fqwaSelected, z, mount, total); } });
+    zonesEl.appendChild(z);
+  });
+}
+
 function fqOpenReader(textId) {
   fqCurrentTextId = textId;
   var data = FQ_CONTENT[textId];
@@ -2828,7 +3002,13 @@ function fqOpenReader(textId) {
       + '</div>'
     : sectionsHtml;
 
+  // Mount point for the optional "Apply it" official-website activity
+  html += '<div id="fqwaMount"></div>';
+
   document.getElementById('fqReaderContent').innerHTML = html;
+
+  // Build the drag/tap activity for texts that have one
+  fqwaRender(textId);
 
   // Populate focus dropdown
   var focuses = FQ_FOCUS_MAP[textId] || [];
