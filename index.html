@@ -326,6 +326,16 @@
   .tg-response-card.amber { border-left:5px solid #d97706; }
   .tg-response-card.red { border-left:5px solid #dc2626; }
 
+  /* Set-text thumbnails inside theory overview cards — added to help lower-ability students visualise the concepts */
+  .tg-card-fig { margin:0.55rem 0 0; }
+  .tg-card-img { width:100%; height:96px; object-fit:cover; object-position:top center; border-radius:2px; border:1px solid var(--border); display:block; background:#f0ece4; }
+  .tg-card-cap { font-family:'IBM Plex Mono',monospace; font-size:0.56rem; letter-spacing:0.2px; color:var(--muted); line-height:1.4; margin-top:0.3rem; }
+  .tg-pies-card .tg-card-img { height:82px; }
+  .tg-anchor { display:flex; gap:0.9rem; align-items:center; margin-top:0.85rem; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:2px; padding:0.75rem; }
+  .tg-anchor-img { width:118px; flex-shrink:0; border-radius:2px; border:1px solid var(--border); display:block; background:#f0ece4; }
+  .tg-anchor-text { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+  @media(max-width:720px){ .tg-anchor { flex-direction:column; align-items:flex-start; } .tg-anchor-img { width:100%; max-width:150px; } }
+
   /* KEY TERMS FALLBACK — added by ChatGPT */
   .kt-tools { display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:1rem; }
   .kt-search { flex:1; min-width:220px; font-family:'IBM Plex Mono',monospace; font-size:0.8rem; background:#fff; color:var(--ink); border:1.5px solid var(--border); border-radius:2px; padding:0.55rem 0.75rem; }
@@ -5643,17 +5653,20 @@ var THEORY_OVERVIEWS = {
     intro:'Propp argues that narratives often use recognisable character roles. At GCSE, use this to explain how characters help create a clear story, conflict or quest.',
     remember:'Remember: Propp is useful for action, adventure and crime narratives, but can be limited for sitcoms, adverts or texts without a full story.',
     cards:[
-      ['Hero','The character who tries to solve the problem or restore order. Example: Bond or Lana Washington.'],
-      ['Villain','The character or force that creates conflict and opposes the hero.'],
-      ['Helper','Assists the hero through support, skill or loyalty.'],
-      ['Donor','Gives the hero something useful: information, equipment, training or advice.'],
-      ['Dispatcher','Sends the hero on the mission or makes the quest begin.'],
-      ['False hero / prize','A character who seems heroic but is not, or a goal/reward the hero is trying to reach.']
+      ['Hero','The character who tries to solve the problem or restore order. Example: Bond or Lana Washington.','nttd','Bond = the hero (No Time to Die)'],
+      ['Villain','The character or force that creates conflict and opposes the hero.','tmwtgg','Scaramanga = the villain (The Man with the Golden Gun)'],
+      ['Helper','Assists the hero through support, skill or loyalty.','nhs','NHS 111 = the helper (aids the father)'],
+      ['Donor','Gives the hero something useful: information, equipment, training or advice.','vogue','Vogue = a donor (gives advice / guidance)'],
+      ['Dispatcher','Sends the hero on the mission or makes the quest begin.','sun','The Sun = the dispatcher (sends readers to the "Jabs Army")'],
+      ['False hero / prize','A character who seems heroic but is not, or a goal/reward the hero is trying to reach.','quality_street','Quality Street = the prize / reward']
     ]
   },
   todorov: {
     title:'Todorov — 5-Step Narrative Structure',
     intro:'Todorov argues that narratives often move from a stable situation, through disruption, and towards a new balance. It helps students track how stories are structured.',
+    anchorImg:'nttd',
+    anchorAlt:'No Time to Die film poster',
+    anchorCaption:'🎬 Follow <strong>one</strong> story through all five stages — for example <em>No Time to Die</em>: Bond’s world is calm (<strong>equilibrium</strong>), a villain’s threat breaks it (<strong>disruption</strong>), Bond works out what is wrong (<strong>recognition</strong>), he goes after the villain (<strong>attempt to repair</strong>), and a new, changed order is reached at the end (<strong>new equilibrium</strong>).',
     remember:'Remember the 5 stages: Equilibrium → Disruption → Recognition → Attempt to Repair → New Equilibrium. Modern TV dramas may not complete all stages in one episode.',
     cards:[
       ['1. Equilibrium','The situation as it is. Life seems stable or normal before the disruption.'],
@@ -5712,18 +5725,40 @@ var THEORY_OVERVIEWS = {
     ]
   }
 };
+// Build a small set-text thumbnail for an overview card. Reuses the same image
+// store as the factsheets (fqGetImg); if the image is unavailable it renders nothing.
+function tgOverviewImg(textId, caption){
+  if(!textId) return '';
+  var src = (typeof fqGetImg==='function') ? fqGetImg(textId) : '';
+  if(!src) return '';
+  return '<figure class="tg-card-fig">'
+    + '<img class="tg-card-img" src="'+src+'" alt="'+(caption||'')+'" loading="lazy" '
+    + 'onerror="var f=this.closest(\'.tg-card-fig\'); if(f) f.style.display=\'none\';">'
+    + (caption ? '<figcaption class="tg-card-cap">'+caption+'</figcaption>' : '')
+    + '</figure>';
+}
 function tgShowTheoryOverview(key, btn){
   var box=document.getElementById('tgTheoryOverview'); if(!box) return;
   document.querySelectorAll('#tgOverviewTabs .tg-overview-tab').forEach(function(b){b.classList.remove('active');});
   if(btn) btn.classList.add('active');
   var o=THEORY_OVERVIEWS[key] || THEORY_OVERVIEWS.propp;
   var html='<h3 style="font-family:Syne,sans-serif;font-size:1rem;margin-bottom:0.35rem;">'+o.title+'</h3><p style="font-size:0.86rem;color:var(--muted);line-height:1.65;">'+o.intro+'</p>';
+  if(o.anchorImg){
+    var asrc=(typeof fqGetImg==='function') ? fqGetImg(o.anchorImg) : '';
+    if(asrc){
+      html += '<div class="tg-anchor">'
+        + '<img class="tg-anchor-img" src="'+asrc+'" alt="'+(o.anchorAlt||'')+'" loading="lazy" '
+        + 'onerror="var a=this.closest(\'.tg-anchor\'); if(a) a.style.display=\'none\';">'
+        + '<div class="tg-anchor-text">'+o.anchorCaption+'</div>'
+        + '</div>';
+    }
+  }
   if(o.pies){
     html += '<div class="tg-pies">' +
-      '<div class="tg-pies-card"><div class="tg-pies-letter" style="color:#1457a8;">P</div><h4>Personal Identity</h4><p>Relate to characters, values, lifestyles or people. Audiences may compare themselves to media figures or shape their own identity.</p></div>' +
-      '<div class="tg-pies-card"><div class="tg-pies-letter" style="color:#16834a;">I</div><h4>Information</h4><p>Gain knowledge, news, advice or understanding. Example: NHS 111, newspapers, or learning from guests on Desert Island Discs.</p></div>' +
-      '<div class="tg-pies-card"><div class="tg-pies-letter" style="color:#d97706;">E</div><h4>Entertainment</h4><p>Enjoy stories, drama, action, comedy, celebrities, gameplay or visual content.</p></div>' +
-      '<div class="tg-pies-card"><div class="tg-pies-letter" style="color:#7c3aad;">S</div><h4>Social Relationships</h4><p>Feel connected to others, discuss media, play with friends, share opinions, fandom or community.</p></div>' +
+      '<div class="tg-pies-card"><div class="tg-pies-letter" style="color:#1457a8;">P</div><h4>Personal Identity</h4><p>Relate to characters, values, lifestyles or people. Audiences may compare themselves to media figures or shape their own identity.</p>'+tgOverviewImg('vogue','Relate to people like Malala (Vogue)')+'</div>' +
+      '<div class="tg-pies-card"><div class="tg-pies-letter" style="color:#16834a;">I</div><h4>Information</h4><p>Gain knowledge, news, advice or understanding. Example: NHS 111, newspapers, or learning from guests on Desert Island Discs.</p>'+tgOverviewImg('nhs','NHS 111 = information & advice')+'</div>' +
+      '<div class="tg-pies-card"><div class="tg-pies-letter" style="color:#d97706;">E</div><h4>Entertainment</h4><p>Enjoy stories, drama, action, comedy, celebrities, gameplay or visual content.</p>'+tgOverviewImg('nttd','No Time to Die = entertainment / action')+'</div>' +
+      '<div class="tg-pies-card"><div class="tg-pies-letter" style="color:#7c3aad;">S</div><h4>Social Relationships</h4><p>Feel connected to others, discuss media, play with friends, share opinions, fandom or community.</p>'+tgOverviewImg('sun','The Sun "Jabs Army" = shared community')+'</div>' +
       '</div>';
   }
   if(o.response){
@@ -5734,7 +5769,7 @@ function tgShowTheoryOverview(key, btn){
       '</div>';
   }
   if(o.cards){
-    html += '<div class="tg-overview-grid">' + o.cards.map(function(c){return '<div class="tg-mini-card"><h4>'+c[0]+'</h4><p>'+c[1]+'</p></div>';}).join('') + '</div>';
+    html += '<div class="tg-overview-grid">' + o.cards.map(function(c){return '<div class="tg-mini-card"><h4>'+c[0]+'</h4><p>'+c[1]+'</p>'+tgOverviewImg(c[2],c[3])+'</div>';}).join('') + '</div>';
   }
   html += '<div class="tg-memory-strip"><strong>Memory hook:</strong> '+o.remember+'</div>';
   box.innerHTML=html;
