@@ -8091,9 +8091,14 @@ function rjResetProgressConfirm(){
     }
   }, true);
 
-  const observer = new MutationObserver(()=>{
-    renameButtons();
-    hidePreviewCards();
+  // Perf fix: only react to changes inside the Revision Journey tab, and debounce,
+  // so filtering/typing in other tabs doesn't trigger full-page scans.
+  let v29Timer = null;
+  const observer = new MutationObserver((muts)=>{
+    const journey = document.getElementById("tab-journey");
+    if (journey && !muts.some(m => journey.contains(m.target))) return;
+    clearTimeout(v29Timer);
+    v29Timer = setTimeout(()=>{ renameButtons(); hidePreviewCards(); }, 120);
   });
 
   document.addEventListener("DOMContentLoaded", ()=>{
