@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Audience Ratings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  --paper:#EEF0FB;--surface:#FFFFFF;--ink:#17153A;--muted:#55537A;--line:#D3D6EE;
+  --blue:#3246E0;--pink:#E83A77;--yellow:#FFC83D;--onaccent:#FFFFFF;
+  --good:#11805A;--goodbg:#DCF4E8;--bad:#C83434;--badbg:#FBE3E3;
+  --display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#111029;--surface:#1C1A3D;--ink:#EFEDFF;--muted:#A9A6D6;--line:#34315F;
+    --blue:#8290FF;--pink:#FF6FA0;--yellow:#FFD25E;--onaccent:#111029;
+    --good:#52D49C;--goodbg:#123A2C;--bad:#FF8080;--badbg:#3E1A22;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#111029;--surface:#1C1A3D;--ink:#EFEDFF;--muted:#A9A6D6;--line:#34315F;
+  --blue:#8290FF;--pink:#FF6FA0;--yellow:#FFD25E;--onaccent:#111029;
+  --good:#52D49C;--goodbg:#123A2C;--bad:#FF8080;--badbg:#3E1A22;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding-inline:16px;padding-block:20px 48px}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.onair{display:inline-flex;align-items:center;gap:8px;font:800 13px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--pink);color:var(--pink);padding:6px 10px;border-radius:4px}
+.onair i{width:9px;height:9px;border-radius:50%;background:var(--pink);animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.meter{display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.meter small{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.meter b{font:800 22px/1 var(--display)}
+.streak{font:700 14px/1 var(--body);background:var(--yellow);color:#17153A;padding:5px 9px;border-radius:99px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center}
+.hero h1{font-size:clamp(46px,9vw,88px);font-weight:800;letter-spacing:-.03em}
+.hero h1 span{color:var(--blue);display:block}
+.hero p{color:var(--muted);max-width:44ch;margin-top:14px}
+.collage{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.collage .tile{aspect-ratio:1}
+@media (max-width:680px){.hero{grid-template-columns:1fr}}
+
+/* product tiles (fixed colours, readable in both themes) */
+.tile{position:relative;border-radius:10px;display:grid;place-items:center;color:#17153A;box-shadow:4px 4px 0 var(--ink);max-width:100%}
+.tile svg{width:62%;height:62%}
+.t-fortnite{background:#B89CFF}.t-sun{background:#FF6B6B}.t-dids{background:#7FD8C4}.t-trigger{background:#FFC83D}
+.t-sweeney{background:#8FB8FF}.t-lizzo{background:#FF9ECF}.t-bieber{background:#A6E3FF}.t-tlc{background:#FFB36B}
+
+/* round picker */
+.rounds{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media (max-width:600px){.rounds{grid-template-columns:1fr}}
+.round{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:18px;text-align:left;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,transform .15s}
+.round:hover{border-color:var(--blue);transform:translateY(-2px)}
+.round .tag{font:700 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--pink)}
+.round h3{font-size:24px}
+.round p{color:var(--muted);font-size:15px}
+.go{align-self:flex-start;background:var(--blue);color:var(--onaccent);border:0;border-radius:10px;padding:14px 22px;font:800 18px/1 var(--display);box-shadow:4px 4px 0 var(--pink)}
+.go:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--pink)}
+.ghost{background:none;border:2px solid var(--line);border-radius:10px;padding:12px 18px;font-weight:700}
+
+/* game card */
+.stage{background:var(--surface);border:2px solid var(--ink);border-radius:16px;padding:clamp(18px,4vw,32px);display:flex;flex-direction:column;gap:20px;box-shadow:8px 8px 0 var(--blue)}
+.stage-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.stage-top .tag{font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pink)}
+.progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--blue);transition:width .3s}
+.q{display:flex;gap:20px;align-items:center}
+.q .tile{width:120px;height:120px;flex:none}
+.q .tile+div{display:flex;flex-direction:column;gap:6px}
+.pname{font:700 13px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.prompt{font:500 clamp(21px,3.4vw,27px)/1.25 var(--display)}
+@media (max-width:520px){.q{flex-direction:column;align-items:flex-start}.q .tile{width:88px;height:88px}}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.opt{background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:14px;text-align:left;font-weight:700;display:flex;gap:10px;align-items:center;transition:border-color .12s,transform .12s}
+.opt:hover:not(:disabled){border-color:var(--blue);transform:translateY(-2px)}
+.opt kbd{font:700 12px/1 var(--body);border:1.5px solid currentColor;border-radius:5px;padding:3px 6px;opacity:.6}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--goodbg);border-color:var(--good);color:var(--good)}
+.opt.wrong{background:var(--badbg);border-color:var(--bad);color:var(--bad);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.explain{border-left:5px solid var(--good);background:var(--goodbg);padding:14px 16px;border-radius:0 10px 10px 0}
+.explain.no{border-color:var(--bad);background:var(--badbg)}
+.explain b{font-family:var(--display);font-size:19px;display:block;margin-bottom:4px}
+.pop{position:fixed;pointer-events:none;font:800 22px/1 var(--display);color:var(--good);animation:rise 1s forwards}
+@keyframes rise{to{transform:translateY(-60px);opacity:0}}
+
+/* interstitial + end */
+.inter{text-align:left;display:flex;flex-direction:column;gap:14px}
+.inter h2{font-size:clamp(34px,6vw,54px)}
+.inter p{color:var(--muted);max-width:56ch}
+.big{font:800 clamp(56px,12vw,110px)/.9 var(--display);color:var(--blue);font-variant-numeric:tabular-nums}
+.rank{display:inline-block;background:var(--yellow);color:#17153A;font:800 20px/1.1 var(--display);padding:8px 12px;border-radius:6px;transform:rotate(-2deg)}
+.misses{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.misses li{border:2px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px}
+.misses li b{display:block}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+
+/* cheat sheet */
+.sheet{display:flex;flex-direction:column;gap:16px}
+.sheet h2{font-size:32px}
+.sheet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:20px}
+.card p,.card li{font-size:15px;color:var(--muted)}
+.card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.card strong{color:var(--ink)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--display);font-size:18px;width:56px;color:var(--blue)}
+td:last-child{color:var(--muted)}
+.foot{font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-fortnite" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22h36a10 10 0 0 1 10 10v6a9 9 0 0 1-16 5l-3-4H23l-3 4A9 9 0 0 1 4 38v-6a10 10 0 0 1 10-10z"/><path d="M18 29v10M13 34h10"/></g><circle cx="44" cy="31" r="3" fill="currentColor"/><circle cx="50" cy="37" r="3" fill="currentColor"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M8 12h40v40H14a6 6 0 0 1-6-6z"/><path d="M48 22h8v24a6 6 0 0 1-6 6h-2"/><circle cx="28" cy="30" r="7"/><path d="M28 16v3M28 41v3M14 30h3M39 30h3M18 20l2 2M36 38l2 2M38 20l-2 2M20 38l-2 2"/><path d="M15 46h26"/></g></symbol>
+    <symbol id="i-dids" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 54c6-4 10-4 16 0s10 4 16 0 10-4 16 0 6 3 8 2"/><path d="M12 48c4-8 28-8 34 0"/><path d="M30 44c0-10 2-20 8-28"/><path d="M38 16c-6-4-14-2-18 4M38 16c2-6 10-8 16-4M38 16c6 0 11 5 12 10M38 16c-4 3-6 9-5 14"/></g><circle cx="14" cy="16" r="7" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="14" cy="16" r="2" fill="currentColor"/></symbol>
+    <symbol id="i-trigger" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="38" r="18"/><path d="M38 22l5-5M43 17c4-4 9-2 11 2"/><path d="M20 34a9 9 0 0 1 8-6"/></g><path d="M56 12l2-5M58 17l5-1M53 8l-1-5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-sweeney" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 44v-8l6-12h40l6 12v8z"/><path d="M14 36h36"/><circle cx="17" cy="46" r="5"/><circle cx="47" cy="46" r="5"/><path d="M26 24v-6h12v6"/><path d="M32 6v4M20 10l3 3M44 10l-3 3"/></g></symbol>
+    <symbol id="i-lizzo" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="22" y="6" width="16" height="28" rx="8"/><path d="M14 28a16 16 0 0 0 32 0M30 44v12M22 58h16"/></g><path d="M52 8l2 5 5 1-4 3 1 5-4-3-4 3 1-5-4-3 5-1z" fill="currentColor"/></symbol>
+    <symbol id="i-bieber" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="4" width="28" height="54" rx="6"/><path d="M24 50h8"/><path d="M34 18v16"/><path d="M34 18l8 3"/></g><circle cx="30" cy="34" r="4" fill="currentColor"/><path d="M52 30c-3-4-9 0-4 5l4 3 4-3c5-5-1-9-4-5z" fill="currentColor"/></symbol>
+    <symbol id="i-tlc" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"><rect x="4" y="14" width="56" height="38" rx="5"/><rect x="14" y="22" width="36" height="14" rx="7"/><path d="M16 52l4-8h24l4 8"/></g><circle cx="22" cy="29" r="3" fill="currentColor"/><circle cx="42" cy="29" r="3" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <div class="bar">
+    <span class="onair"><i></i>On air · GCSE Media</span>
+    <div class="meter" id="meter" hidden>
+      <small>Ratings</small><b id="viewers">0.0m</b><span class="streak" id="streak" hidden></span>
+    </div>
+  </div>
+
+  <main id="app"></main>
+
+  <section class="sheet" aria-labelledby="sheet-h">
+    <h2 id="sheet-h">Revision cards</h2>
+    <div class="sheet-grid">
+      <div class="card">
+        <h3>Passive audience</h3>
+        <p>The audience <strong>absorbs</strong> the media message without questioning it. Linked to the <strong>hypodermic needle</strong> idea: the message is "injected" straight in.</p>
+      </div>
+      <div class="card">
+        <h3>Active audience</h3>
+        <p>The audience <strong>interprets, questions, chooses and interacts</strong>. They might share, comment, play, make playlists, guess the plot or argue about meaning. Links to <strong>uses and gratifications</strong>.</p>
+      </div>
+      <div class="card">
+        <h3>Young &amp; Rubicam's 4Cs</h3>
+        <ul>
+          <li><strong>Mainstreamers</strong> want security and to belong; they buy familiar brands.</li>
+          <li><strong>Explorers</strong> want discovery and new experiences.</li>
+          <li><strong>Aspirers</strong> want status, image and fame.</li>
+          <li><strong>Succeeders</strong> want control; they have already "made it".</li>
+          <li><strong>Reformers</strong> want to improve society; they value knowledge and ethics.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Social grade (ABC1C2DE)</h3>
+      <div class="tbl"><table>
+        <tr><th>A</th><td>Upper middle class</td><td>Higher managerial, professional (surgeon, CEO)</td></tr>
+        <tr><th>B</th><td>Middle class</td><td>Middle managerial, professional (teacher, manager)</td></tr>
+        <tr><th>C1</th><td>Lower middle class</td><td>Supervisory, clerical, junior managerial</td></tr>
+        <tr><th>C2</th><td>Skilled working class</td><td>Skilled manual workers (electrician, plumber)</td></tr>
+        <tr><th>D</th><td>Working class</td><td>Semi-skilled and unskilled manual workers</td></tr>
+        <tr><th>E</th><td>Lowest level of subsistence</td><td>State pensioners, unemployed, casual workers</td></tr>
+      </table></div>
+      <p>Media producers often group these as <strong>ABC1</strong> (middle class) and <strong>C2DE</strong> (working class).</p>
+    </div>
+    <p class="foot">Product links show typical exam-style readings. Real audiences are more varied, so always say "may" or "is likely to".</p>
+  </section>
+</div>
+
+<script>
+const PRODUCTS={
+  fortnite:{name:"Fortnite",kind:"Video game"},
+  sun:{name:"The Sun",kind:"Newspaper"},
+  dids:{name:"Desert Island Discs",kind:"BBC Radio 4"},
+  trigger:{name:"Trigger Point",kind:"TV crime drama, 2022"},
+  sweeney:{name:"The Sweeney",kind:"TV crime drama, 1975"},
+  lizzo:{name:"Lizzo",kind:"Music video / online"},
+  bieber:{name:"Justin Bieber",kind:"Music / online"},
+  tlc:{name:"TLC",kind:"Music video, 1995"}
+};
+const tile=(k,extra="")=>`<div class="tile t-${k} ${extra}" role="img" aria-label="${PRODUCTS[k].name}"><svg><use href="#i-${k}"/></svg></div>`;
+
+const AP=["Active","Passive"];
+const YR=["Mainstreamer","Explorer","Aspirer","Succeeder","Reformer"];
+const ROUNDS=[
+ {id:1,title:"Active or passive?",blurb:"Is the audience thinking, choosing and joining in, or just soaking it up?",qs:[
+  {p:"fortnite",q:"A player builds a fort, teams up with friends online and decides how to play the match.",o:AP,a:0,e:"Choosing, building and interacting with others makes a gamer an active audience."},
+  {p:"sun",q:"A reader believes every headline without questioning it and repeats the paper's views word for word.",o:AP,a:1,e:"Accepting the message without thinking is passive. This is the hypodermic needle idea."},
+  {p:"lizzo",q:"A fan posts a TikTok to 'Good as Hell' with their own body-positive message.",o:AP,a:0,e:"Creating and sharing their own content in response is active. They are using the song to express their identity."},
+  {p:"trigger",q:"Someone has the drama on in the background while scrolling their phone, not really following the plot.",o:AP,a:1,e:"Barely engaging and just letting it wash over them is passive consumption."},
+  {p:"dids",q:"A listener looks up a guest's eight chosen songs and makes their own playlist.",o:AP,a:0,e:"Seeking out more and making their own playlist is active. They are choosing what to do with the programme."},
+  {p:"sweeney",q:"A 1975 viewer simply accepts that violent, rule-breaking coppers are how police get results.",o:AP,a:1,e:"Taking the representation at face value with no questioning is a passive reading."},
+  {p:"bieber",q:"Fans argue online with other 'Beliebers' about what his lyrics really mean.",o:AP,a:0,e:"Debating meaning in a fan community is very active. Different fans read the same text differently."},
+  {p:"trigger",q:"Viewers race to guess who the bomber is before the big reveal.",o:AP,a:0,e:"Solving the enigma (the mystery) keeps the audience actively thinking and predicting."},
+  {p:"tlc",q:"After the 'Waterfalls' video, a viewer talks with friends about its warnings on crime and unsafe sex.",o:AP,a:0,e:"Reflecting on and discussing the message is active. The video gives the audience something to learn from."}
+ ]},
+ {id:2,title:"Who's who? Young & Rubicam",blurb:"Match the personality to the right psychographic group, then link them to real products.",qs:[
+  {q:"\"I trust brands I know. I like what everyone else likes, and I want to fit in.\"",o:YR,a:0,e:"Mainstreamers want security and belonging, so they go for familiar, popular brands."},
+  {q:"\"Give me something new! I love discovering different experiences before anyone else.\"",o:YR,a:1,e:"Explorers are driven by discovery, new experiences and difference."},
+  {q:"\"I care what people think of me. Image, status and the latest must-haves matter.\"",o:YR,a:2,e:"Aspirers want status and are drawn to image, celebrity and brands that show off."},
+  {q:"\"I'm successful and in control. I value quality and I've already made it.\"",o:YR,a:3,e:"Succeeders have status already and want control, quality and reward."},
+  {q:"\"I want to make the world better. I value knowledge, fairness and the planet.\"",o:YR,a:4,e:"Reformers are socially aware and value knowledge and ethics over status."},
+  {p:"bieber",q:"Which group is most drawn to his celebrity lifestyle, fashion and fame?",o:YR,a:2,e:"Aspirers want the glamour and status that come with celebrity culture."},
+  {p:"lizzo",q:"Her messages about body positivity and self-love are especially likely to appeal to…",o:YR,a:4,e:"Reformers value her challenge to narrow beauty ideals. Explorers may also like her mix of genres, and her flute playing."},
+  {p:"fortnite",q:"Constant new seasons, maps and skins are designed to keep which group coming back?",o:YR,a:1,e:"Explorers want new things to discover, so regular updates keep them hooked."},
+  {p:"sun",q:"The familiar layout, fun gossip and sense of being a 'Sun reader' especially suit…",o:YR,a:0,e:"Mainstreamers enjoy familiarity and belonging to a large, shared readership."},
+  {p:"dids",q:"Guests are often high achievers: politicians, scientists, stars. Which listeners may see themselves in them?",o:YR,a:3,e:"Succeeders relate to successful, in-control people. Reformers also value the knowledge and ideas shared."}
+ ]},
+ {id:3,title:"Class act: ABC1C2DE",blurb:"Sort jobs into social grades, then decide who a product is really aimed at.",qs:[
+  {q:"A hospital surgeon or a company chief executive.",o:["A","B","C1","C2","D","E"],a:0,e:"A: higher managerial and professional jobs."},
+  {q:"A secondary school teacher or a middle manager.",o:["A","B","C1","C2","D","E"],a:1,e:"B: intermediate managerial and professional jobs."},
+  {q:"A bank clerk or an office supervisor.",o:["A","B","C1","C2","D","E"],a:2,e:"C1: supervisory, clerical and junior managerial jobs."},
+  {q:"A qualified electrician or plumber.",o:["A","B","C1","C2","D","E"],a:3,e:"C2: skilled manual workers."},
+  {q:"A warehouse packer or a labourer.",o:["A","B","C1","C2","D","E"],a:4,e:"D: semi-skilled and unskilled manual workers."},
+  {q:"A pensioner living only on the state pension.",o:["A","B","C1","C2","D","E"],a:5,e:"E: state pensioners, the unemployed and casual workers."},
+  {p:"sun",q:"This tabloid's readers have traditionally been mostly…",o:["ABC1","C2DE"],a:1,e:"The Sun has traditionally had a mainly C2DE, working-class readership, reflected in its informal language and celebrity focus."},
+  {p:"dids",q:"A long-running Radio 4 speech programme with in-depth interviews mostly attracts…",o:["ABC1","C2DE"],a:0,e:"Radio 4's audience is mainly ABC1: older, educated listeners who enjoy speech radio."},
+  {p:"sweeney",q:"This 1970s ITV cop show, with fast cars, fights and tough talk, had strong appeal to…",o:["ABC1 women","C2DE men","Young children"],a:1,e:"Its action, masculinity and working-class 'geezer' characters appealed strongly to a C2DE male audience, though it drew a mass audience too."}
+ ]},
+ {id:4,title:"Target audience showdown",blurb:"Mixed questions on all the theory, linked to the set products.",qs:[
+  {p:"fortnite",q:"It's free to play on almost every device. What does that suggest about its audience?",o:["Only ABC1 players can afford it","A very broad audience across all social grades","Only Succeeders"],a:1,e:"Free to play removes the cost barrier, so it reaches a mass audience across every social grade."},
+  {p:"tlc",q:"Which Young & Rubicam group would most value the video's social warnings?",o:["Aspirer","Reformer","Mainstreamer"],a:1,e:"Reformers care about society and would value its messages about crime, HIV and safe sex."},
+  {p:"trigger",q:"A primetime BBC One drama like this is mainly aimed at…",o:["A niche ABC1 audience","A broad mass audience","Children"],a:1,e:"Primetime BBC One slots target a big, broad audience. Tense cliffhangers keep them watching each week."},
+  {p:"sweeney",q:"Male viewers want to be as tough and confident as Regan. This means the audience is…",o:["Active: identifying with a character","Passive: not thinking at all","Reformers"],a:0,e:"Identifying with a character is an active use of the media: seeking personal identity."},
+  {p:"bieber",q:"Fans stream every song on release day so it charts, and flood social media. They are…",o:["Active","Passive"],a:0,e:"Organised fan action shows a highly active, participatory audience."},
+  {p:"lizzo",q:"A viewer accepts her confidence as a role model and feels better about their body. This is…",o:["An active, positive use of the text","Proof audiences are always passive","A C2DE only response"],a:0,e:"The viewer uses the text for personal identity and self-esteem, a clear active use."},
+  {p:"sun",q:"Free giveaways, competitions and bingo are used to keep which group loyal?",o:["Mainstreamers","Explorers","Succeeders"],a:0,e:"Mainstreamers like familiar habits and good value, and giveaways build that routine loyalty."},
+  {p:"dids",q:"A listener finds out about a guest's life and learns something new. Which gratification is this?",o:["Information and education","Escapism only","None: radio is passive"],a:0,e:"Learning from the interview meets the need for information, so this is an active use of the programme."}
+ ]}
+];
+
+const $=s=>document.querySelector(s);
+const app=$("#app");
+let S=null;
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+function home(){
+  S=null;$("#meter").hidden=true;
+  app.innerHTML=`
+  <div class="hero">
+    <div>
+      <h1>Audience <span>Ratings</span></h1>
+      <p>Your show is live. Every right answer pulls in more viewers, and a streak brings in a bigger crowd. Get it wrong and the audience switches off.</p>
+      <div class="row" style="margin-top:22px">
+        <button class="go" id="all">Play all 4 rounds</button>
+      </div>
+    </div>
+    <div class="collage">${Object.keys(PRODUCTS).map(k=>tile(k)).join("")}</div>
+  </div>
+  <div class="rounds" style="margin-top:28px">
+    ${ROUNDS.map(r=>`<button class="round" data-r="${r.id}"><span class="tag">Round ${r.id} · ${r.qs.length} questions</span><h3>${r.title}</h3><p>${r.blurb}</p></button>`).join("")}
+  </div>`;
+  $("#all").onclick=()=>start(ROUNDS);
+  app.querySelectorAll(".round").forEach(b=>b.onclick=()=>start(ROUNDS.filter(r=>r.id==b.dataset.r)));
+}
+
+function start(rounds){
+  const queue=[];
+  rounds.forEach(r=>{queue.push({inter:r});shuffle(r.qs).forEach(q=>queue.push({...q,round:r}))});
+  S={queue,i:0,viewers:0,streak:0,correct:0,total:queue.filter(x=>!x.inter).length,n:0,misses:[]};
+  $("#meter").hidden=false;updateMeter();next();
+}
+
+function updateMeter(){
+  $("#viewers").textContent=S.viewers.toFixed(1)+"m";
+  const st=$("#streak");st.hidden=S.streak<2;st.textContent="Streak ×"+S.streak;
+}
+
+function next(){
+  if(S.i>=S.queue.length)return end();
+  const item=S.queue[S.i];
+  if(item.inter){
+    app.innerHTML=`<div class="stage inter"><span class="stage-top"><span class="tag">Round ${item.inter.id}</span></span><h2>${item.inter.title}</h2><p>${item.inter.blurb}</p><button class="go" id="goR">Start round</button></div>`;
+    $("#goR").onclick=()=>{S.i++;next()};$("#goR").focus();return;
+  }
+  S.n++;
+  const pct=((S.n-1)/S.total)*100;
+  const p=item.p?PRODUCTS[item.p]:null;
+  app.innerHTML=`<div class="stage">
+    <div class="stage-top"><span class="tag">Round ${item.round.id} · ${item.round.title}</span><span>Question ${S.n} of ${S.total}</span></div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <div class="q">${p?tile(item.p):""}<div>${p?`<span class="pname">${p.name} · ${p.kind}</span>`:""}<p class="prompt">${item.q}</p></div></div>
+    <div class="opts">${item.o.map((o,i)=>`<button class="opt" data-i="${i}"><kbd>${i+1}</kbd>${o}</button>`).join("")}</div>
+    <div id="fb" aria-live="polite"></div>
+  </div>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=e=>answer(+b.dataset.i,e));
+}
+
+function answer(i,e){
+  const item=S.queue[S.i];
+  const btns=app.querySelectorAll(".opt");
+  if(btns[0].disabled)return;
+  btns.forEach(b=>b.disabled=true);
+  const ok=i===item.a;
+  btns[item.a].classList.add("right");
+  if(!ok)btns[i].classList.add("wrong");
+  if(ok){
+    S.correct++;S.streak++;
+    const gain=0.5+0.1*Math.min(S.streak-1,5);
+    S.viewers+=gain;
+    const r=(e&&e.currentTarget||btns[i]).getBoundingClientRect();
+    const pop=document.createElement("div");pop.className="pop";pop.textContent="+"+gain.toFixed(1)+"m";
+    pop.style.left=(r.left+r.width/2-30)+"px";pop.style.top=(r.top-10)+"px";document.body.appendChild(pop);setTimeout(()=>pop.remove(),1000);
+  }else{
+    S.streak=0;S.viewers=Math.max(0,S.viewers-0.2);
+    S.misses.push({q:item.q,p:item.p,a:item.o[item.a],e:item.e});
+  }
+  updateMeter();
+  const praise=["Viewers love it!","Ratings are climbing!","Spot on!","That's a hit!"];
+  $("#fb").innerHTML=`<div class="explain ${ok?"":"no"}"><b>${ok?praise[Math.floor(Math.random()*praise.length)]:"Viewers switching off… it's "+item.o[item.a]}</b>${item.e}</div>
+    <div class="row" style="margin-top:14px"><button class="go" id="nx">${S.i===S.queue.length-1?"See final ratings":"Next"}</button></div>`;
+  $("#nx").onclick=()=>{S.i++;next()};$("#nx").focus();
+}
+
+function end(){
+  const pc=S.correct/S.total;
+  const rank=pc>=.9?"Christmas Day ratings winner":pc>=.7?"Primetime smash hit":pc>=.5?"Solid midweek slot":pc>=.3?"Cult following":"Cancelled after one episode";
+  app.innerHTML=`<div class="stage inter">
+    <span class="stage-top"><span class="tag">Final ratings</span></span>
+    <div class="big">${S.viewers.toFixed(1)}m</div>
+    <span class="rank">${rank}</span>
+    <p>You got <strong>${S.correct} out of ${S.total}</strong> right.</p>
+    ${S.misses.length?`<h3 style="font-size:22px;margin-top:6px">Recap the ones you missed</h3><ul class="misses">${S.misses.map(m=>`<li><b>${m.p?PRODUCTS[m.p].name+": ":""}${m.q}</b>Answer: ${m.a}. ${m.e}</li>`).join("")}</ul>`:`<p>Perfect run. No viewers lost.</p>`}
+    <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="menu">Choose a round</button></div>
+  </div>`;
+  $("#again").onclick=()=>{const ids=[...new Set(S.queue.filter(x=>x.inter).map(x=>x.inter.id))];start(ROUNDS.filter(r=>ids.includes(r.id)))};
+  $("#menu").onclick=home;
+}
+
+document.addEventListener("keydown",e=>{
+  if(!S)return;
+  const n=parseInt(e.key,10);
+  const btns=app.querySelectorAll(".opt");
+  if(n&&btns[n-1]&&!btns[n-1].disabled){btns[n-1].click();}
+});
+home();
+</script>
+</body>
+</html>
