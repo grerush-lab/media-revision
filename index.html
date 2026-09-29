@@ -652,6 +652,16 @@
 .tq-exemplar { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border); font-style: italic; }
 .tq-sentence-note { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; }
 
+
+  /* REGULATION GAMES TAB */
+  #tab-regulation { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.2rem 2rem; }
+  .reg-hero { display:flex; flex-wrap:wrap; gap:1rem; align-items:flex-end; justify-content:space-between; background: var(--ink); color: var(--paper); padding: 1.2rem 1.4rem; border-radius: 2px; margin-bottom: 1rem; }
+  .reg-kicker { font-family:'IBM Plex Mono', monospace; font-size:0.62rem; letter-spacing:3px; text-transform:uppercase; color: var(--gold); margin-bottom:0.3rem; }
+  .reg-title { font-family:'Syne', sans-serif; font-weight:800; font-size:1.6rem; line-height:1.1; }
+  .reg-sub { font-size:0.88rem; color: rgba(245,240,232,0.7); max-width:62ch; margin-top:0.4rem; line-height:1.6; }
+  .reg-open { font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color: var(--ink); background: var(--gold); padding:0.55rem 0.9rem; border-radius:2px; text-decoration:none; white-space:nowrap; }
+  .reg-open:hover { background: var(--paper); }
+  .reg-frame { display:block; width:100%; height:1800px; border:1px solid var(--border); border-radius:2px; background: var(--paper); }
 </style>
 
 <style>
@@ -1203,6 +1213,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
   <button class="tab-btn" onclick="switchTab('terms', this)">🃏 Key Terms</button>
   <button class="tab-btn" onclick="switchTab('recaps', this)">🍭 Set Text Recaps</button>
   <button class="tab-btn" onclick="switchTab('theorygames', this)">🎮 Theory Games</button>
+  <button class="tab-btn" onclick="switchTab('regulation', this)">🛡️ Regulation Games</button>
   <button class="tab-btn" onclick="switchTab('examples', this)">✍️ Example Answers</button>
   <button class="tab-btn" onclick="switchTab('structures', this)">🧱 Question Structures</button>
   <button class="tab-btn" onclick="switchTab('boundaries', this)">🎯 Grade Boundaries</button>
@@ -1524,6 +1535,19 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
       <div class="tg-homework" id="tgHomework" style="display:none;"></div>
     </div>
   </div>
+</div>
+
+<!-- REGULATION GAMES TAB -->
+<div class="tab-section" id="tab-regulation">
+  <div class="reg-hero">
+    <div>
+      <div class="reg-kicker">Component 1 · Section B · Media Industries</div>
+      <div class="reg-title">🛡️ Regulation Games</div>
+      <p class="reg-sub">Seven games on who regulates your set products and why they got their ratings: BBFC and <em>No Time to Die</em>, PEGI/VSC and <em>Fortnite</em>, IPSO and <em>The Sun</em>, Ofcom and <em>Desert Island Discs</em>. Includes real past-paper questions and mark schemes.</p>
+    </div>
+    <a class="reg-open" href="regulation-arcade.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </div>
+  <iframe id="regFrame" class="reg-frame" title="Regulation Games" data-src="regulation-arcade.html" loading="lazy"></iframe>
 </div>
 
 <div class="tab-section" id="tab-examples">
@@ -6613,6 +6637,19 @@ function switchTab(id, btn) {
   if (id === 'theorygames' && typeof tgShowTheoryOverview === 'function') tgShowTheoryOverview('propp', document.querySelector('#tgOverviewTabs .tg-overview-tab'));
   if (id === 'examskills' && typeof esClickLoad === 'function' && !document.querySelector('#esClickPool .es-click-item')) esClickLoad('ml', document.querySelector('.es-click-stagebar button'));
   if (id === 'trickyq' && typeof tqInit === 'function') tqInit();
+  if (id === 'regulation') {
+    var rf = document.getElementById('regFrame');
+    if (rf && !rf.getAttribute('src')) {
+      rf.onload = function(){
+        try {
+          var d = rf.contentDocument;
+          var fit = function(){ rf.style.height = (d.documentElement.scrollHeight + 4) + 'px'; };
+          fit(); new ResizeObserver(fit).observe(d.body);
+        } catch(e) {}
+      };
+      rf.setAttribute('src', rf.getAttribute('data-src'));
+    }
+  }
 }
 // Activate the first tab on load if none active
 (function(){
