@@ -653,6 +653,50 @@
 .tq-sentence-note { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; }
 
 </style>
+
+<style>
+  /* ── Question Structures tab ── */
+  .ex-badge-2026 { background:#b8860b; color:#fff; }
+  .qs-warning { background:#fff4e0; border:1.5px solid var(--gold); border-left:5px solid var(--gold); padding:0.9rem 1rem; font-size:0.88rem; line-height:1.55; margin:0 0 1.2rem; border-radius:2px; }
+  .qs-chain { background:var(--ink); color:var(--paper); padding:1rem 1.1rem 1.1rem; border-radius:2px; margin-bottom:1rem; }
+  .qs-chain-label { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:0.7rem; }
+  .qs-chain-steps { display:flex; align-items:stretch; gap:0.5rem; flex-wrap:wrap; }
+  .qs-step { flex:1 1 150px; background:#1f1d19; border:1px solid #3a352c; padding:0.6rem 0.7rem; font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; border-radius:2px; }
+  .qs-step span { display:inline-block; background:var(--gold); color:var(--ink); font-family:'IBM Plex Mono',monospace; font-size:0.7rem; width:1.3rem; height:1.3rem; line-height:1.3rem; text-align:center; border-radius:50%; margin-right:0.45rem; }
+  .qs-step small { display:block; font-family:'Lora',serif; font-weight:400; font-size:0.78rem; color:#b9b0a0; margin-top:0.25rem; }
+  .qs-arrow { align-self:center; color:var(--gold); font-size:1.2rem; }
+  .qs-skip { font-size:0.8rem; color:var(--muted); font-style:italic; margin-bottom:1.4rem; }
+  .qs-comp { font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; color:#fff; padding:0.5rem 0.8rem; margin:1.4rem 0 0.7rem; border-radius:2px; }
+  .qs-c1 { background:var(--c1col); } .qs-c2 { background:var(--c2col); }
+  .qs-card { background:var(--card); border:1px solid var(--border); border-radius:2px; margin-bottom:0.6rem; }
+  .qs-card[open] { box-shadow:0 2px 10px rgba(0,0,0,0.06); }
+  .qs-card summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:0.7rem; padding:0.8rem 1rem; flex-wrap:wrap; }
+  .qs-card summary::-webkit-details-marker { display:none; }
+  .qs-card summary::after { content:'+'; margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:1.1rem; color:var(--muted); }
+  .qs-card[open] summary::after { content:'–'; }
+  .qs-q { font-family:'IBM Plex Mono',monospace; font-size:0.75rem; font-weight:700; background:var(--ink); color:var(--paper); padding:0.2rem 0.5rem; border-radius:2px; }
+  .qs-name { font-family:'Syne',sans-serif; font-weight:700; font-size:0.98rem; }
+  .qs-marks { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--accent); letter-spacing:1px; text-transform:uppercase; }
+  .qs-big .qs-q { background:var(--accent); }
+  .qs-body { padding:0 1rem 1rem; border-top:1px dashed var(--border); }
+  .qs-aim { font-size:0.9rem; margin:0.9rem 0 0.7rem; }
+  .qs-list { margin:0 0 0.9rem 1.2rem; font-size:0.9rem; line-height:1.6; }
+  .qs-list li { margin-bottom:0.25rem; }
+  .qs-plan { border:1px solid var(--border); border-radius:2px; margin-bottom:0.9rem; }
+  .qs-plan-row { display:grid; grid-template-columns:92px 1fr; gap:0.8rem; padding:0.65rem 0.8rem; font-size:0.88rem; line-height:1.55; border-bottom:1px solid var(--border); }
+  .qs-plan-row:last-child { border-bottom:none; }
+  .qs-plan-row:nth-child(even) { background:#faf8f4; }
+  .qs-plan-tag { font-family:'IBM Plex Mono',monospace; font-size:0.66rem; text-transform:uppercase; letter-spacing:1px; font-weight:700; color:var(--gold); padding-top:0.15rem; }
+  .qs-mini { font-style:italic; color:var(--muted); font-size:0.82rem; margin-top:0.3rem; }
+  .qs-eg { background:#f3f7f5; border-left:4px solid var(--success); padding:0.75rem 0.9rem; font-size:0.87rem; line-height:1.6; margin-bottom:0.8rem; }
+  .qs-eg p { margin-bottom:0.5rem; } .qs-eg p:last-child { margin-bottom:0; }
+  .qs-eg-head { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--success); margin-bottom:0.4rem; }
+  .qs-tip { font-size:0.84rem; background:#fdf6ec; padding:0.6rem 0.8rem; border-radius:2px; }
+  .qs-footer { font-size:0.85rem; margin-top:1.4rem; color:var(--muted); }
+  .qs-footer a { color:var(--accent); }
+  @media (max-width:560px) { .qs-plan-row { grid-template-columns:1fr; gap:0.2rem; } .qs-arrow { display:none; } }
+</style>
+
 <style>
 /* Coach Mode for Exam Skills Arena — safe enhancement */
 .es-coach-bar{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;margin:.75rem 0 1rem;background:#111;color:var(--paper);border:1px solid #333;border-radius:2px;padding:.75rem .85rem}
@@ -1160,6 +1204,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
   <button class="tab-btn" onclick="switchTab('recaps', this)">🍭 Set Text Recaps</button>
   <button class="tab-btn" onclick="switchTab('theorygames', this)">🎮 Theory Games</button>
   <button class="tab-btn" onclick="switchTab('examples', this)">✍️ Example Answers</button>
+  <button class="tab-btn" onclick="switchTab('structures', this)">🧱 Question Structures</button>
   <button class="tab-btn" onclick="switchTab('boundaries', this)">🎯 Grade Boundaries</button>
   <button class="tab-btn" onclick="switchTab('revise', this)">🎲 What to Revise</button>
   <button class="tab-btn" onclick="switchTab('learnhub', this)">📺 Learning Hub</button>
@@ -5672,6 +5717,202 @@ function esShuffle(arr) {
   }, 100);
 })();
 </script>
+
+<!-- QUESTION STRUCTURES TAB -->
+<div class="tab-section" id="tab-structures">
+  <p class="ex-intro">A simple, repeatable plan for every extended question on both papers. Learn the <strong>structure</strong> — then drop in whatever texts come up.</p>
+
+  <div class="qs-warning">
+    <strong>⚠️ Read this first:</strong> every question, set text and unseen product below is an <strong>example taken from the Summer 2026 papers</strong>. The wording, the texts and the unseen products <strong>can and will change every year</strong>. Don't memorise the examples — use them to see what each step looks like in a real answer.
+  </div>
+
+  <div class="qs-chain">
+    <div class="qs-chain-label">The one chain every answer is built from</div>
+    <div class="qs-chain-steps">
+      <div class="qs-step"><span>1</span>Spot it<small>the choice / technique / feature</small></div>
+      <div class="qs-arrow">→</div>
+      <div class="qs-step"><span>2</span>Show it<small>a specific example or quote</small></div>
+      <div class="qs-arrow">→</div>
+      <div class="qs-step"><span>3</span>Say what it means<small>meaning, effect, audience or context</small></div>
+    </div>
+  </div>
+
+  <p class="qs-skip">Short 1–4 mark questions (Component 1 Q3 &amp; Q4 parts a–c) aren't covered here — answer them in a sentence or two. Scroll down for every question worth 5 marks or more.</p>
+
+  <!-- ═════════ COMPONENT 1 ═════════ -->
+  <div class="qs-comp qs-c1">Component 1 · Exploring the Media · 1 hr 30</div>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q1(a)</span><span class="qs-name">Media language — one element</span><span class="qs-marks">5 marks · ~5 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 Aim for <strong>2–3 short, developed points</strong>. No introduction, no conclusion.</div>
+      <ol class="qs-list">
+        <li><strong>Pick one element</strong> linked to the focus (image, cover line, colour, pose).</li>
+        <li><strong>Say what it suggests</strong> — the connotation, not a description.</li>
+        <li><strong>Add a theory or audience link</strong> if it fits (e.g. Propp's hero, ABC1).</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · GQ cover — <em>Narrative</em></div>The cover line "Commonsense" is placed beside Raheem Sterling's direct gaze, suggesting a narrative of him as a moral, powerful figure. The wings behind him connote his speed on the pitch, and the anchorage "The Raheem Sterling Sequel" positions him as a hero figure — even a saviour of football.</div>
+      <div class="qs-tip">💡 5 marks = no introduction. Your first sentence should already be scoring.</div>
+    </div>
+  </details>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q1(b)</span><span class="qs-name">Media language — second element</span><span class="qs-marks">10 marks · ~10 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 Aim for <strong>4–5 points</strong>, one chain each.</div>
+      <ol class="qs-list">
+        <li><strong>Name the feature</strong> (masthead, cover lines, central image, price, mode of address).</li>
+        <li><strong>Quote or describe it</strong> from the product in front of you.</li>
+        <li><strong>Explain why it matters</strong> — why it's typical of the genre / what it means / who it appeals to.</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · GQ cover — <em>Genre conventions</em></div>The masthead "GQ" is in a thick, blocky font, which is typical of a men's lifestyle magazine. The cover lines "Westminster" and "brutal dictatorship" are also conventional, signalling politics and current affairs to an ABC1 male audience.</div>
+      <div class="qs-tip">💡 Every point needs a specific detail from the product. General comments about "magazines" don't score.</div>
+    </div>
+  </details>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q2(a)</span><span class="qs-name">Contexts</span><span class="qs-marks">5 marks · ~5 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 Aim for <strong>2–3 points</strong>.</div>
+      <ol class="qs-list">
+        <li><strong>Name the context</strong> — an attitude or issue in society at the time.</li>
+        <li><strong>Show how it shaped a choice</strong> in the product.</li>
+        <li><strong>Give the evidence</strong> from the product.</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · This Girl Can — <em>cultural contexts</em></div>Culturally, women have been expected to look attractive even when exercising. This influenced This Girl Can: the woman is sweating and wears no make-up, showing that women can enjoy sport however they look.</div>
+      <div class="qs-tip">💡 Start each point with the context, <em>then</em> the product. Context-first keeps it a contexts answer.</div>
+    </div>
+  </details>
+
+  <details class="qs-card qs-big" open>
+    <summary><span class="qs-q">Q2(b)</span><span class="qs-name">Compare representations — extended</span><span class="qs-marks">25 marks · ~25 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 One unseen product + one set product you know. You'll have <strong>just spent up to 10 minutes analysing the unseen one</strong> during your reading time — so use those notes straight away.</div>
+      <div class="qs-plan">
+        <div class="qs-plan-row"><div class="qs-plan-tag">Intro</div><div><strong>2–3 lines.</strong> Name both products and the group being represented, then give your overall judgement.<div class="qs-mini">"Both adverts challenge stereotypes of women in sport, but Nike does this more aggressively than This Girl Can."</div></div></div>
+        <div class="qs-plan-row"><div class="qs-plan-tag">Para 1</div><div><strong>The unseen product</strong> — aim for <strong>5+ points</strong>. Use your reading-time notes: pose, facial expression, costume, colour, slogan, framing — chain each one to what it says about the group.</div></div>
+        <div class="qs-plan-row"><div class="qs-plan-tag">Para 2</div><div><strong>The set product you know</strong> — aim for <strong>5+ points</strong>, same chain. Bring in the theory and context you've revised.</div></div>
+        <div class="qs-plan-row"><div class="qs-plan-tag">Para 3</div><div><strong>Similarities</strong> — as many as the texts allow (this changes each year). Start with <em>"Both…"</em> and give evidence from each product.</div></div>
+        <div class="qs-plan-row"><div class="qs-plan-tag">Para 4</div><div><strong>Differences</strong> — again, depends on the texts. Use <em>"whereas" / "however" / "in contrast"</em>, evidence from each.</div></div>
+        <div class="qs-plan-row"><div class="qs-plan-tag">Conclusion</div><div>Answer <strong>"how far"</strong> directly: are they more similar or more different, and which challenges or reinforces stereotypes more? Link to context if you can.</div></div>
+      </div>
+      <div class="qs-eg"><div class="qs-eg-head">Examples · 2026 · This Girl Can vs Nike (unseen) — <em>representation of women</em></div>
+        <p><strong>Para 1 (unseen):</strong> In the Nike advertisement the woman's back is turned to show her back strength, emphasising muscle rather than a body for the male gaze. Her red top connotes fierceness and power, and the slogan "You can't win. So win" is a declarative statement suggesting women can achieve as much as men.</p>
+        <p><strong>Para 3 (similarities):</strong> Both women wear little or no visible make-up, suggesting beauty is about personality rather than appearance. However, both still wear earrings and piercings, keeping some aspects of femininity.</p>
+        <p><strong>Para 4 (differences):</strong> In both adverts the women's arms are raised, but in This Girl Can it's part of a dance move, linking to the stereotype of dance as a feminine hobby, whereas in Nike she is flexing, which is a more direct challenge to the idea that athletic power belongs to men.</p>
+      </div>
+      <div class="qs-tip">💡 The 2026 script that scored 22/25 had no intro or conclusion and mixed its similarities and differences together. The rest of the analysis was top-band. Using this structure is how you pick up the missing marks.</div>
+    </div>
+  </details>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q3(d)</span><span class="qs-name">Industries — extended</span><span class="qs-marks">12 marks · ~12 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 Aim for <strong>4–5 "ways"</strong>, one short paragraph each.</div>
+      <ol class="qs-list">
+        <li><strong>The way</strong> — use a key term (synergy, microtransactions, social media links, global reach, community).</li>
+        <li><strong>For example…</strong> — a specific detail from the set product.</li>
+        <li><strong>This means…</strong> — how it attracts, keeps or makes money from the audience.</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · Fortnite — <em>how websites promote</em></div>Another way the Fortnite website promotes the game is through synergy. For example, it advertises bundle packs of skins from its collaboration with Squid Game. This means fans of the show who don't already play may be attracted to Fortnite.</div>
+      <div class="qs-tip">💡 "Another way… For example… This means…" is the exact pattern both 11/12 scripts used in 2026.</div>
+    </div>
+  </details>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q4(d)</span><span class="qs-name">Audiences — synoptic extended</span><span class="qs-marks">12 marks · ~12 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 An <strong>opening line</strong>, then <strong>3–4 paragraphs</strong>, then a one-line sum-up.</div>
+      <ol class="qs-list">
+        <li><strong>Opening line:</strong> name the audience (e.g. C2DE) and the theory (e.g. uses and gratifications).</li>
+        <li><strong>Each paragraph:</strong> the need or audience idea → the set-product example → how it meets that need.</li>
+        <li><strong>Synoptic link:</strong> bring in at least one idea from another area — industry, technology/convergence, language or context.</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · The Sun website — <em>how audiences meet their needs</em></div>Users can be entertained. For example, the "Dear Deidre" page has gossip stories about relationships that readers have shared. This means readers are entertained and keep returning to the site every day.</div>
+      <div class="qs-tip">💡 "Synoptic" means linking across the course. The 12/12 script covered all four needs <em>and</em> linked to demographics and language.</div>
+    </div>
+  </details>
+
+  <!-- ═════════ COMPONENT 2 ═════════ -->
+  <div class="qs-comp qs-c2">Component 2 · Understanding Media Forms &amp; Products · 1 hr 30</div>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q1(a)</span><span class="qs-name">TV extract — media language / representation</span><span class="qs-marks">10 marks · ~12 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 Aim for <strong>4–5 moments</strong>, in the order they happen, covering <strong>both main characters</strong>.</div>
+      <ol class="qs-list">
+        <li><strong>The moment and character</strong> — where in the extract.</li>
+        <li><strong>The specific detail</strong> — expression, gesture, posture (or whatever the question focuses on).</li>
+        <li><strong>What it reveals</strong> — about the character, relationship or genre role (villain, maverick detective, femme fatale).</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · Luther — <em>facial expressions &amp; body language</em></div>When Luther leaves the pub his hands are over his face, suggesting he is overwhelmed. This contrasts with Alice's villainous smirk as she types faster at her laptop, positioning her as the calculating villain in control.</div>
+      <div class="qs-tip">💡 Take your viewing notes in extract order and the answer writes itself.</div>
+    </div>
+  </details>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q1(b)</span><span class="qs-name">TV extract — "how typical?"</span><span class="qs-marks">10 marks · ~12 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 Aim for <strong>4–5 points</strong>, then a one-line verdict.</div>
+      <ol class="qs-list">
+        <li><strong>Name the technique</strong> (establishing shot, close-up, over-the-shoulder, zoom, jump cut).</li>
+        <li><strong>What it shows</strong> in the extract.</li>
+        <li><strong>Typical or not?</strong> Say whether it's conventional for the genre, and why.</li>
+        <li><strong>Verdict:</strong> "Overall, the camerawork is highly typical because…"</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · Luther — <em>camerawork</em></div>The extreme close-up zooming in on the name "John Luther" on Alice's screen is typical of crime drama, because it shows the villain and detective are always on each other's tails, building suspense.</div>
+      <div class="qs-tip">💡 The question says "how typical", so every point needs the word <em>typical</em> or <em>conventional</em>. Both 2026 scripts lost a mark by missing an overall verdict.</div>
+    </div>
+  </details>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q2</span><span class="qs-name">TV — industries / audiences / contexts</span><span class="qs-marks">10 marks · ~12 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 <strong>Define → Then → Now → Impact.</strong> (Shown for an industry question — swap in audience or context ideas if that's what's asked.)</div>
+      <ol class="qs-list">
+        <li><strong>Define</strong> the key term in one line.</li>
+        <li><strong>Then:</strong> how it worked with the older text (e.g. <em>The Sweeney</em>).</li>
+        <li><strong>Now:</strong> how it works with the modern text (e.g. <em>Luther</em>).</li>
+        <li><strong>Impact:</strong> what that means for audiences and for the producer.</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · <em>impact of convergence on distribution</em></div>Convergence is the process of technologies coming together on one platform. Previously, The Sweeney could only be watched on a TV at a set time. Now Luther is on BBC iPlayer and Netflix across phones, tablets and laptops, so the BBC can reach a wider, global audience whenever they want to watch.</div>
+      <div class="qs-tip">💡 The before/after contrast is what earns the "impact" marks.</div>
+    </div>
+  </details>
+
+  <details class="qs-card qs-big">
+    <summary><span class="qs-q">Q3</span><span class="qs-name">Music videos — extended</span><span class="qs-marks">20 marks · ~24 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 One video at a time, then compare. Balance <strong>challenges</strong> and <strong>reinforces</strong> for both videos.</div>
+      <div class="qs-plan">
+        <div class="qs-plan-row"><div class="qs-plan-tag">Intro</div><div>Name both videos and the social groups (gender, ethnicity, body size), and give a "how far" stance.</div></div>
+        <div class="qs-plan-row"><div class="qs-plan-tag">Video 1</div><div>2–3 ways it <strong>challenges</strong> stereotypes, 1–2 ways it <strong>reinforces</strong> them, plus a <strong>context link</strong>.</div></div>
+        <div class="qs-plan-row"><div class="qs-plan-tag">Video 2</div><div>The same again: challenges, reinforces, context.</div></div>
+        <div class="qs-plan-row"><div class="qs-plan-tag">Conclusion</div><div>Which video challenges stereotypes more, and how far overall?</div></div>
+      </div>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · Good as Hell &amp; Intentions — <em>challenging stereotypes</em></div>Intentions challenges stereotypes because the three leads are Black women who are the focal point of the narrative. However, it also reinforces them, because Bieber is positioned as a white saviour handing out laptops and a car. This suggests people of colour need a white man's help to succeed.</div>
+      <div class="qs-tip">💡 The 17 and the 15 in 2026 differed mainly on context and judgement. End every paragraph with "this challenges / reinforces stereotypes because…".</div>
+    </div>
+  </details>
+
+  <details class="qs-card">
+    <summary><span class="qs-q">Q4</span><span class="qs-name">Music — contexts / industries / audiences</span><span class="qs-marks">10 marks · ~12 mins</span></summary>
+    <div class="qs-body">
+      <div class="qs-aim">🎯 Aim for <strong>3–4 points</strong>.</div>
+      <ol class="qs-list">
+        <li><strong>The society / context</strong> (body positivity, beauty standards, fan culture).</li>
+        <li><strong>A specific post or website feature</strong> as evidence.</li>
+        <li><strong>How it reflects</strong> that society.</li>
+      </ol>
+      <div class="qs-eg"><div class="qs-eg-head">Example · 2026 · Lizzo online — <em>culture and society</em></div>On TikTok, Lizzo posts a no-make-up video criticising western beauty standards. This reflects a modern society where people increasingly challenge narrow ideals of beauty, especially for Black women.</div>
+      <div class="qs-tip">💡 Start each point with the society, not the post. It keeps the answer on contexts.</div>
+    </div>
+  </details>
+
+  <p class="qs-footer">Want to see full answers? Real anonymised Summer 2026 scripts for every question here are in <a href="#" onclick="switchTab('examples', document.querySelector('.tab-btn[onclick*=examples]'));return false;">✍️ Example Answers</a>, and on each question in 📝 Questions.</p>
+</div>
+
+
 <div class="tab-section" id="tab-trickyq">
   <div class="tq-intro">
     <strong>How to use this:</strong> pick a question type below that you find tricky. Each one breaks down what it's <em>actually</em> asking, gives you a step-by-step way in, shows how it's been asked in real exams since 2019, and flags anything unusual about this year's version. Work through one, then rate how confident you feel — the bar at the top tracks your progress across all of them.
@@ -6316,6 +6557,7 @@ function esClickReset(){ esClickLoad(esClickMode, null); }
 
 <script src="guide_images.js"></script>
 <script src="questions.js"></script>
+<script src="ex2026.js"></script>
 
 <!-- STICKY RAG BAR -->
 <div class="rag-bar" id="ragBar">
