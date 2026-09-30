@@ -1447,7 +1447,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
 <div class="tab-section" id="tab-theorygames">
   <div class="tg-hero">
     <div class="tg-title">🎮 Individual Theory Games</div>
-    <p class="tg-sub">Homework-friendly mini-games for applying key GCSE Media theories to Eduqas set texts. Choose one theorist for focused revision, or use mixed mode for end-of-topic practice.</p>
+    <p class="tg-sub">Homework-friendly theory games. <strong>Understand the theory</strong> checks the core ideas; <strong>Apply it to set texts</strong> tests you on using Propp, Todorov, Uses &amp; Gratifications and Stuart Hall with specific Eduqas set products — filter by exam section or a single text.</p>
   </div>
 
   <div class="tg-panel">
@@ -1475,7 +1475,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
     <div class="tg-panel-head">
       <div>
         <div class="tg-label">Game setup</div>
-        <div style="font-size:0.82rem;color:var(--muted);margin-top:0.25rem;">Pick a theory, a game type and number of rounds.</div>
+        <div style="font-size:0.82rem;color:var(--muted);margin-top:0.25rem;">Pick a theory, then choose whether to check your understanding or apply it to specific set texts.</div>
       </div>
       <div class="tg-scorestrip">
         <span class="tg-pill">Score: <strong id="tgScore">0</strong></span>
@@ -1498,15 +1498,20 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
         </select>
       </div>
       <div class="tg-control">
+        <label for="tgQType">Question type</label>
+        <select id="tgQType">
+          <option value="understand">Understand the theory</option>
+          <option value="apply">Apply it to set texts</option>
+        </select>
+      </div>
+      <div class="tg-control" id="tgSetTextWrap" style="display:none;">
+        <label for="tgSetText">Set text / exam section</label>
+        <select id="tgSetText"><option value="all">All eligible set texts</option></select>
+      </div>
+      <div class="tg-control">
         <label for="tgMode">Game mode</label>
         <select id="tgMode">
-          <option value="detective">Theory Detective</option>
-          <option value="mistake">Spot the Mistake</option>
-          <option value="arena">Theory Arena</option>
-          <option value="sentence">Exam Sentence Builder 2.0</option>
-          <option value="boss">Boss Battle</option>
-          <option value="streak">Streak Mode</option>
-          <option value="roulette">Theory Roulette</option>
+          <option value="theoryChallenge">Theory Challenge</option>
         </select>
       </div>
       <div class="tg-control">
@@ -1514,10 +1519,14 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
         <select id="tgRounds">
           <option value="5">5 quick questions</option>
           <option value="8">8 questions</option>
-          <option value="10">10-question homework mode</option>
+          <option value="10" selected>10-question homework mode</option>
+          <option value="15">15 questions</option>
+          <option value="20">20 questions</option>
+          <option value="all">All available questions</option>
         </select>
       </div>
     </div>
+    <div class="tg-pool-info" id="tgPoolInfo"></div>
     <div class="tg-start-row">
       <button class="tg-btn" onclick="tgStartGame()">Start game</button>
       <button class="tg-btn alt" onclick="tgResetGame()">Reset</button>
@@ -1530,7 +1539,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
       <div class="tg-card">
         <div class="tg-kicker">Ready</div>
         <div class="tg-question">Choose a theory focus and start the game.</div>
-        <p class="tg-context">Students get immediate feedback and a sentence frame so they practise turning theory into exam-style evidence.</p>
+        <p class="tg-context">Pick <strong>Apply it to set texts</strong> to practise using theory on specific Eduqas products, with feedback and exam tips after every answer.</p>
       </div>
       <div class="tg-homework" id="tgHomework" style="display:none;"></div>
     </div>
@@ -8083,8 +8092,28 @@ function rjResetProgressConfirm(){
 
 
 
-<script id="theory-games-v26-focused-fixed">
+<style id="theory-games-v40-css">
+  .tg-pool-info{padding:0 1rem .9rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.3px;color:var(--muted);line-height:1.6;}
+  .tg-pool-info strong{color:var(--ink);}
+  .tg-control select optgroup{font-style:normal;font-weight:700;}
+  .tg-textchip{display:inline-block;font-family:'Syne',sans-serif;font-weight:700;font-size:.78rem;background:#fff;border:1.5px solid var(--gold);color:var(--ink);border-radius:999px;padding:.2rem .7rem;margin:0 0 .5rem;}
+  .tg-v40-tip{margin-top:.55rem;padding:.5rem .7rem;background:#fffbf0;border-left:3px solid var(--gold);color:#5f4a12;font-size:.84rem;}
+  .tg-v40-breakdown{display:grid;gap:.4rem;margin:.5rem 0 .8rem;}
+  .tg-v40-brow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(60px,1fr) auto;gap:.6rem;align-items:center;font-size:.82rem;}
+  .tg-v40-bar{height:8px;background:#eee4d5;border-radius:999px;overflow:hidden;}
+  .tg-v40-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--gold),var(--success));}
+  .tg-v40-review{display:grid;gap:.6rem;margin:.5rem 0 .8rem;}
+  .tg-v40-rcard{background:#fff;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:2px;padding:.75rem .85rem;font-size:.84rem;line-height:1.55;}
+  .tg-v40-rq{font-weight:700;margin-bottom:.3rem;}
+  .tg-v40-ryou{color:#7b1d1d;}
+  .tg-v40-rright{color:var(--success);font-weight:600;}
+  .tg-v40-rwhy{color:var(--muted);margin-top:.3rem;}
+  @media(max-width:560px){.tg-v40-brow{grid-template-columns:1fr auto;}.tg-v40-bar{grid-column:1/-1;grid-row:2;}}
+</style>
+<script src="theory-games-settexts.js"></script>
+<script id="theory-games-v40-settexts">
 (function(){
+  // ── Understanding-mode bank (carried over from v26) ────────────────────
   const BANK = {
     propp:[
       {q:"Which theory is mainly about character roles such as hero, villain and helper?", opts:["Propp","Todorov","Stuart Hall","Steve Neale"], a:"Propp", why:"Propp is the character roles theory. Todorov is narrative structure."},
@@ -8153,84 +8182,178 @@ function rjResetProgressConfirm(){
   };
   BANK.mixed=[...BANK.propp,...BANK.todorov,...BANK.uses,...BANK.active,...BANK.neale,...BANK.mulvey,...BANK.hall];
 
-  const state={round:0,total:5,score:0,streak:0,answered:false,used:[],pool:BANK.mixed};
-  function $(id){return document.getElementById(id);}
-  function area(){return $("tgGameArea")||$("tgGame")||document.querySelector(".tg-game");}
-  function setText(id,val){let el=$(id); if(el)el.textContent=val;}
-  function norm(s){return String(s||"").toLowerCase();}
-  function focusKey(){
-    const sel=$("tgTheory")||$("tgFocus")||document.querySelector('select[id*="Theory"], select[id*="Focus"]');
-    const v=norm((sel?.value||"")+" "+(sel?.selectedOptions?.[0]?.textContent||""));
-    if(v.includes("propp")||v.includes("character"))return"propp";
-    if(v.includes("todorov")||v.includes("narrative"))return"todorov";
-    if(v.includes("gratification")||v.includes("uses"))return"uses";
-    if(v.includes("active")||v.includes("passive"))return"active";
-    if(v.includes("neale")||v.includes("genre"))return"neale";
-    if(v.includes("mulvey")||v.includes("male gaze"))return"mulvey";
-    if(v.includes("hall")||v.includes("reception")||v.includes("response"))return"hall";
-    return"mixed";
+  // ── Set-text bank (theory-games-settexts.js) ──────────────────────────
+  const ST   = window.TG_SETTEXT_BANK || (typeof TG_SETTEXT_BANK!=="undefined"?TG_SETTEXT_BANK:[]);
+  const TX   = window.TG_TEXTS || (typeof TG_TEXTS!=="undefined"?TG_TEXTS:{});
+  const SECS = window.TG_SECTIONS || (typeof TG_SECTIONS!=="undefined"?TG_SECTIONS:{});
+  const ELIG = window.TG_ELIGIBLE || (typeof TG_ELIGIBLE!=="undefined"?TG_ELIGIBLE:{});
+  const APPLY_THEORIES=["propp","todorov","uses","hall"];
+  const THEORY_KEY={mixed:"mixed",propp:"propp",todorov:"todorov",ug:"uses",activepassive:"active",neale:"neale",mulvey:"mulvey",hall:"hall"};
+  const THEORY_LABEL={propp:"Propp — Character Roles",todorov:"Todorov — Narrative Structure",uses:"Uses & Gratifications",active:"Active vs Passive Audiences",neale:"Steve Neale — Genre",mulvey:"Laura Mulvey — Male Gaze",hall:"Stuart Hall — Reception & Representation",mixed:"Mixed Theories"};
+  const THEORY_SHORT={propp:"Propp",todorov:"Todorov",uses:"U&G",hall:"Hall"};
+
+  const $=id=>document.getElementById(id);
+  const area=()=>$("tgGameArea")||document.querySelector(".tg-game");
+  const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+  function theory(){const v=($("tgTheory")||{}).value||"mixed";return THEORY_KEY[v]||"mixed";}
+  function qtype(){return (($("tgQType")||{}).value)||"understand";}
+  function canApply(th){return th==="mixed"||APPLY_THEORIES.includes(th);}
+  function isApply(){return qtype()==="apply"&&canApply(theory());}
+
+  function eligibleTexts(th){
+    if(th==="mixed"){const s=new Set();APPLY_THEORIES.forEach(t=>(ELIG[t]||[]).forEach(x=>s.add(x)));return Object.keys(TX).filter(k=>s.has(k));}
+    return (ELIG[th]||[]).slice();
   }
-  function focusLabel(){return({propp:"Propp — Character Roles",todorov:"Todorov — Narrative Structure",uses:"Uses & Gratifications",active:"Active vs Passive Audiences",neale:"Steve Neale — Genre",mulvey:"Laura Mulvey — Male Gaze",hall:"Stuart Hall — Reception Theory",mixed:"Mixed Theories"})[focusKey()]||"Theory Challenge";}
-  function updateHud(){
-    setText("tgScore",state.score);setText("tgScoreVal",state.score);
-    setText("tgRound",state.round+"/"+state.total);setText("tgRoundVal",state.round+"/"+state.total);
-    setText("tgStreak",state.streak);setText("tgStreakVal",state.streak);
-    document.querySelectorAll(".tg-pill").forEach(p=>{if(/Score/.test(p.textContent))p.innerHTML="Score: <strong>"+state.score+"</strong>";if(/Round/.test(p.textContent))p.innerHTML="Round: <strong>"+state.round+"/"+state.total+"</strong>";if(/Streak/.test(p.textContent))p.innerHTML="Streak: <strong>"+state.streak+"</strong>";});
+  function applyPool(th,filter){
+    let qs=ST.filter(q=>th==="mixed"?APPLY_THEORIES.includes(q.th):q.th===th);
+    if(filter&&filter.startsWith("sec:")){const s=filter.slice(4);qs=qs.filter(q=>TX[q.t]&&TX[q.t].sec===s);}
+    else if(filter&&filter.startsWith("text:")){const t=filter.slice(5);qs=qs.filter(q=>q.t===t);}
+    return qs;
   }
-  function totalRounds(){
-    const sel=$("tgRounds")||document.querySelector('select[id*="Round"], select[name*="round"]');
-    const raw=(sel?.value||sel?.selectedOptions?.[0]?.textContent||"5").toString();
-    if(raw==="all")return state.pool.length;
-    const m=raw.match(/\d+/);
-    return Math.max(1,parseInt(m?m[0]:"5",10));
+  function filterLabel(filter){
+    if(!filter||filter==="all")return "All eligible set texts";
+    if(filter.startsWith("sec:"))return SECS[filter.slice(4)]||filter;
+    const t=TX[filter.slice(5)];return t?t.name:filter;
   }
-  function shuffle(a){return a.slice().sort(()=>Math.random()-.5);}
+
+  function buildSetTextSelect(){
+    const sel=$("tgSetText");if(!sel)return;
+    const th=theory(),prev=sel.value,texts=eligibleTexts(th);
+    const bySec={};texts.forEach(t=>{const s=TX[t].sec;(bySec[s]=bySec[s]||[]).push(t);});
+    let h=`<option value="all">All eligible set texts (${applyPool(th,"all").length})</option>`;
+    const secKeys=Object.keys(SECS).filter(s=>bySec[s]);
+    if(secKeys.length>1){h+=`<optgroup label="By exam &amp; section">`+secKeys.map(s=>`<option value="sec:${s}">${esc(SECS[s])} — all (${applyPool(th,"sec:"+s).length})</option>`).join("")+`</optgroup>`;}
+    secKeys.forEach(s=>{h+=`<optgroup label="${esc(SECS[s])}">`+bySec[s].map(t=>`<option value="text:${t}">${esc(TX[t].name)} (${applyPool(th,"text:"+t).length})</option>`).join("")+`</optgroup>`;});
+    sel.innerHTML=h;
+    if([...sel.options].some(o=>o.value===prev))sel.value=prev;
+  }
+
+  function currentPool(){
+    const th=theory();
+    if(isApply()){
+      const f=($("tgSetText")||{}).value||"all";
+      return applyPool(th,f).map(q=>({q:q.q,opts:q.o.slice(),a:q.o[0],why:q.w,tip:q.tip||"",th:q.th,t:q.t}));
+    }
+    return (BANK[th]||BANK.mixed).map(q=>({q:q.q,opts:q.opts.slice(),a:q.a,why:q.why,tip:"",th:th==="mixed"?null:th,t:null}));
+  }
+
+  function updateControls(){
+    const th=theory(),qt=$("tgQType"),wrap=$("tgSetTextWrap"),info=$("tgPoolInfo");
+    if(qt){
+      const opt=[...qt.options].find(o=>o.value==="apply");
+      if(opt){opt.disabled=!canApply(th);opt.textContent=canApply(th)?"Apply it to set texts":"Apply it to set texts (Propp, Todorov, U&G, Hall only)";}
+      if(!canApply(th)&&qt.value==="apply")qt.value="understand";
+    }
+    const apply=isApply();
+    if(wrap)wrap.style.display=apply?"":"none";
+    if(apply)buildSetTextSelect();
+    if(info){
+      const n=currentPool().length;
+      info.innerHTML=apply
+        ? `<strong>${n}</strong> set-text questions ready · ${esc(THEORY_LABEL[th])} · ${esc(filterLabel(($("tgSetText")||{}).value))}`
+        : `<strong>${n}</strong> theory questions ready · ${esc(THEORY_LABEL[th])}`+(canApply(th)?` · switch <em>Question type</em> to apply it to set texts`:``);
+    }
+  }
+
+  function roundsWanted(poolLen){
+    const raw=(($("tgRounds")||{}).value)||"5";
+    if(raw==="all")return poolLen;
+    return Math.min(poolLen,Math.max(1,parseInt(raw,10)||5));
+  }
+
+  const state={deck:[],i:0,score:0,streak:0,best:0,answered:false,results:[],apply:false,theory:"mixed",filter:"all"};
+
+  function hud(){
+    const total=state.deck.length,round=Math.min(state.i+ (state.answered?1:1),total);
+    document.querySelectorAll("#tab-theorygames .tg-pill").forEach(p=>{
+      if(/Score/.test(p.textContent))p.innerHTML="Score: <strong>"+state.score+"</strong>";
+      else if(/Round/.test(p.textContent))p.innerHTML="Round: <strong>"+(total?round:0)+"/"+total+"</strong>";
+      else if(/Streak/.test(p.textContent))p.innerHTML="Streak: <strong>"+state.streak+"</strong>";
+    });
+  }
+
   function setup(){
-    const mode=$("tgMode"); if(mode){mode.innerHTML='<option value="theoryChallenge">Theory Challenge</option>'; mode.value="theoryChallenge"; const wrap=mode.closest(".tg-control"); if(wrap)wrap.style.display="none";}
-    Array.from(document.querySelectorAll("button")).forEach(b=>{if(/CREATE\s+HOMEWORK\s+INSTRUCTION/i.test(b.textContent||""))b.style.display="none";});
-    const panel=document.querySelector(".tg-panel-head"); if(panel){const p=Array.from(panel.querySelectorAll("p,div")).find(el=>/Pick a theory/.test(el.textContent||"")); if(p)p.textContent="Pick a theory focus and number of rounds. Questions stay locked to the selected theory.";}
+    const mode=$("tgMode");if(mode){const w=mode.closest(".tg-control");if(w)w.style.display="none";}
+    document.querySelectorAll("#tab-theorygames button").forEach(b=>{if(/CREATE\s+HOMEWORK\s+INSTRUCTION/i.test(b.textContent||""))b.style.display="none";});
   }
-  function pick(){
-    if(state.used.length>=state.pool.length)state.used=[];
-    const av=state.pool.map((q,i)=>({q,i})).filter(x=>!state.used.includes(x.i));
-    const ch=av[Math.floor(Math.random()*av.length)]||{q:state.pool[0],i:0};
-    state.used.push(ch.i); return ch.q;
+
+  function kicker(item){
+    if(item.t&&TX[item.t]){
+      return `<div class="tg-kicker">Apply it · ${esc(SECS[TX[item.t].sec]||"")}</div><div class="tg-textchip">${esc(TX[item.t].name)}</div>`;
+    }
+    return `<div class="tg-kicker">Understand the theory</div>`;
   }
-  function renderRound(){
-    state.answered=false; state.round++;
-    const q=pick(); state.current=q;
-    const pct=Math.round(((state.round-1)/state.total)*100);
-    area().innerHTML=`<div class="tg-card"><div class="tg-kicker">Theory Challenge</div><div class="tg-v25-progress"><span style="width:${pct}%"></span></div><span class="tg-v25-theory">${focusLabel()}</span><div class="tg-question">${q.q}</div><div class="tg-options">${shuffle(q.opts).map(o=>`<button type="button" class="tg-option tg-v25-choice" data-choice="${encodeURIComponent(o)}">${o}</button>`).join("")}</div><div id="tgV25Feedback" class="tg-v25-feedback"></div></div>`;
-    updateHud();
+
+  function render(){
+    state.answered=false;
+    const item=state.deck[state.i],total=state.deck.length;
+    const pct=Math.round((state.i/total)*100);
+    const thLabel=item.th?(state.theory==="mixed"&&THEORY_SHORT[item.th]?THEORY_LABEL[item.th]:THEORY_LABEL[state.theory]):THEORY_LABEL[state.theory];
+    area().innerHTML=`<div class="tg-card">${kicker(item)}<div class="tg-v25-progress"><span style="width:${pct}%"></span></div><span class="tg-v25-theory">${esc(thLabel)}</span><div class="tg-question">${esc(item.q)}</div><div class="tg-options">${shuffle(item.opts).map(o=>`<button type="button" class="tg-option tg-v40-choice" data-choice="${encodeURIComponent(o)}">${esc(o)}</button>`).join("")}</div><div id="tgV40Feedback" class="tg-v25-feedback"></div></div>`;
+    hud();
+    const first=area().querySelector(".tg-option");if(first&&window.matchMedia&&matchMedia("(min-width:700px)").matches)first.focus({preventScroll:true});
   }
+
   function answer(choice){
-    if(state.answered)return; state.answered=true;
-    const q=state.current, ok=choice===q.a;
-    if(ok){state.score+=10;state.streak++;}else{state.streak=0;}
-    document.querySelectorAll(".tg-v25-choice").forEach(btn=>{const val=decodeURIComponent(btn.dataset.choice||"");btn.disabled=true;if(val===q.a)btn.classList.add("correct");if(val===choice&&!ok)btn.classList.add("wrong");});
-    const fb=$("tgV25Feedback"); fb.className="tg-v25-feedback "+(ok?"good":"bad");
-    fb.innerHTML=`<strong>${ok?"✓ Correct":"✗ Not quite"}</strong><br>${q.why}<div class="tg-v25-row"><button type="button" class="tg-btn tg-v25-next" id="tgV25Continue">${state.round>=state.total?"Finish":"Continue"}</button></div>`;
-    updateHud();
+    if(state.answered)return;state.answered=true;
+    const item=state.deck[state.i],ok=choice===item.a;
+    if(ok){state.score+=10;state.streak++;state.best=Math.max(state.best,state.streak);}else state.streak=0;
+    state.results.push({item,ok,choice});
+    area().querySelectorAll(".tg-v40-choice").forEach(b=>{const v=decodeURIComponent(b.dataset.choice||"");b.disabled=true;if(v===item.a)b.classList.add("correct");if(v===choice&&!ok)b.classList.add("wrong");});
+    const fb=$("tgV40Feedback");fb.className="tg-v25-feedback "+(ok?"good":"bad");
+    const last=state.i>=state.deck.length-1;
+    fb.innerHTML=`<strong>${ok?"✓ Correct":"✗ Not quite"}</strong><br>${esc(item.why)}${item.tip?`<div class="tg-v40-tip"><strong>Exam tip:</strong> ${esc(item.tip)}</div>`:""}<div class="tg-v25-row"><button type="button" class="tg-btn tg-v25-next" id="tgV40Continue">${last?"See results":"Continue"}</button></div>`;
+    hud();
+    const c=$("tgV40Continue");if(c)c.focus({preventScroll:true});
   }
+
   function finish(){
-    const pct=Math.round((state.score/(state.total*10))*100);
-    area().innerHTML=`<div class="tg-card"><div class="tg-kicker">Theory Challenge Complete</div><div class="tg-question">${focusLabel()}: ${state.score} / ${state.total*10} XP</div><p class="tg-context">Accuracy: ${pct}%. Replay this theory focus until the core ideas feel automatic.</p><div class="tg-v25-summary"><div class="tg-v25-tile"><strong>${state.score}</strong><br>XP</div><div class="tg-v25-tile"><strong>${state.streak}</strong><br>Final streak</div><div class="tg-v25-tile"><strong>${pct}%</strong><br>Accuracy</div></div><div class="tg-v25-row"><button type="button" class="tg-btn" id="tgV25PlayAgain">Play Again</button></div></div>`;
+    const total=state.deck.length,right=state.results.filter(r=>r.ok).length,pct=total?Math.round(right/total*100):0;
+    let breakdown="";
+    if(state.apply){
+      const by={};state.results.forEach(r=>{const k=r.item.t;by[k]=by[k]||{n:0,ok:0};by[k].n++;if(r.ok)by[k].ok++;});
+      const rows=Object.keys(by).map(k=>({k,...by[k],p:by[k].ok/by[k].n})).sort((a,b)=>a.p-b.p||b.n-a.n);
+      breakdown=`<div class="tg-minihead">By set text — weakest first</div><div class="tg-v40-breakdown">`+rows.map(r=>`<div class="tg-v40-brow"><span>${esc(TX[r.k]?TX[r.k].name:r.k)}</span><span class="tg-v40-bar"><i style="width:${Math.round(r.p*100)}%"></i></span><strong>${r.ok}/${r.n}</strong></div>`).join("")+`</div>`;
+    }
+    const missed=state.results.filter(r=>!r.ok);
+    const review=missed.length?`<div class="tg-minihead">Review what you missed (${missed.length})</div><div class="tg-v40-review">`+missed.map(r=>`<div class="tg-v40-rcard">${r.item.t&&TX[r.item.t]?`<div class="tg-textchip">${esc(TX[r.item.t].name)}</div>`:""}<div class="tg-v40-rq">${esc(r.item.q)}</div><div class="tg-v40-ryou">Your answer: ${esc(r.choice)}</div><div class="tg-v40-rright">Correct: ${esc(r.item.a)}</div><div class="tg-v40-rwhy">${esc(r.item.why)}</div></div>`).join("")+`</div>`:`<div class="tg-v25-note">Full marks — no mistakes to review. Try a different set text or section next.</div>`;
+    area().innerHTML=`<div class="tg-card"><div class="tg-kicker">${state.apply?"Set-text challenge complete":"Theory challenge complete"}</div><div class="tg-question">${esc(THEORY_LABEL[state.theory])}${state.apply?" · "+esc(filterLabel(state.filter)):""}</div><div class="tg-v25-summary"><div class="tg-v25-tile"><strong>${right}/${total}</strong><br>Correct</div><div class="tg-v25-tile"><strong>${pct}%</strong><br>Accuracy</div><div class="tg-v25-tile"><strong>${state.best}</strong><br>Best streak</div><div class="tg-v25-tile"><strong>${state.score}</strong><br>XP</div></div>${breakdown}${review}<div class="tg-v25-row"><button type="button" class="tg-btn" id="tgV40PlayAgain">Play again</button>${!state.apply&&canApply(state.theory)?`<button type="button" class="tg-btn alt" id="tgV40TryApply">Now apply it to set texts</button>`:""}</div></div>`;
+    hud();
   }
+
   window.tgStartGame=function(){
-    setup(); const key=focusKey(); state.pool=BANK[key]||BANK.mixed;
-    state.round=0; state.total=totalRounds(); state.score=0; state.streak=0; state.answered=false; state.used=[];
-    renderRound();
+    setup();
+    const pool=currentPool();
+    state.theory=theory();state.apply=isApply();state.filter=(($("tgSetText")||{}).value)||"all";
+    if(!pool.length){area().innerHTML=`<div class="tg-card"><div class="tg-kicker">No questions</div><div class="tg-question">There are no questions for this combination yet.</div></div>`;return;}
+    state.deck=shuffle(pool).slice(0,roundsWanted(pool.length));
+    state.i=0;state.score=0;state.streak=0;state.best=0;state.results=[];
+    render();
+    const panel=area().closest(".tg-panel");if(panel&&panel.scrollIntoView)panel.scrollIntoView({behavior:"smooth",block:"start"});
   };
-  window.tgReset=function(){state.round=0;state.score=0;state.streak=0;state.answered=false;state.used=[];updateHud();if(area())area().innerHTML='<div class="tg-card"><div class="tg-kicker">Theory Challenge</div><div class="tg-question">Press Start Game to begin.</div><p class="tg-context">Questions will stay focused on the theory selected above.</p></div>';};
+  window.tgReset=function(){
+    state.deck=[];state.i=0;state.score=0;state.streak=0;state.results=[];state.answered=false;hud();
+    if(area())area().innerHTML='<div class="tg-card"><div class="tg-kicker">Ready</div><div class="tg-question">Press Start game to begin.</div><p class="tg-context">Choose <strong>Understand the theory</strong> to check the core ideas, or <strong>Apply it to set texts</strong> to practise using the theory on specific Eduqas set products.</p></div>';
+  };
   window.tgResetGame=window.tgReset;
+
   document.addEventListener("click",function(e){
-    const c=e.target.closest(".tg-v25-choice"); if(c){answer(decodeURIComponent(c.dataset.choice||""));return;}
-    if(e.target.closest("#tgV25Continue")){if(state.round>=state.total)finish();else renderRound();return;}
-    if(e.target.closest("#tgV25PlayAgain")){window.tgStartGame();return;}
-    const b=e.target.closest("button"); if(b&&/START GAME/i.test(b.textContent||"")){e.preventDefault();e.stopPropagation();window.tgStartGame();return;}
+    if(!e.target.closest||!e.target.closest("#tab-theorygames"))return;
+    const c=e.target.closest(".tg-v40-choice");if(c){answer(decodeURIComponent(c.dataset.choice||""));return;}
+    if(e.target.closest("#tgV40Continue")){if(state.i>=state.deck.length-1)finish();else{state.i++;render();}return;}
+    if(e.target.closest("#tgV40PlayAgain")){window.tgStartGame();return;}
+    if(e.target.closest("#tgV40TryApply")){const q=$("tgQType");if(q){q.value="apply";updateControls();}window.tgStartGame();return;}
+    const b=e.target.closest("button");
+    if(b&&/^START GAME$/i.test((b.textContent||"").trim())){e.preventDefault();e.stopPropagation();window.tgStartGame();return;}
     if(b&&/^RESET$/i.test((b.textContent||"").trim())){e.preventDefault();e.stopPropagation();window.tgReset();return;}
   },true);
-  document.addEventListener("DOMContentLoaded",()=>setTimeout(()=>{setup();updateHud();},300));
+  document.addEventListener("change",function(e){
+    if(e.target&&["tgTheory","tgQType","tgSetText","tgRounds"].includes(e.target.id))updateControls();
+  });
+  function init(){setup();updateControls();hud();}
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(init,300));else setTimeout(init,0);
 })();
 </script>
 
