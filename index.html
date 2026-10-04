@@ -9317,6 +9317,86 @@ var TQ_DATA = [
       }
     }
   },
+  {
+    id: 'c2q4online',
+    comp: 'C2', compFull: 'Component 2 — Section B (Music) · Context',
+    badge: 'Q4 (Music)',
+    title: 'Music Online Media & Society: how Lizzo’s or Taylor Swift’s website and social media reflect the world today',
+    tariff: '/10',
+    colour: 'secb',
+    thisYear: {
+      text: 'Explain how online media reflects the culture and society in which it is produced. Refer to the official website and/or social media for either Taylor Swift or Lizzo to support your points. [10]',
+      note: 'Many students struggled with this one in summer 2026. It is a CONTEXT question: the marks are for linking what you see online to what is happening in society and culture, not for describing the website.'
+    },
+    starter: '<div class="tq-starter">' +
+      '<p class="tq-st-lead"><strong>Online media</strong> = the artist’s official website AND/OR their social media (Instagram, TikTok, X). <strong>Culture and society</strong> = the attitudes, values, technology and events of the world right now. Every point follows the same formula:</p>' +
+      '<div class="tq-st-grid" style="grid-template-columns:repeat(3,1fr);">' +
+        '<div class="tq-st-card"><div class="tq-st-k">1 · Online evidence</div><div class="tq-st-h">A specific post or website feature</div><div class="tq-st-e">e.g. Lizzo’s merch sold in sizes S–XXXL</div></div>' +
+        '<div class="tq-st-card"><div class="tq-st-k">2 · Society or culture</div><div class="tq-st-h">What’s happening in the world</div><div class="tq-st-e">e.g. body positivity is challenging narrow beauty standards</div></div>' +
+        '<div class="tq-st-card"><div class="tq-st-k">3 · The link</div><div class="tq-st-h">“This reflects…”</div><div class="tq-st-e">e.g. this reflects a culture that celebrates all body types</div></div>' +
+      '</div>' +
+      '<div class="tq-st-k" style="margin-top:0.9rem;">What’s happening in society → where you can see it online</div>' +
+      '<div class="tq-st-tablewrap"><table class="tq-st-table"><thead><tr><th>Society &amp; culture</th><th>Lizzo</th><th>Taylor Swift</th></tr></thead><tbody>' +
+        '<tr><th>Body image &amp; beauty standards</th><td>Body-positive merch in sizes S–XXXL; her Yitty shapewear brand; make-up-free videos calling out beauty standards</td><td>—</td></tr>' +
+        '<tr><th>Race &amp; Black empowerment</th><td>“Happy Juneteenth” Instagram post (June 2025); posts speaking up for Black women</td><td>—</td></tr>' +
+        '<tr><th>Celebrities using platforms politically</th><td>Speaking out on social issues to millions of followers</td><td>Backing Kamala Harris on X in the 2024 US election</td></tr>' +
+        '<tr><th>Convergence &amp; streaming</th><td>18 platforms to watch, listen or buy, all linked from one site</td><td>Pre-order/buy links for <em>The Life of a Showgirl</em>; promoting the <em>End of an Era</em> docuseries on Disney+</td></tr>' +
+        '<tr><th>Fandom &amp; consumer culture</th><td>Merch store; promoting Yitty</td><td>Multiple vinyl variants of the same album for collectors</td></tr>' +
+        '<tr><th>The power of social media</th><td>26M TikTok followers, reflecting TikTok’s lockdown boom</td><td>281M Instagram followers; 33M on TikTok</td></tr>' +
+      '</tbody></table></div>' +
+      '<p class="tq-st-tip">Websites and social media change all the time: any accurate, up-to-date post from the official channels is credited. Follower numbers are from the 2026 mark scheme.</p>' +
+    '</div>',
+    decode: [
+      { label: 'The trap', text: 'This looks like a website question, so many students described the site (tour dates, merch, links) and stopped. That is industry or audience. Here every point must say what the evidence <strong>reflects about society or culture</strong>.' },
+      { label: '“Online media” gives you choice', text: 'You can use the official website, social media, or both. Social media posts are often the easiest way to show attitudes and values, e.g. Lizzo’s posts about Black women and beauty standards.' },
+      { label: 'One artist, several parts of society', text: 'Pick Lizzo OR Taylor Swift. Then cover 3–4 different aspects of society: body image, race, politics, technology, consumer culture.' },
+    ],
+    steps: [
+      '<strong>Pick one artist</strong> (Lizzo or Taylor Swift) and stick with them.',
+      '<strong>Open with the big idea:</strong> e.g. “Lizzo’s online media reflects a society that is challenging narrow beauty standards and celebrating Black women.”',
+      '<strong>Point 1:</strong> a specific post or feature → what it shows about society → “this reflects…”.',
+      '<strong>Point 2:</strong> a different part of society (e.g. race, or politics).',
+      '<strong>Point 3:</strong> technology and culture: convergence, streaming, TikTok’s lockdown boom.',
+      '<strong>Point 4 (if time):</strong> fandom and consumer culture: merch, vinyl variants, brand deals.',
+      '<strong>Key terms:</strong> body positivity, empowerment, convergence, consumer culture, parasocial relationship.',
+      '10 marks = about 12 minutes. Three or four linked points beat a long description of the homepage.',
+    ],
+    history: [
+      { year: 'SAM 1', text: 'Context: How music videos reflect the context in which they are made [10]' },
+      { year: '2021', text: 'Context: How music websites reflect social and cultural contexts (Bruno Mars / Pharrell Williams) [10]', hl: true },
+      { year: '2024', text: 'Context: How music videos reflect the time they were made (Rio / Waterfalls) [10]' },
+      { year: '2025', text: 'Audience: How users interact with music websites (Lizzo / Justin Bieber) [10]' },
+      { year: '2026', text: 'Context: How online media reflects culture and society (Lizzo / Taylor Swift) [10]', hl: true, tag: 'this year' },
+    ],
+    watchout: 'If a sentence only describes the website (“there is a merch tab”), it earns very little. Add what it reflects about society: “…which reflects a culture of fandom and consumerism.”',
+    interactive: {
+      dragdrop: {
+        title: 'Which part of society does it reflect?',
+        instruction: 'Sort each piece of online evidence into the part of culture and society it reflects.',
+        buckets: ['Body image & beauty', 'Race & empowerment', 'Politics & activism', 'Technology & consumer culture'],
+        items: [
+          { text: 'Lizzo’s merch is sold in sizes S to XXXL', bucket: 0 },
+          { text: 'Lizzo posts a make-up-free video calling out unfair beauty standards', bucket: 0 },
+          { text: 'Lizzo’s “Happy Juneteenth” Instagram post', bucket: 1 },
+          { text: 'Lizzo hugs a young Black girl on stage: “everything I do is for her”', bucket: 1 },
+          { text: 'Taylor Swift backs Kamala Harris on X in 2024', bucket: 2 },
+          { text: 'An artist uses their platform to urge fans to register to vote', bucket: 2 },
+          { text: 'Taylor Swift’s pre-order links on every streaming platform', bucket: 3 },
+          { text: 'Several vinyl variants of the same album for collectors', bucket: 3 },
+        ]
+      },
+      sentence: {
+        prompt: 'Write ONE point that links a specific post or website feature to something in society or culture.',
+        keywordGroups: [
+          ['lizzo', 'taylor', 'swift', 'website', 'tiktok', 'instagram', 'post', 'merch'],
+          ['reflects', 'society', 'culture', 'attitudes', 'values'],
+          ['body positiv', 'empower', 'convergence', 'consumer', 'political', 'beauty standards', 'black', 'women', 'fandom']
+        ],
+        hint: 'Specific evidence + “this reflects” + the part of society (e.g. body positivity, Black empowerment, consumer culture).',
+        exemplar: 'Lizzo sells her merch in sizes S to XXXL on her official website, which reflects a society that is increasingly body positive and rejects the idea that only slim bodies are beautiful.'
+      }
+    }
+  },
 ];
 
 // Tariff → generic band descriptor (reference panel under each card)
