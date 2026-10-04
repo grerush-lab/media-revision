@@ -945,6 +945,24 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
 </style>
 
 <style id="exam-structure-tab-fix">#tab-learnhub .guide-pattern-item{color:#e8e4dc !important;display:block !important}#tab-learnhub .guide-pattern-item strong{color:#fff}#tab-learnhub .guide-img{max-height:150px}</style>
+<style id="tq-starter-css">
+.tq-starter{font-size:0.88rem;line-height:1.6}
+.tq-st-lead{margin:0 0 0.8rem}
+.tq-st-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem}
+@media(max-width:640px){.tq-st-grid{grid-template-columns:1fr}}
+.tq-st-card{background:#f3f7fb;border:1px solid var(--border);border-top:3px solid var(--c2col);border-radius:2px;padding:0.7rem 0.9rem}
+.tq-st-k{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--c2col);font-weight:600}
+.tq-st-h{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin:0.2rem 0 0.3rem}
+.tq-st-e{font-size:0.84rem;color:#333}
+.tq-st-turn{margin:0.8rem 0 0;background:#fffbf0;border-left:3px solid var(--gold);padding:0.5rem 0.8rem}
+.tq-st-turn span{color:var(--muted);font-style:italic}
+.tq-st-tablewrap{overflow-x:auto;margin-top:0.4rem}
+.tq-st-table{border-collapse:collapse;width:100%;min-width:460px;font-size:0.84rem}
+.tq-st-table th,.tq-st-table td{border:1px solid var(--border);padding:0.45rem 0.6rem;text-align:left;vertical-align:top}
+.tq-st-table thead th{background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:500}
+.tq-st-table tbody th{background:#faf8f4;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;width:70px}
+.tq-st-tip{margin:0.7rem 0 0;font-size:0.84rem;color:#333}
+</style>
 </head>
 <body>
 
@@ -8763,7 +8781,7 @@ var TQ_DATA = [
     id: 'q1',
     comp: 'C1', compFull: 'Component 1 — Section A',
     badge: 'Q1(a) + Q1(b)',
-    title: 'Media Language — an unfamiliar element on a text you know',
+    title: 'Media Language: two named elements of one print set text (e.g. narrative + genre)',
     tariff: '/5 and /10 (15 total)',
     colour: 'c1a',
     thisYear: {
@@ -8820,7 +8838,7 @@ var TQ_DATA = [
     id: 'q2a',
     comp: 'C1', compFull: 'Component 1 — Section A',
     badge: 'Q2(a)',
-    title: 'Context — explain how ONE type of context influences a text',
+    title: 'Context: how history, society, politics or culture shaped a set text',
     tariff: '/5',
     colour: 'c1a',
     thisYear: {
@@ -8879,7 +8897,7 @@ var TQ_DATA = [
     id: 'q2b',
     comp: 'C1', compFull: 'Component 1 — Section A',
     badge: 'Q2(b)',
-    title: 'Representation comparison — the biggest single question on the paper',
+    title: 'Representation: comparing a set text with an unseen text (the 25-marker)',
     tariff: '/25',
     colour: 'c1a',
     thisYear: {
@@ -8938,7 +8956,7 @@ var TQ_DATA = [
     id: 'q3c',
     comp: 'C1', compFull: 'Component 1 — Section B',
     badge: 'Q3(c)',
-    title: 'Industry — "briefly explain" a piece of tricky vocabulary',
+    title: 'Industry short answers: explaining a key term such as regulation',
     tariff: '/4',
     colour: 'secb',
     thisYear: {
@@ -8991,7 +9009,7 @@ var TQ_DATA = [
     id: 'q3d4d',
     comp: 'C1', compFull: 'Component 1 — Section B',
     badge: 'Q3(d) / Q4(d)',
-    title: 'The extended "explain how X uses Y to Z" question',
+    title: 'Websites, Industry & Audiences: the 12-mark Section B essays (Fortnite, The Sun)',
     tariff: '/10-12 each',
     colour: 'secb',
     thisYear: {
@@ -9052,7 +9070,7 @@ var TQ_DATA = [
     id: 'c2q1',
     comp: 'C2', compFull: 'Component 2 — Section A (TV)',
     badge: 'Q1(a) + Q1(b)',
-    title: 'The TV extract — analysis, then a judgement about typicality',
+    title: 'TV Crime Drama extract: analyse it, then judge how typical of the genre it is',
     tariff: '/10 and /10',
     colour: 'c2a',
     thisYear: {
@@ -9109,7 +9127,7 @@ var TQ_DATA = [
     id: 'c2q2q4',
     comp: 'C2', compFull: 'Component 2 — floating 10-mark question',
     badge: 'Q2 & Q4',
-    title: 'The "floating" question — industry, audience, or context, and you don\u2019t know which until you see it',
+    title: 'Industry, Audience or Context: the 10-mark TV and Music question that changes every year',
     tariff: '/10 each',
     colour: 'seca',
     thisYear: {
@@ -9119,7 +9137,7 @@ var TQ_DATA = [
     decode: [
       { label: 'The trap', text: 'Unlike Q1 and Q3 (always the same "job" every year), Q2 and Q4 rotate between THREE completely different areas: Industry, Audience, and Context. You cannot predict which one you\u2019ll get.' },
       { label: 'Why that matters for revision', text: 'If you only revise "context" because that\u2019s what came up last year, you\u2019re gambling. You need all three areas prepped for BOTH the TV question and the Music question.' },
-      { label: 'This year\u2019s specific difficulty', text: 'Convergence and distribution are both abstract industry terms, combined in one question about TV crime drama for the first time.' },
+      { label: 'This year\u2019s specific difficulty', text: 'Convergence and distribution are both abstract industry terms, combined in one question about TV crime drama for the first time. Open the <strong>TV &amp; Convergence: Trigger Point</strong> card for a full walkthrough.' },
     ],
     steps: [
       'Identify which of the three areas this is (industry / audience / context) from the command word and key terms.',
@@ -9167,10 +9185,85 @@ var TQ_DATA = [
   },
 
   {
+    id: 'c2conv',
+    comp: 'C2', compFull: 'Component 2 — Section A (TV) · Industry',
+    badge: 'Q2 (TV)',
+    title: 'TV & Convergence: how Trigger Point reaches its audience',
+    tariff: '/10',
+    colour: 'c2a',
+    thisYearLabel: '📌 The question, rewritten for Trigger Point',
+    thisYear: {
+      text: 'Explain the impact of media convergence on the distribution of television crime dramas. Refer to <em>Trigger Point</em> to support your points. [10]',
+      note: 'In 2026 this was asked about Luther, and it was the weakest question on either paper nationally (38.8%). Trigger Point (ITV, 2022) is now your crime drama, so this is how the same question would look for you.'
+    },
+    starter: '<div class="tq-starter">' +
+      '<p class="tq-st-lead"><strong>Distribution</strong> = how a media product reaches its audience: the platforms, the release, the scheduling and the marketing. <strong>Convergence</strong> changes how that happens, and it can mean one of two things:</p>' +
+      '<div class="tq-st-grid">' +
+        '<div class="tq-st-card"><div class="tq-st-k">Meaning 1</div><div class="tq-st-h">Different technologies coming together in one place</div><div class="tq-st-e">e.g. the ITVX app brings live TV, catch-up, box sets and adverts together in one place. (Fortnite does the same: game, concerts, trailers, voice chat and shop in one space.)</div></div>' +
+        '<div class="tq-st-card"><div class="tq-st-k">Meaning 2</div><div class="tq-st-h">One product available across different platforms</div><div class="tq-st-e">e.g. Trigger Point reaches TV, phone, tablet, laptop and console. (Fortnite is playable on PlayStation, Xbox, Switch, PC and mobile.)</div></div>' +
+      '</div>' +
+      '<p class="tq-st-turn"><strong>Your turn:</strong> which meaning fits Trigger Point? Could it be both? <span>(Yes, both. That is a strong opening point.)</span></p>' +
+      '<div class="tq-st-k" style="margin-top:0.9rem;">Then vs now: from the family sofa to fragmented viewing</div>' +
+      '<div class="tq-st-tablewrap"><table class="tq-st-table"><thead><tr><th></th><th>1990s TV: very little convergence</th><th>Trigger Point today: convergence</th></tr></thead><tbody>' +
+        '<tr><th>When</th><td>Screened once at 9pm. If you missed it, you missed it.</td><td>Live on ITV1, or catch up and binge on ITVX whenever you like.</td></tr>' +
+        '<tr><th>Who</th><td>Watched together as a family: a shared experience.</td><td>Often watched alone: the audience is <strong>fragmented</strong>.</td></tr>' +
+        '<tr><th>Where</th><td>The family living room, around one TV set.</td><td>Anywhere: bedroom, bus, school break, on phones, tablets and laptops.</td></tr>' +
+      '</tbody></table></div>' +
+      '<p class="tq-st-tip">Exam tip: use <strong>time-shifting</strong> and <strong>fragmented audiences</strong> to explain the impact on distribution. The Sweeney (1975) is your set-text example of scheduled, shared viewing.</p>' +
+    '</div>',
+    decode: [
+      { label: 'The two key words', text: '<strong>Convergence</strong> (technologies or platforms coming together) and <strong>distribution</strong> (how the programme reaches its audience). Define BOTH in your opening sentences.' },
+      { label: 'The word that matters most: impact', text: 'Listing platforms is not enough. Every point needs the effect on distribution: <em>this means…</em>, <em>as a result…</em>. How has convergence changed when, where, how and by whom Trigger Point is watched?' },
+      { label: 'Why it went badly in 2026', text: 'Students knew Luther was on TV but did not explain what convergence CHANGED. Start from how TV used to be distributed, then show what is different now.' },
+    ],
+    steps: [
+      '<strong>Define it:</strong> both meanings of convergence, plus a clear definition of distribution.',
+      '<strong>Then vs now:</strong> 1990s TV was screened at 9pm and watched together in the living room; now it is any time, often alone, on any screen, anywhere. A fragmented audience.',
+      '<strong>Multi-platform release:</strong> Trigger Point is shown live on ITV1, with catch-up on ITV Hub, now ITVX.',
+      '<strong>Many devices:</strong> smart TVs, phones, tablets, laptops and consoles via the ITVX app.',
+      '<strong>Social media marketing:</strong> trailers and clips online build hype and word of mouth.',
+      '<strong>Impact on audiences:</strong> time-shifting and binge-watching give viewers control and reach younger audiences.',
+      '<strong>Industry context:</strong> ITVX competes with Netflix and other streamers for viewers and advertising money.',
+      '10 marks = aim for 3–4 developed points. For each one: point → Trigger Point example → the impact on distribution (“this means…”).',
+    ],
+    history: [
+      { year: 'SAM 1', text: 'Industry: How do production processes influence crime dramas? [10]' },
+      { year: '2024 (TV)', text: 'Audience: How digital technologies change consumption [10]', hl: true },
+      { year: '2026 (TV)', text: 'Industry: Explain the impact of media convergence on the distribution of TV crime dramas (answered with Luther) [10]', hl: true, tag: 'now Trigger Point' },
+    ],
+    watchout: 'Don’t just name ITVX and stop. The marks are for explaining the IMPACT: time-shifting, binge-watching, fragmented audiences, and ITV competing with streamers.',
+    interactive: {
+      dragdrop: {
+        title: '1990s TV or Trigger Point today?',
+        instruction: 'Sort each statement: is it how TV was distributed before convergence, or how Trigger Point reaches its audience now?',
+        buckets: ['1990s TV: little convergence', 'Trigger Point today: convergence'],
+        items: [
+          { text: 'Screened once at 9pm: if you missed it, you missed it', bucket: 0 },
+          { text: 'Caught up and binge-watched on ITVX whenever you like', bucket: 1 },
+          { text: 'The whole family watches together around one TV in the living room', bucket: 0 },
+          { text: 'Watched alone on a phone on the bus home from school', bucket: 1 },
+          { text: 'Trailers and clips shared on social media build hype', bucket: 1 },
+          { text: 'One channel, one time slot: the broadcaster decides when you watch', bucket: 0 },
+        ]
+      },
+      sentence: {
+        prompt: 'Write ONE developed point: how has convergence changed the way Trigger Point reaches its audience?',
+        keywordGroups: [
+          ['itvx', 'itv hub', 'catch-up', 'catch up', 'on demand', 'streaming', 'app'],
+          ['phone', 'tablet', 'laptop', 'smart tv', 'console', 'device', 'social media'],
+          ['this means', 'as a result', 'which means', 'so that', 'time-shifting', 'fragmented']
+        ],
+        hint: 'Name a platform or device, link it to Trigger Point, then explain the impact with “this means…”.',
+        exemplar: 'Trigger Point is available on ITVX as well as live on ITV1, so viewers can watch on phones, tablets or smart TVs whenever they like; this means distribution is no longer controlled by a 9pm schedule, creating time-shifted, fragmented audiences.'
+      }
+    }
+  },
+
+  {
     id: 'c2q3',
     comp: 'C2', compFull: 'Component 2 — Section B (Music)',
     badge: 'Q3',
-    title: 'The 20-mark "how far do these two products..." judgement essay',
+    title: 'Music Videos & Social Groups: the 20-mark "how far" essay comparing two videos',
     tariff: '/20',
     colour: 'secb',
     thisYear: {
@@ -9543,10 +9636,11 @@ var TQ_BANDS = {
         '</div>' +
 
         '<div class="tq-section">' +
-          '<div class="tq-section-label">\uD83D\uDCCC This year\'s question</div>' +
+          '<div class="tq-section-label">' + (q.thisYearLabel || '\uD83D\uDCCC This year\'s question') + '</div>' +
           '<div class="tq-thisyear-box"><div class="tq-thisyear-q">' + q.thisYear.text + '</div>' + noteHtml + '</div>' +
         '</div>' +
 
+        (q.starter ? '<div class="tq-section"><div class="tq-section-label">\uD83D\uDE80 Starter: key terms</div>' + q.starter + '</div>' : '') +
         '<div class="tq-section">' +
           '<div class="tq-section-label">\uD83D\uDD0D What it\'s actually asking</div>' +
           decodeHtml +
