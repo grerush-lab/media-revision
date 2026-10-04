@@ -654,6 +654,7 @@
 
 
   /* REGULATION GAMES TAB */
+  #tab-genrenarrative { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.2rem 2rem; }
   #tab-regulation { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.2rem 2rem; }
   .reg-hero { display:flex; flex-wrap:wrap; gap:1rem; align-items:flex-end; justify-content:space-between; background: var(--ink); color: var(--paper); padding: 1.2rem 1.4rem; border-radius: 2px; margin-bottom: 1rem; }
   .reg-kicker { font-family:'IBM Plex Mono', monospace; font-size:0.62rem; letter-spacing:3px; text-transform:uppercase; color: var(--gold); margin-bottom:0.3rem; }
@@ -1214,6 +1215,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
   <button class="tab-btn" onclick="switchTab('recaps', this)">🍭 Set Text Recaps</button>
   <button class="tab-btn" onclick="switchTab('theorygames', this)">🎮 Theory Games</button>
   <button class="tab-btn" onclick="switchTab('regulation', this)">🛡️ Regulation Games</button>
+  <button class="tab-btn" onclick="switchTab('genrenarrative', this)">📖 Genre &amp; Narrative</button>
   <button class="tab-btn" onclick="switchTab('examples', this)">✍️ Example Answers</button>
   <button class="tab-btn" onclick="switchTab('structures', this)">🧱 Question Structures</button>
   <button class="tab-btn" onclick="switchTab('boundaries', this)">🎯 Grade Boundaries</button>
@@ -1544,6 +1546,19 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
       <div class="tg-homework" id="tgHomework" style="display:none;"></div>
     </div>
   </div>
+</div>
+
+<!-- GENRE & NARRATIVE TAB -->
+<div class="tab-section" id="tab-genrenarrative">
+  <div class="reg-hero">
+    <div>
+      <div class="reg-kicker">Component 1 · Section A · Media Language</div>
+      <div class="reg-title">📖 Genre &amp; Narrative Lab</div>
+      <p class="reg-sub">Three genre and three narrative talking points for every Section A set text, with cropped details, then five games to lock them in. Includes the Y11 (2021/2022) and Y10 (2025) newspapers.</p>
+    </div>
+    <a class="reg-open" href="genre-narrative-lab.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </div>
+  <iframe id="gnFrame" class="reg-frame" title="Genre and Narrative Lab" data-src="genre-narrative-lab.html" loading="lazy"></iframe>
 </div>
 
 <!-- REGULATION GAMES TAB -->
@@ -6646,6 +6661,19 @@ function switchTab(id, btn) {
   if (id === 'theorygames' && typeof tgShowTheoryOverview === 'function') tgShowTheoryOverview('propp', document.querySelector('#tgOverviewTabs .tg-overview-tab'));
   if (id === 'examskills' && typeof esClickLoad === 'function' && !document.querySelector('#esClickPool .es-click-item')) esClickLoad('ml', document.querySelector('.es-click-stagebar button'));
   if (id === 'trickyq' && typeof tqInit === 'function') tqInit();
+  if (id === 'genrenarrative') {
+    var gf = document.getElementById('gnFrame');
+    if (gf && !gf.getAttribute('src')) {
+      gf.onload = function(){
+        try {
+          var d = gf.contentDocument;
+          var fit = function(){ gf.style.height = (d.documentElement.scrollHeight + 4) + 'px'; };
+          fit(); new ResizeObserver(fit).observe(d.body);
+        } catch(e) {}
+      };
+      gf.setAttribute('src', gf.getAttribute('data-src'));
+    }
+  }
   if (id === 'regulation') {
     var rf = document.getElementById('regFrame');
     if (rf && !rf.getAttribute('src')) {
