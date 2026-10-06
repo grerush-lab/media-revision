@@ -502,18 +502,29 @@ const QN=12, PASS=10;
 function paintGameSelect(){const s=$('#gText'),v=s.value;s.innerHTML=`<option value="all">All texts</option>`+visible().map(t=>`<option value="${t.id}">${esc(t.name)}${t.yr?' ('+t.yr.split(' · ')[1]+')':''}</option>`).join('');
   if([...s.options].some(o=>o.value===v)) s.value=v;}
 paintGameSelect();
-/* build a 12-item set: chosen text(s) first, topped up from the same type of text, then any text */
+/* build a 12-item set: ALL of the chosen text's questions come first, in a block.
+   Only then top up — same publication first (e.g. The Sun 2021 for The Sun 2025),
+   then the same form in the same year group, then the same form, then anything. */
+let topFrom=-1;
+const tlabel=t=>t.name+(t.yr?' '+t.yr.split(' · ')[1]:'');
+const tlabelSel=t=>t.name+(t.yr?' ('+t.yr.split(' · ')[1]+')':'');
+function tierFor(T){const yg=t=>(t.yr||'').split(' · ')[0];
+  return t=>t.name===T.name?0:(t.form===T.form&&yg(t)===yg(T))?1:t.form===T.form?2:3;}
+function topUp(pool,T,n){const tier=tierFor(T);
+  return [0,1,2,3].flatMap(k=>shuffle(pool.filter(p=>tier(p.t)===k))).slice(0,n);}
+function topNote(T,nMain,extra,what){const names=[...new Set(extra.map(p=>tlabel(p.t)))];
+  return `Questions 1–${nMain} are all on ${tlabelSel(T)}. It only has ${nMain} ${what}, so questions ${nMain+1}–${nMain+extra.length} top up from ${names.join(', ')}.`;}
 function build(kind){const tv=$('#gText').value, ty=$('#gType').value;
   const typeOK=p=>kind==='N'?p.type==='N':kind==='mixed'?true:(ty==='both'||p.type===ty);
   const all=visible().flatMap(t=>t.G.concat(t.N)).filter(typeOK);
-  let main=all.filter(p=>tv==='all'||p.t.id===tv), note='';
-  if(main.length<QN&&tv!=='all'){const form=TEXTBY[tv].form;
-    const same=shuffle(all.filter(p=>p.t.id!==tv&&p.t.form===form)), rest=shuffle(all.filter(p=>p.t.form!==form));
-    const extra=same.concat(rest).slice(0,QN-main.length);
-    const names=[...new Set(extra.map(p=>p.t.name+(p.t.yr?' '+p.t.yr.split(' · ')[1]:'')))];
-    if(extra.length) note=`${TEXTBY[tv].name} has ${main.length} ${kind==='N'?'narrative ':''}points, so this round adds ${extra.length} from ${names.join(', ')}.`;
-    return {items:shuffle(main).concat(extra).sort(()=>Math.random()-.5).slice(0,QN),note};}
-  return {items:shuffle(main).slice(0,QN),note};}
+  topFrom=-1;
+  if(tv==='all') return {items:shuffle(all).slice(0,QN),note:''};
+  const T=TEXTBY[tv], main=shuffle(all.filter(p=>p.t.id===tv)).slice(0,QN);
+  if(main.length>=QN) return {items:main,note:''};
+  const extra=topUp(all.filter(p=>p.t.id!==tv),T,QN-main.length);
+  if(!extra.length) return {items:main,note:''};
+  topFrom=main.length;
+  return {items:main.concat(extra),note:topNote(T,main.length,extra,kind==='N'?'narrative points':'points')};}
 const play=$('#play'),pills=$('#pills');
 function hud(title,qi,score){$('#gTitle').textContent=title;pills.innerHTML=`<span class="pill">Question <b>${qi}/${QN}</b></span><span class="pill">Correct <b>${score}</b></span><span class="pill">Pass mark <b>${PASS}/${QN}</b></span>`}
 function best(k,s){const b=store.get('best2',{});if(s>(b[k]||0)){b[k]=s;store.set('best2',b)}paintCabs()}
@@ -528,7 +539,7 @@ function result(key,score,missed,again,note){const pass=score>=PASS;addXP(score*
    ${missed.length?`<div class="missed"><div class="meta">${pass?'Worth another look':'Revise these, then go again'}</div><ul>${missed.slice(0,6).map(m=>`<li>${m}</li>`).join('')}</ul></div>`:''}
    <div class="row" style="justify-content:center"><button class="btn ${pass?'':'go'}" id="again" type="button">${pass?'Play again':'Go again'}</button><button class="btn ghost" id="toPts" type="button">Revise the talking points</button></div><p class="xpnote">+${score*3} XP</p></div>`;
   $('#again').onclick=again;$('#toPts').onclick=()=>$('#points').scrollIntoView({behavior:'smooth'});}
-function head(i,note){return `<div class="prog"><i style="width:${i/QN*100}%"></i></div>${note&&i===0?`<p class="topup">${esc(note)}</p>`:''}`}
+function head(i,note){return `<div class="prog"><i style="width:${i/QN*100}%"></i></div>${note&&i===0?`<p class="topup">${esc(note)}</p>`:''}${i>0&&i===topFrom?`<p class="topup">That's every question on your chosen text. The rest of this round tops up from other texts.</p>`:''}`}
 function nextBtn(i){return `<div class="row"><button class="btn" id="nx" type="button">${i<QN-1?'Next question →':'See my score'}</button></div>`}
 const tag=p=>`${esc(p.t.name)}${p.t.yr?' · '+p.t.yr:''}`;
 
@@ -557,9 +568,12 @@ function runCloze(){const {items:P,note}=build('pts');let i=0,score=0;const miss
 function runSort(){const tv=$('#gText').value;
   const pts=visible().flatMap(t=>t.G.concat(t.N)).map(p=>({x:p.look,k:p.type,w:p.meaning,img:p.crop,t:p.t,main:tv==='all'||p.t.id===tv}));
   const ev=EVID.filter(e=>visible().some(t=>t.id===e.t)).map(e=>({x:e.x,k:e.k,w:e.w,t:TEXTBY[e.t],main:tv==='all'||e.t===tv}));
-  const all=pts.concat(ev);let note='';
-  const take=k=>{let m=shuffle(all.filter(d=>d.k===k&&d.main));if(m.length<6&&tv!=='all'){const form=TEXTBY[tv].form;m=m.concat(shuffle(all.filter(d=>d.k===k&&!d.main&&d.t.form===form)),shuffle(all.filter(d=>d.k===k&&!d.main&&d.t.form!==form)));note=`This game always mixes 6 genre and 6 narrative cards. Some come from other ${FORMNAME[TEXTBY[tv].form].toLowerCase()}s to make 12.`}return m.slice(0,6)};
-  const D=shuffle(take('G').concat(take('N')));let i=0,score=0;const missed=[];
+  const all=pts.concat(ev);let note='';topFrom=-1;
+  const mainD=[],extraD=[];
+  ['G','N'].forEach(k=>{const m=shuffle(all.filter(d=>d.k===k&&d.main)).slice(0,6);mainD.push(...m);
+    if(m.length<6&&tv!=='all') extraD.push(...topUp(all.filter(d=>d.k===k&&!d.main),TEXTBY[tv],6-m.length));});
+  if(extraD.length){topFrom=mainD.length;note=topNote(TEXTBY[tv],mainD.length,extraD,'cards')+' This game always mixes 6 genre and 6 narrative cards.';}
+  const D=shuffle(mainD).concat(shuffle(extraD));let i=0,score=0;const missed=[];
   function show(){hud('Genre or Narrative?',i+1,score);const d=D[i];
     const pickW=f=>{const sameT=shuffle(all.filter(o=>o!==d&&o.w!==d.w&&o.t.id===d.t.id&&f(o)));return sameT.length?sameT[0]:shuffle(all.filter(o=>o!==d&&o.w!==d.w&&o.t.form===d.t.form&&f(o)))[0]};
     const wrongW=[pickW(o=>o.k!==d.k),pickW(o=>o.k===d.k)].filter(Boolean);
