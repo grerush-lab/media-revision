@@ -1082,6 +1082,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
   <button class="tab-btn" onclick="switchTab('theorygames', this)">🎮 Theory Games</button>
   <button class="tab-btn" onclick="switchTab('regulation', this)">🛡️ Regulation Games</button>
   <button class="tab-btn" onclick="switchTab('genrenarrative', this)">📖 Genre &amp; Narrative</button>
+  <button class="tab-btn" onclick="switchTab('annotated', this)">🖍️ Annotated Set Texts</button>
   <button class="tab-btn" onclick="switchTab('examples', this)">✍️ Example Answers</button>
   <button class="tab-btn" onclick="switchTab('structures', this)">🧱 Question Structures</button>
   <button class="tab-btn" onclick="switchTab('boundaries', this)">🎯 Grade Boundaries</button>
@@ -1425,6 +1426,19 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
     <a class="reg-open" href="genre-narrative-lab.html" target="_blank" rel="noopener">Open full screen ↗</a>
   </div>
   <iframe id="gnFrame" class="reg-frame" title="Genre and Narrative Lab" data-src="genre-narrative-lab.html" loading="lazy"></iframe>
+</div>
+
+<!-- ANNOTATED SET TEXTS TAB -->
+<div class="tab-section" id="tab-annotated">
+  <div class="reg-hero">
+    <div>
+      <div class="reg-kicker">Component 1 · Section A · Media Language &amp; Representation</div>
+      <div class="reg-title">🖍️ Annotated Set Texts</div>
+      <p class="reg-sub">All ten Section A set texts, including the Y11 (2021/2022) and Y10 (2025) newspapers, with the key media language and representation points labelled where you can see them. Filter by area, test yourself, or print a revision sheet.</p>
+    </div>
+    <a class="reg-open" href="annotated-set-texts.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </div>
+  <iframe id="annFrame" class="reg-frame" title="Annotated Set Texts" data-src="annotated-set-texts.html" loading="lazy"></iframe>
 </div>
 
 <!-- REGULATION GAMES TAB -->
@@ -6660,6 +6674,19 @@ function switchTab(id, btn) {
         } catch(e) {}
       };
       gf.setAttribute('src', gf.getAttribute('data-src'));
+    }
+  }
+  if (id === 'annotated') {
+    var af = document.getElementById('annFrame');
+    if (af && !af.getAttribute('src')) {
+      af.onload = function(){
+        try {
+          var d = af.contentDocument;
+          var fit = function(){ af.style.height = (d.documentElement.scrollHeight + 4) + 'px'; };
+          fit(); new ResizeObserver(fit).observe(d.body);
+        } catch(e) {}
+      };
+      af.setAttribute('src', af.getAttribute('data-src'));
     }
   }
   if (id === 'regulation') {
