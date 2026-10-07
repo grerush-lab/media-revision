@@ -7000,7 +7000,7 @@ function rjGenerateMission(){
     '<p style="margin:.25rem 0 .55rem;color:var(--muted);font-size:.82rem;">'+dateText+'</p>',
     '<p><strong>'+pick.item.text+'</strong> — '+pick.focus+'</p>',
     '<ol style="margin-left:1.2rem;line-height:1.7;font-size:.86rem;">',
-      '<li><strong>Learn:</strong> Read notes from school workbook, read the fact sheet, then go through the Set Text Recap.</li>',
+      '<li><strong>Learn:</strong> Read notes from school workbook, then go through the Set Text Recap'+((pick.item.comp==='Component 1'&&/^Section A/.test(pick.item.section||''))?', the annotated set text and the genre and narrative points':'')+'.</li>',
       '<li><strong>Recall:</strong> Complete one fact sheet quiz, then complete a second fact sheet quiz.</li>',
       '<li><strong>Apply:</strong> '+rjFocusExamTask(pick.focus)+'</li>',
       '<li><strong>Confidence:</strong> Return here and rate how exam-ready you feel.</li>',
@@ -7554,7 +7554,7 @@ function rjResetProgressConfirm(){
       Object.keys(byComp[comp]).sort().forEach(function(text){
         var arr=byComp[comp][text];
         var avg=Math.round(arr.reduce(function(a,b){return a+b.p;},0)/arr.length);
-        html+='<div class="rj-v9-row"><div class="rj-v9-head" onclick="this.parentNode.classList.toggle(\'open\')"><div><strong>'+text+'</strong><br><span style="font-size:.76rem;color:var(--muted);">'+avg+'% average · '+arr.length+' focus areas</span></div><div class="rj-v9-dots">';
+        html+='<div class="rj-v9-row"><div class="rj-v9-head" onclick="this.parentNode.classList.toggle(\'open\')"><div><strong>'+text+'</strong><br><span style="font-size:.76rem;color:var(--muted);">'+avg+'% complete</span></div><div class="rj-v9-dots">';
         arr.forEach(function(s){html+='<span class="rj-v9-dot rj-v9-'+s.l[1]+'" title="'+s.focus+' — '+s.l[0]+'"></span>';});
         html+='</div></div><div class="rj-v9-detail">';
         arr.forEach(function(s){
@@ -7743,7 +7743,7 @@ function rjResetProgressConfirm(){
         var row=document.createElement('div'); row.className='rj-v10-row';
         var head=document.createElement('div'); head.className='rj-v10-head';
         var left=document.createElement('div');
-        left.innerHTML='<div class="rj-v10-title">'+text+'</div><div class="rj-v10-meta">'+avg+'% average · '+arr.length+' focus areas</div>';
+        left.innerHTML='<div class="rj-v10-title">'+text+'</div><div class="rj-v10-meta">'+avg+'% complete</div>';
         var dots=document.createElement('div'); dots.className='rj-v10-dots';
         arr.forEach(function(s){var d=document.createElement('span'); d.className='rj-v10-dot rj-v10-'+s.l[1]; d.title=s.focus+' — '+s.l[0]; dots.appendChild(d);});
         head.appendChild(left); head.appendChild(dots);
@@ -8014,7 +8014,7 @@ function rjResetProgressConfirm(){
         var head=document.createElement('div');
         head.className='rj-v10-head';
         var left=document.createElement('div');
-        left.innerHTML='<div class="rj-v10-title">'+text+'</div><div class="rj-v10-meta">'+avg+'% average · '+arr.length+' focus areas</div>';
+        left.innerHTML='<div class="rj-v10-title">'+text+'</div><div class="rj-v10-meta">'+avg+'% complete</div>';
         var dots=document.createElement('div');
         dots.className='rj-v10-dots';
         arr.forEach(function(s){
@@ -10306,7 +10306,7 @@ var TQ_BANDS = {
         var row=document.createElement('div'); row.className='rj-v10-row';
         var head=document.createElement('div'); head.className='rj-v10-head';
         var left=document.createElement('div');
-        left.innerHTML='<div class="rj-v10-title">'+text+'</div><div class="rj-v10-meta">'+avg+'% average · '+arr.length+' focus areas</div>';
+        left.innerHTML='<div class="rj-v10-title">'+text+'</div><div class="rj-v10-meta">'+avg+'% complete</div>';
         var dots=document.createElement('div'); dots.className='rj-v10-dots';
         arr.forEach(function(s){
           var d=document.createElement('span'); d.className='rj-v10-dot rj-v10-'+s.l.colour;
@@ -10806,6 +10806,7 @@ var TQ_BANDS = {
 
 <style id="rj-v17-learn-theory-css">
 /* V17: per-text Learn steps (C1 Section A extras) + Theory Checkpoint */
+[data-rj-v17-hidden]{display:none !important;}
 .rj-check{align-items:center;}
 .rj-check span.rj-txt{flex:1;}
 .rj-go{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;background:transparent;border:1px solid var(--border);color:var(--ink);border-radius:2px;padding:.18rem .45rem;cursor:pointer;white-space:nowrap;}
@@ -10836,6 +10837,48 @@ var TQ_BANDS = {
   function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
   function set(k,v){try{localStorage.setItem(k,v);}catch(e){}}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  /* ---------- One checklist per text (no framework focus) ---------- */
+  var ALL='All areas';
+  (window.RJ_SPEC||[]).forEach(function(item){
+    if(!item.areas) item.areas=item.focuses.slice();
+    item.focuses=[ALL];
+  });
+  // One-off merge of progress saved under the old per-framework checklists.
+  (function migrate(){
+    if(get('rj_v17_merged')==='1') return;
+    try{
+      var keys=[]; for(var i=0;i<localStorage.length;i++) keys.push(localStorage.key(i));
+      (window.RJ_SPEC||[]).forEach(function(item){
+        var best=0;
+        item.areas.forEach(function(f){
+          var pre='rj_'+item.id+'_'+f.replace(/\W+/g,'_')+'_';
+          keys.forEach(function(k){
+            if(k.indexOf(pre)!==0) return;
+            var rest=k.slice(pre.length), v=get(k);
+            if(/^(LEARN|RECALL|APPLY)_/.test(rest) && v==='1') set(rjKey(item.id,ALL,rest),'1');
+            if(/^(confidence|conf)$/.test(rest)) best=Math.max(best,parseInt(v||'0',10)||0);
+          });
+          var safe='rj_'+item.id+'_'+f.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')+'_';
+          ['confidence','conf'].forEach(function(s){ best=Math.max(best,parseInt(get(safe+s)||'0',10)||0); });
+        });
+        if(best>0){
+          set(rjKey(item.id,ALL,'confidence'),String(best));
+          set('rj_'+item.id+'_all_areas_confidence',String(best));
+          set('rj_'+item.id+'_all_areas_conf',String(best));
+        }
+      });
+      set('rj_v17_merged','1');
+    }catch(e){}
+  })();
+  function hideFocusControls(){
+    ['rjFocus','rjTeacherFocus'].forEach(function(id){
+      var el=q(id), wrap=el&&el.parentNode;
+      if(wrap&&wrap.tagName==='DIV'){ wrap.style.display='none'; wrap.setAttribute('data-rj-v17-hidden','1'); }
+    });
+    var help=document.querySelector('#rjManualRoute .rj-route-help');
+    if(help&&/framework focus/i.test(help.textContent)) help.innerHTML='<strong>Manual route:</strong> students choose the component and set text. Each text has one checklist covering every area (media language, representation, context, industry and audience).';
+  }
 
   /* ---------- Per-text workflow ---------- */
   function isC1A(item){return !!item && item.comp==='Component 1' && /^Section A/.test(item.section||'');}
@@ -10992,6 +11035,7 @@ var TQ_BANDS = {
 
   function mount(){
     var tab=q('tab-journey'); if(!tab) return;
+    hideFocusControls();
     if(!q('rjTheoryCheckpoint')){
       var map=q('rjCompletionMap'), anchor=map?map.closest('.rj-card'):null;
       var div=document.createElement('div');
