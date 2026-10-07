@@ -10255,7 +10255,7 @@ var TQ_BANDS = {
     return exactKey(item,focus,group+'_'+idx);
   }
   function pct(item,focus){
-    var steps=window.RJ_STEPS || [
+    var steps=(window.rjStepsFor&&window.rjStepsFor(item))||window.RJ_STEPS || [
       {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet','Go through the Set Text Recap']},
       {group:'RECALL',items:['Complete one fact sheet quiz','Complete second fact sheet quiz']},
       {group:'APPLY',items:['Complete one exam skills task','Complete at least one past question']}
@@ -10693,7 +10693,7 @@ var TQ_BANDS = {
     return rjKey(item,focus,group+'_'+idx);
   }
   function pct(item,focus){
-    var steps=window.RJ_STEPS || [
+    var steps=(window.rjStepsFor&&window.rjStepsFor(item))||window.RJ_STEPS || [
       {group:'LEARN',items:['Read notes from school workbook','Read the fact sheet','Go through the Set Text Recap']},
       {group:'RECALL',items:['Complete one fact sheet quiz','Complete second fact sheet quiz']},
       {group:'APPLY',items:['Complete one exam skills task','Complete at least one past question']}
@@ -10800,5 +10800,211 @@ var TQ_BANDS = {
   document.addEventListener('DOMContentLoaded',bootV15);
   window.addEventListener('load',bootV15);
   setTimeout(bootV15,200);
+})();
+</script>
+
+
+<style id="rj-v17-learn-theory-css">
+/* V17: per-text Learn steps (C1 Section A extras) + Theory Checkpoint */
+.rj-check{align-items:center;}
+.rj-check span.rj-txt{flex:1;}
+.rj-go{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;background:transparent;border:1px solid var(--border);color:var(--ink);border-radius:2px;padding:.18rem .45rem;cursor:pointer;white-space:nowrap;}
+.rj-go:hover{border-color:var(--gold);background:#fffbf0;}
+.rj-c1a-tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:1px;text-transform:uppercase;background:var(--gold);color:var(--ink);padding:.05rem .3rem;border-radius:2px;margin-left:.3rem;vertical-align:middle;}
+.rj-tc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem;}
+.rj-tc-pct{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;}
+.rj-tc-tier{margin-top:.9rem;}
+.rj-tc-tier h4{font-family:'Syne',sans-serif;font-size:.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;}
+.rj-tc-badge{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:1px;padding:.12rem .4rem;border-radius:2px;}
+.rj-tc-badge.must{background:var(--ink);color:var(--paper);}
+.rj-tc-badge.should{border:1px solid var(--border);color:var(--muted);}
+.rj-tc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.6rem;}
+.rj-tc-card{background:#faf8f4;border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:3px;padding:.65rem .75rem;}
+.rj-tc-card.should{border-left-color:var(--border);background:transparent;}
+.rj-tc-name{font-weight:700;font-size:.9rem;margin-bottom:.15rem;}
+.rj-tc-what{font-size:.76rem;color:var(--muted);line-height:1.4;margin-bottom:.4rem;}
+.rj-tc-row{display:flex;align-items:center;gap:.45rem;padding:.22rem 0;font-size:.82rem;}
+.rj-tc-row input{accent-color:var(--success);}
+.rj-tc-row input:disabled{cursor:not-allowed;}
+.rj-tc-row .rj-txt{flex:1;}
+.rj-tc-lock{font-size:.66rem;color:var(--muted);}
+.rj-tc-note{font-size:.76rem;color:var(--muted);line-height:1.5;margin-top:.8rem;}
+</style>
+<script id="rj-v17-learn-theory-js">
+(function(){
+  function q(id){return document.getElementById(id);}
+  function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function set(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  /* ---------- Per-text workflow ---------- */
+  function isC1A(item){return !!item && item.comp==='Component 1' && /^Section A/.test(item.section||'');}
+  // k = storage suffix. Numeric k values match the old index-based keys so saved progress carries over.
+  var BASE_LEARN=[
+    {t:'Read notes from school workbook',k:0},
+    {t:'Go through the Set Text Recap',k:2,go:'recaps'}
+  ];
+  var C1A_LEARN=[
+    {t:'Study the annotated set text',k:'annot',go:'annotated',c1a:true},
+    {t:'Genre: learn the three genre points',k:'genre',go:'genrenarrative',c1a:true},
+    {t:'Narrative: learn the three narrative points',k:'narr',go:'genrenarrative',c1a:true}
+  ];
+  var RECALL=[
+    {t:'Complete one fact sheet quiz',k:0,go:'factcheck'},
+    {t:'Complete second fact sheet quiz',k:1,go:'factcheck'}
+  ];
+  var APPLY=[
+    {t:'Complete one exam skills task',k:0,go:'examskills'},
+    {t:'Complete at least one past question',k:1,go:'questions'}
+  ];
+  window.rjStepsFor=function(item){
+    return [
+      {group:'LEARN',items:BASE_LEARN.concat(isC1A(item)?C1A_LEARN:[])},
+      {group:'RECALL',items:RECALL},
+      {group:'APPLY',items:APPLY}
+    ];
+  };
+  // Default (non-text-specific) list kept for any older code that reads it directly.
+  window.RJ_STEPS=window.rjStepsFor(null);
+
+  window.rjStepKey=function(item,focus,group,idx){
+    var steps=window.rjStepsFor(item), step=steps.find(function(s){return s.group===group;});
+    var it=step&&step.items[idx];
+    var suffix=(it&&it.k!==undefined)?it.k:idx;
+    return rjKey(item.id,focus,group+'_'+suffix);
+  };
+  window.rjGroupPct=function(item,focus,group){
+    var step=window.rjStepsFor(item).find(function(s){return s.group===group;}); if(!step) return 0;
+    var done=0; step.items.forEach(function(_,i){ if(get(rjStepKey(item,focus,group,i))==='1') done++; });
+    return step.items.length?Math.round(done/step.items.length*100):0;
+  };
+  window.rjTextFocusPct=function(item,focus){
+    var total=0,done=0;
+    window.rjStepsFor(item).forEach(function(step){ step.items.forEach(function(_,i){ total++; if(get(rjStepKey(item,focus,step.group,i))==='1') done++; }); });
+    return total?Math.round(done/total*100):0;
+  };
+
+  var ANN_MAP={quality_street:'qs',nhs:'nhs',gq:'gq',vogue:'vogue',tmwtgg:'gg',nttd_a:'nttd'};
+  window.rjV17Go=function(tab){
+    var item=(typeof rjGetCurrent==='function')?rjGetCurrent():null;
+    if(tab==='annotated' && item && ANN_MAP[item.id]){
+      var id=ANN_MAP[item.id], af=q('annFrame');
+      if(af){
+        if(!af.getAttribute('src')) af.setAttribute('data-src','annotated-set-texts.html#'+id);
+        else { try{ var chip=af.contentDocument.querySelector('.chip[data-id="'+id+'"]'); if(chip) chip.click(); }catch(e){} }
+      }
+    }
+    rjJump(tab);
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  window.rjRender=function(){
+    var item=rjGetCurrent(), focus=(q('rjFocus')||{}).value || item.focuses[0];
+    var path=q('rjPath'); if(!path) return;
+    path.innerHTML=window.rjStepsFor(item).map(function(step){
+      var checks=step.items.map(function(it,idx){
+        var key=rjStepKey(item,focus,step.group,idx), checked=get(key)==='1'?'checked':'';
+        var go=it.go?'<button type="button" class="rj-go" onclick="event.preventDefault();event.stopPropagation();rjV17Go(\''+it.go+'\')">Open ↗</button>':'';
+        var tag=it.c1a?'<span class="rj-c1a-tag">C1 A</span>':'';
+        return '<label class="rj-check"><input type="checkbox" '+checked+' onchange="rjSaveStep(\''+key+'\',this.checked)"><span class="rj-txt">'+esc(it.t)+tag+'</span>'+go+'</label>';
+      }).join('');
+      return '<div class="rj-step"><h4><span>'+step.group+'</span><span>'+rjGroupPct(item,focus,step.group)+'%</span></h4>'+checks+'</div>';
+    }).join('');
+    if(typeof rjRenderConfidence==='function') rjRenderConfidence(item,focus);
+    if(typeof rjUpdateDashboard==='function') rjUpdateDashboard();
+  };
+
+  /* ---------- Theory Checkpoint ---------- */
+  // tg = value in the Theory Games "Theory focus" menu; apply:false = no set-text mode in Theory Games yet.
+  var THEORIES=[
+    {id:'ug',tier:'must',name:'Uses & Gratifications',what:'Why audiences use media: PIES (personal identity, information, entertainment, social interaction).',tg:'ug',apply:true},
+    {id:'hall',tier:'must',name:'Audience responses',what:'Preferred, negotiated and oppositional readings (Stuart Hall).',tg:'hall',apply:true},
+    {id:'activepassive',tier:'must',name:'Active vs passive audiences',what:'Do audiences interpret and choose, or simply absorb the message?',tg:'activepassive',apply:false},
+    {id:'propp',tier:'should',name:'Propp',what:'Character roles: hero, villain, helper, princess, donor, dispatcher.',tg:'propp',apply:true},
+    {id:'todorov',tier:'should',name:'Todorov',what:'Equilibrium → disruption → recognition → repair → new equilibrium.',tg:'todorov',apply:true},
+    {id:'mulvey',tier:'should',name:'Male gaze',what:'Women framed as objects to be looked at, from a male point of view (Mulvey).',tg:'mulvey',apply:false}
+  ];
+  var PASS=80, MIN_Q=5;
+  function tKey(id,part){return 'rj_theory_'+id+'_'+part;}
+  function locked(t,part){ // Must-know ticks are earned in Theory Games where a matching game exists
+    return t.tier==='must' && (part==='explain' || t.apply);
+  }
+  window.rjV17TheoryTick=function(id,part,val){ set(tKey(id,part),val?'1':'0'); rjV17RenderTheory(); };
+  window.rjV17PlayTheory=function(id,part){
+    var t=THEORIES.find(function(x){return x.id===id;}); if(!t) return;
+    rjJump('theorygames');
+    setTimeout(function(){
+      var th=q('tgTheory'), qt=q('tgQType');
+      if(th){th.value=t.tg; th.dispatchEvent(new Event('change',{bubbles:true}));}
+      if(qt){qt.value=(part==='apply'&&t.apply)?'apply':'understand'; qt.dispatchEvent(new Event('change',{bubbles:true}));}
+      var start=document.querySelector('#tab-theorygames .tg-start-row');
+      if(start&&start.scrollIntoView) start.scrollIntoView({behavior:'smooth',block:'center'});
+    },150);
+  };
+  function row(t,part,label){
+    var k=tKey(t.id,part), on=get(k)==='1', lock=locked(t,part);
+    var hint=lock?'<span class="rj-tc-lock">'+(on?'✓ earned':'🔒 '+PASS+'%+ in game')+'</span>':'';
+    var play=(part==='explain'||t.apply)?'<button type="button" class="rj-go" onclick="rjV17PlayTheory(\''+t.id+'\',\''+part+'\')">Play ↗</button>':'';
+    return '<label class="rj-tc-row"><input type="checkbox" '+(on?'checked ':'')+(lock?'disabled ':'')+'onchange="rjV17TheoryTick(\''+t.id+'\',\''+part+'\',this.checked)"><span class="rj-txt">'+label+'</span>'+hint+play+'</label>';
+  }
+  function card(t){
+    return '<div class="rj-tc-card '+t.tier+'"><div class="rj-tc-name">'+esc(t.name)+'</div><div class="rj-tc-what">'+esc(t.what)+'</div>'+
+      row(t,'explain','I can explain it')+
+      row(t,'apply','I can apply it to a set text')+'</div>';
+  }
+  window.rjV17RenderTheory=function(){
+    var box=q('rjTheoryCheckpoint'); if(!box) return;
+    var total=0,done=0;
+    THEORIES.forEach(function(t){['explain','apply'].forEach(function(p){total++; if(get(tKey(t.id,p))==='1') done++;});});
+    var pct=total?Math.round(done/total*100):0;
+    box.innerHTML='<div class="rj-tc-head"><div><div class="rj-kicker">Theory Checkpoint</div><div style="font-size:.84rem;color:var(--muted);">Theories you use across every set text. Learn them in Theory Games.</div></div><div class="rj-tc-pct">'+pct+'%</div></div>'+
+      '<div class="rj-meter"><span style="width:'+pct+'%"></span></div>'+
+      '<div class="rj-tc-tier"><h4>Must know <span class="rj-tc-badge must">EXAM ESSENTIAL</span></h4><div class="rj-tc-grid">'+THEORIES.filter(function(t){return t.tier==='must';}).map(card).join('')+'</div></div>'+
+      '<div class="rj-tc-tier"><h4>Should know <span class="rj-tc-badge should">SUPPORTING</span></h4><div class="rj-tc-grid">'+THEORIES.filter(function(t){return t.tier==='should';}).map(card).join('')+'</div></div>'+
+      '<p class="rj-tc-note">🔒 Must-know ticks unlock automatically when you score '+PASS+'% or more in a Theory Games round of at least '+MIN_Q+' questions ("Understand the theory" for explain, "Apply it to set texts" for apply).</p>';
+  };
+
+  // Auto-tick from Theory Games results
+  var THEORY_FROM_LABEL={'Uses & Gratifications':'ug','Stuart Hall':'hall','Active vs Passive':'activepassive','Propp':'propp','Todorov':'todorov','Laura Mulvey':'mulvey'};
+  function checkResult(){
+    var area=q('tgGameArea'); if(!area) return;
+    var kick=area.querySelector('.tg-kicker'); if(!kick) return;
+    var kt=kick.textContent||'';
+    var part=/Set-text challenge complete/.test(kt)?'apply':(/Theory challenge complete/.test(kt)?'explain':null);
+    if(!part) return;
+    var titleEl=area.querySelector('.tg-question'), title=titleEl?titleEl.textContent:'';
+    var id=null; Object.keys(THEORY_FROM_LABEL).forEach(function(l){ if(!id && title.indexOf(l)===0) id=THEORY_FROM_LABEL[l]; });
+    if(!id) return; // mixed or unlisted theory
+    var tile=area.querySelector('.tg-v25-tile strong'); if(!tile) return;
+    var m=(tile.textContent||'').match(/(\d+)\s*\/\s*(\d+)/); if(!m) return;
+    var right=+m[1], total=+m[2];
+    if(total>=MIN_Q && right/total*100>=PASS && get(tKey(id,part))!=='1'){
+      set(tKey(id,part),'1');
+      var t=THEORIES.find(function(x){return x.id===id;});
+      var note=document.createElement('div');
+      note.className='tg-feedback visible good';
+      note.style.marginTop='.8rem';
+      note.textContent='✓ Theory Checkpoint updated: '+(t?t.name:id)+', "'+(part==='apply'?'I can apply it to a set text':'I can explain it')+'" ticked in your Revision Journey.';
+      var card=area.querySelector('.tg-card'); if(card) card.appendChild(note);
+      rjV17RenderTheory();
+    }
+  }
+
+  function mount(){
+    var tab=q('tab-journey'); if(!tab) return;
+    if(!q('rjTheoryCheckpoint')){
+      var map=q('rjCompletionMap'), anchor=map?map.closest('.rj-card'):null;
+      var div=document.createElement('div');
+      div.className='rj-card'; div.id='rjTheoryCheckpoint'; div.style.marginTop='1rem';
+      if(anchor&&anchor.parentNode) anchor.parentNode.insertBefore(div,anchor); else tab.appendChild(div);
+    }
+    rjV17RenderTheory();
+    if(typeof rjRender==='function') rjRender();
+    var area=q('tgGameArea');
+    if(area && !area.__rjV17){ area.__rjV17=true; new MutationObserver(checkResult).observe(area,{childList:true,subtree:true}); }
+  }
+  document.addEventListener('DOMContentLoaded',function(){setTimeout(mount,250);setTimeout(mount,1000);});
+  window.addEventListener('load',function(){setTimeout(mount,300);});
+  if(document.readyState!=='loading') setTimeout(mount,0);
 })();
 </script>
