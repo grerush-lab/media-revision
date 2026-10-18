@@ -118,6 +118,63 @@ footer{padding-block:20px 34px;color:var(--muted);font-size:.78rem;font-family:v
   svg.leads{display:none}
   .pin{width:20px;height:20px;font-size:.58rem}
 }
+/* recap game */
+.game{margin:6px 0 24px}
+body.gaming #focusbar,body.gaming #fhint,body.gaming #qhint,body.gaming #ctx,body.gaming #fig,body.gaming #pairnav{display:none!important}
+.g-panel{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:18px 18px 20px}
+.g-panel h3{font-size:1.25rem;font-weight:800}
+.g-intro{color:var(--muted);font-size:.92rem;margin:4px 0 14px;max-width:70ch}
+.g-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 12px}
+.g-row .lbl{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);min-width:64px}
+.g-chip{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:5px 12px;font-family:var(--display);font-weight:700;font-size:.84rem}
+.g-chip i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.g-chip b{font-family:var(--mono);font-weight:500;font-size:.66rem;color:var(--muted)}
+.g-chip.on{border-color:var(--c,var(--ink));background:color-mix(in srgb,var(--c,var(--gold)) 16%,var(--card))}
+.g-chip:disabled{opacity:.4;cursor:not-allowed}
+.g-go{background:var(--ink);color:var(--paper);border:0;border-radius:3px;padding:10px 18px;font-family:var(--display);font-weight:800;font-size:.92rem;letter-spacing:.02em}
+.g-go:disabled{opacity:.4;cursor:not-allowed}
+.g-note{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-left:10px}
+.g-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--mast);color:var(--mast-fg);border-radius:4px;padding:9px 14px;margin-bottom:12px;font-family:var(--mono);font-size:.72rem}
+.g-top .sc{font-family:var(--display);font-weight:800;font-size:1.05rem;color:var(--gold)}
+.g-bar{flex:1;min-width:80px;height:4px;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden}
+.g-bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s}
+.g-top .btn{background:transparent;color:var(--mast-fg);border-color:rgba(255,255,255,.35);padding:4px 10px}
+.g-card{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:20px;align-items:start}
+.g-thumb{position:relative;justify-self:center;width:100%;max-width:300px}
+.g-thumb img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,.16)}
+.g-thumb .gp{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;border:2px solid #fff;background:var(--c,#b8860b);color:#fff;font-family:var(--mono);font-weight:600;font-size:.72rem;display:grid;place-items:center;padding:0;box-shadow:0 0 0 3px rgba(0,0,0,.35)}
+.g-thumb .gp.mark{animation:gpulse 1.2s ease-in-out infinite}
+.g-thumb button.gp:hover:not(:disabled){transform:translate(-50%,-50%) scale(1.15)}
+.g-thumb .gp.ok{background:#1e7f4f}.g-thumb .gp.no{background:#b3261e}
+@keyframes gpulse{0%,100%{box-shadow:0 0 0 3px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 8px rgba(184,134,11,.45)}}
+.g-kick{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.g-kick i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:5px;vertical-align:0}
+.g-stem{font-size:1.15rem;font-weight:800;line-height:1.25;margin:4px 0 6px}
+.g-feat{font-family:var(--display);font-weight:700;background:var(--hi);padding:1px 6px;border-radius:3px}
+.g-quote{border-left:4px solid var(--c,var(--gold));background:var(--soft);padding:8px 12px;margin:6px 0 10px;font-size:.95rem;border-radius:0 3px 3px 0}
+.g-opts{display:grid;gap:7px;margin-top:8px}
+.g-opt{text-align:left;background:var(--soft);border:1.5px solid var(--line);border-radius:3px;padding:9px 12px;font-family:var(--body);font-size:.92rem;line-height:1.4}
+.g-opt:hover:not(:disabled){border-color:var(--gold)}
+.g-opt:disabled{cursor:default}
+.g-opt.ok{border-color:#1e7f4f;background:color-mix(in srgb,#1e7f4f 12%,var(--card))}
+.g-opt.no{border-color:#b3261e;background:color-mix(in srgb,#b3261e 10%,var(--card))}
+.g-fb{margin-top:12px;padding:10px 12px;border-radius:3px;background:var(--soft);border:1px solid var(--line);font-size:.9rem}
+.g-fb b{font-family:var(--display)}
+.g-fb .tags{display:flex;flex-wrap:wrap;gap:3px 9px;margin-top:5px;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase}
+.g-fb .tags span{color:var(--tc)}
+.g-next{margin-top:12px}
+.g-end .big{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1;color:var(--gold)}
+.g-miss{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}
+.g-miss li{border:1px solid var(--line);border-top:3px solid var(--c);border-radius:3px;padding:8px 10px;background:var(--soft);font-size:.88rem}
+.g-miss li b{font-family:var(--display)}
+.g-miss .btn{margin-top:6px;padding:3px 9px}
+.g-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+@media (max-width:700px){
+  .g-card{grid-template-columns:minmax(0,1fr)}
+  .g-thumb{max-width:260px}
+  .g-stem{font-size:1.05rem}
+}
+@media print{.game{display:none!important}}
 @media print{
   .mast,.tools,.pairnav,footer,.qhint,.focusbar,.fhint{display:none!important}
   body{background:#fff}
@@ -140,9 +197,11 @@ footer{padding-block:20px 34px;color:var(--muted);font-size:.78rem;font-family:v
     <div class="titlebox"><div class="form" id="form"></div><h2 id="title"></h2></div>
     <div class="tools">
       <button type="button" class="btn" id="quizBtn" aria-pressed="false">Test yourself</button>
+      <button type="button" class="btn" id="gameBtn" aria-pressed="false">🎯 Recap game</button>
       <button type="button" class="btn" id="printBtn">Print</button>
     </div>
   </div>
+  <section class="game hide" id="game" aria-live="polite"></section>
   <div class="focusbar" id="focusbar" role="group" aria-label="Focus area"></div>
   <p class="fhint" id="fhint"></p>
   <p class="qhint hide" id="qhint">Notes are hidden. Look at each number, say the point out loud, then tap the note to check. <button type="button" class="btn" id="revealAll" style="padding:2px 8px">Reveal all</button></p>
@@ -544,6 +603,139 @@ window.addEventListener('scroll',()=>requestAnimationFrame(draw),{passive:true})
 window.addEventListener('beforeprint',draw);window.addEventListener('afterprint',draw);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
 if('ResizeObserver' in window)new ResizeObserver(()=>requestAnimationFrame(draw)).observe(document.getElementById('fig'));
+/* ── Recap game ─────────────────────────────────────────────── */
+const G={on:false,scope:'this',area:'rep',qs:[],i:0,score:0,streak:0,best:0,missed:[],locked:false};
+const ROUNDS=10;
+const STEM={
+  rep:'What does this say about representation?',
+  img:'What does this image choice suggest?',
+  txt:'What is the effect of this language?',
+  lay:'Why has it been designed like this?',
+  gen:'How does this link to genre?',
+  nar:'What does this add to the narrative?'
+};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const gStore={get(k){try{return +localStorage.getItem(k)||0}catch(e){return 0}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const gIn=(n,a)=>a==='all'||(a==='s'?!!n.s:n.A.includes(a));
+const gArea=(n,a)=>AREAS[a]&&n.A.includes(a)?a:n.k;
+function gTexts(scope){const t=BY[cur];return scope==='all'?TEXTS:scope==='pair'?[t,BY[t.pair]]:[t]}
+function gPool(scope,area){const out=[];gTexts(scope).forEach(t=>t.notes.forEach(n=>{if(gIn(n,area))out.push({t,n})}));return out}
+
+function gSetup(){
+  G.on=true;document.body.classList.add('gaming');
+  $('#gameBtn').classList.add('on');$('#gameBtn').setAttribute('aria-pressed','true');
+  if(quiz)$('#quizBtn').click();
+  if(filt!=='all')G.area=filt;
+  const t=BY[cur],p=BY[t.pair];
+  const scopes=[['this','This text',label(t)],['pair','Exam pair',label(t)+' + '+label(p)],['all','All texts',TEXTS.length+' texts']];
+  const areas=[['all','All points','#0f0e0c']].concat(ORDER.map(k=>[k,AREAS[k].n,AREAS[k].c])).concat([['s','★ Stretch','#b8860b']]);
+  const n=(s,a)=>gPool(s,a).length;
+  const bestKey='recapBest:'+G.scope+':'+G.area+(G.scope==='all'?'':':'+cur);
+  const ok=n(G.scope,G.area)>=4;
+  $('#game').innerHTML=`<div class="g-panel">
+    <h3>Recap game</h3>
+    <p class="g-intro">${ROUNDS} quick questions built from the annotations. Read the feature, then pick the right recap point, match a point to its feature, or find it on the text. Different every time.</p>
+    <div class="g-row" role="group" aria-label="Texts"><span class="lbl">Texts</span>${scopes.map(([k,a,b])=>`<button type="button" class="g-chip${G.scope===k?' on':''}" data-s="${k}">${esc(a)} <b>${esc(b)}</b></button>`).join('')}</div>
+    <div class="g-row" role="group" aria-label="Focus"><span class="lbl">Focus</span>${areas.map(([k,a,c])=>{const c2=n(G.scope,k);return `<button type="button" class="g-chip${G.area===k?' on':''}" data-a="${k}" style="--c:${c}"${c2<4?' disabled':''}>${k==='all'||k==='s'?'':'<i></i>'}${esc(a)} <b>${c2}</b></button>`}).join('')}</div>
+    <button type="button" class="g-go" id="gStart"${ok?'':' disabled'}>Start →</button><span class="g-note">${G.best||gStore.get(bestKey)?'Best: '+Math.max(G.best,gStore.get(bestKey))+' / '+ROUNDS:''}</span>
+  </div>`;
+  document.querySelectorAll('#game [data-s]').forEach(b=>b.onclick=()=>{G.scope=b.dataset.s;if(n(G.scope,G.area)<4)G.area='all';G.best=0;gSetup()});
+  document.querySelectorAll('#game [data-a]').forEach(b=>b.onclick=()=>{G.area=b.dataset.a;G.best=0;gSetup()});
+  $('#gStart').onclick=gStart;
+  $('#game').classList.remove('hide');
+}
+function gClose(){
+  G.on=false;document.body.classList.remove('gaming');$('#game').classList.add('hide');$('#game').innerHTML='';
+  $('#gameBtn').classList.remove('on');$('#gameBtn').setAttribute('aria-pressed','false');requestAnimationFrame(draw);
+}
+const STOPW=new Set('about their there which these those while where being every other could would shows shown makes against through'.split(' '));
+const gWords=n=>new Set((n.t+' '+n.n).toLowerCase().replace(/[^a-z\s]/g,' ').split(/\s+/).filter(w=>w.length>=5&&!STOPW.has(w)));
+function gDistract(item,key){
+  const far=(m,o)=>Math.hypot(m.x-o.x,(m.y-o.y)*1.3)>=11;
+  const W=gWords(item.n),overlap=m=>{let c=0;gWords(m).forEach(w=>{if(W.has(w))c++});return c};
+  const base=item.t.notes.filter(m=>m!==item.n&&m[key]!==item.n[key]);
+  /* strictest first: elsewhere on the text, no shared key words, not a near-duplicate reading */
+  const tiers=[m=>far(m,item.n)&&overlap(m)===0,m=>far(m,item.n)&&overlap(m)<=1,m=>far(m,item.n),()=>true];
+  const out=[];
+  for(const ok of tiers){
+    const cand=shuf(base.filter(m=>ok(m)&&!out.includes(m)));
+    cand.sort((a,b)=>(a.k===item.n.k?0:1)-(b.k===item.n.k?0:1));
+    for(const m of cand){if(out.length===3)break;if(!out.some(o=>o[key]===m[key]||!far(o,m)))out.push(m)}
+    if(out.length===3)break;
+  }
+  for(const m of shuf(base)){if(out.length===3)break;if(!out.includes(m))out.push(m)}
+  return out;
+}
+function gStart(){
+  const pool=shuf(gPool(G.scope,G.area));
+  const pick=[];for(let i=0;i<ROUNDS;i++)pick.push(pool[i%pool.length]);
+  const kinds=shuf(['say','say','say','say','which','which','which','find','find','find']);
+  G.qs=pick.map((it,i)=>({...it,kind:kinds[i],ak:G.area==='all'||G.area==='s'?it.n.k:gArea(it.n,G.area)}));
+  G.i=0;G.score=0;G.streak=0;G.missed=[];gAsk();
+}
+function gThumb(q,pins){
+  const im=IMG[q.t.id];
+  return `<img src="${im.src}" alt="${esc(q.t.full)}" width="${im.w}" height="${im.h}">`+pins;
+}
+function gAsk(){
+  const q=G.qs[G.i];G.locked=false;
+  const area=AREAS[q.ak],col=area.c;
+  let thumb='',body='';
+  if(q.kind==='say'){
+    const opts=shuf([q.n].concat(gDistract(q,'n')));q.opts=opts;
+    thumb=gThumb(q,`<span class="gp mark" style="left:${q.n.x}%;top:${q.n.y}%;--c:${col}" aria-hidden="true">?</span>`);
+    body=`<h3 class="g-stem"><span class="g-feat">${esc(q.n.t)}</span></h3><p>${esc(STEM[q.ak])} Pick the recap point that goes with this feature.</p>
+      <div class="g-opts">${opts.map((o,j)=>`<button type="button" class="g-opt" data-j="${j}">${esc(o.n)}</button>`).join('')}</div>`;
+  }else if(q.kind==='which'){
+    const opts=shuf([q.n].concat(gDistract(q,'t')));q.opts=opts;
+    thumb=gThumb(q,'');
+    body=`<h3 class="g-stem">Which feature is this point about?</h3><div class="g-quote" style="--c:${col}">${esc(q.n.n)}</div>
+      <div class="g-opts">${opts.map((o,j)=>`<button type="button" class="g-opt" data-j="${j}">${esc(o.t)}</button>`).join('')}</div>`;
+  }else{
+    const opts=shuf([q.n].concat(gDistract(q,'t')));q.opts=opts;
+    thumb=gThumb(q,opts.map((o,j)=>`<button type="button" class="gp" data-j="${j}" style="left:${o.x}%;top:${o.y}%;--c:#3a352c" aria-label="Spot ${'ABCD'[j]}">${'ABCD'[j]}</button>`).join(''));
+    body=`<h3 class="g-stem">Find it: tap the spot this point is about</h3><div class="g-quote" style="--c:${col}">${esc(q.n.n)}</div>
+      <p class="g-intro" style="margin:0">Four spots are marked A–D on the text.</p>`;
+  }
+  $('#game').innerHTML=`<div class="g-top"><span>Q${G.i+1} / ${G.qs.length}</span><span class="g-bar"><i style="width:${G.i/G.qs.length*100}%"></i></span><span>Score <span class="sc">${G.score}</span></span><span>${G.streak>=2?'🔥 '+G.streak+' in a row':''}</span><button type="button" class="btn" id="gQuit">Quit</button></div>
+    <div class="g-panel"><div class="g-card"><div class="g-thumb" id="gThumb">${thumb}</div>
+    <div><div class="g-kick" style="--c:${col}"><i></i>${esc(label(q.t))} · ${esc(area.n)}</div>${body}
+    <div id="gFb"></div></div></div></div>`;
+  $('#gQuit').onclick=()=>{gClose();};
+  document.querySelectorAll('#game [data-j]').forEach(b=>b.onclick=()=>gAnswer(+b.dataset.j));
+  const g=$('#game');if(g.getBoundingClientRect().top<0)g.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function gAnswer(j){
+  if(G.locked)return;G.locked=true;
+  const q=G.qs[G.i],right=q.opts[j]===q.n,k=q.opts.indexOf(q.n);
+  if(right){G.score++;G.streak++}else{G.streak=0;G.missed.push(q)}
+  document.querySelectorAll('#game [data-j]').forEach(b=>{b.disabled=true;const jj=+b.dataset.j;if(jj===k)b.classList.add('ok');else if(jj===j)b.classList.add('no')});
+  if(q.kind!=='find'){const th=$('#gThumb');const sp=th.querySelector('.gp');if(sp)sp.remove();
+    th.insertAdjacentHTML('beforeend',`<span class="gp ok" style="left:${q.n.x}%;top:${q.n.y}%" aria-hidden="true">✓</span>`)}
+  const pick=q.opts[j];
+  const why=right?'':q.kind==='which'?`<div style="margin-top:6px;color:var(--muted)">“${esc(pick.t)}” is about: ${esc(pick.n)}</div>`:`<div style="margin-top:6px;color:var(--muted)">${q.kind==='find'?'You tapped':'That point goes with'} “${esc(pick.t)}”${q.kind==='find'?': '+esc(pick.n):''}</div>`;
+  $('#gFb').innerHTML=`<div class="g-fb"><b>${right?'✓ Yes.':'✗ Not quite.'}</b> <b>${esc(q.n.t)}</b>${q.n.s?' <span style="color:var(--gold)">★</span>':''}: ${esc(q.n.n)}
+    <div class="tags">${q.n.A.map(a=>`<span style="--tc:${AREAS[a].c}">● ${AREAS[a].short||AREAS[a].n}</span>`).join('')}</div>${why}</div>
+    <button type="button" class="g-go g-next" id="gNext">${G.i+1<G.qs.length?'Next →':'See results →'}</button>`;
+  $('#gNext').onclick=()=>{G.i++;G.i<G.qs.length?gAsk():gEnd()};
+  $('#gNext').focus({preventScroll:true});
+}
+function gEnd(){
+  const bestKey='recapBest:'+G.scope+':'+G.area+(G.scope==='all'?'':':'+cur);
+  const prev=gStore.get(bestKey),nb=G.score>prev;if(nb)gStore.set(bestKey,G.score);G.best=Math.max(prev,G.score);
+  const msg=G.score===ROUNDS?'Perfect recall.':G.score>=8?'Strong. You know these points.':G.score>=5?'Getting there. Revisit the ones you missed.':'Go back over the annotations, then try again.';
+  const seen=new Set(),miss=G.missed.filter(q=>{const key=q.t.id+q.n.i;if(seen.has(key))return false;seen.add(key);return true});
+  $('#game').innerHTML=`<div class="g-panel g-end"><div class="g-kick">Recap game · ${esc(G.area==='all'?'All points':G.area==='s'?'Stretch':AREAS[G.area].n)}</div>
+    <div class="big" style="margin-top:6px">${G.score} / ${G.qs.length}</div><p>${msg}${nb&&prev?' New best!':''}</p>
+    ${miss.length?`<h3 style="font-size:1rem;margin-top:12px">Points to look at again</h3><ul class="g-miss">${miss.map((q,x)=>`<li style="--c:${AREAS[q.ak].c}"><b>${esc(label(q.t))}: ${esc(q.n.t)}</b><br>${esc(q.n.n)}<br><button type="button" class="btn" data-m="${x}">See it on the text →</button></li>`).join('')}</ul>`:''}
+    <div class="g-btns"><button type="button" class="g-go" id="gAgain">Play again</button><button type="button" class="btn" id="gChange">Change settings</button><button type="button" class="btn" id="gDone">Back to the notes</button></div></div>`;
+  $('#gAgain').onclick=gStart;$('#gChange').onclick=gSetup;$('#gDone').onclick=gClose;
+  document.querySelectorAll('#game [data-m]').forEach(b=>b.onclick=()=>{const q=miss[+b.dataset.m];gClose();filt='all';show(q.t.id);
+    requestAnimationFrame(()=>{focus(String(q.n.i),true);const el=document.querySelector(`#fig .note[data-i="${q.n.i}"]`);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})})});
+}
+$('#gameBtn').onclick=()=>G.on?gClose():gSetup();
+const _show=show;show=function(id){_show(id);if(G.on&&!document.querySelector('#game .g-top'))gSetup()};
+
 show(cur);
 </script>
 </body>
