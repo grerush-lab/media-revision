@@ -1494,11 +1494,6 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
     <div class="rj-title">🚀 GCSE Media Revision Journey</div>
     
 <div class="rj-topline">
-  <div class="rj-streak-card">
-    <div class="rj-mini-label">Mission Streak</div>
-    <div class="rj-streak-num" id="rjStreakNow">🔥 0</div>
-    <div style="font-size:.82rem;color:var(--muted);margin-top:.35rem;">Best streak: <strong id="rjBestStreak">0</strong> days</div>
-  </div>
   <div class="rj-countdown-card">
     <div class="rj-mini-label">Exam Countdown</div>
     <div class="rj-count-num" id="rjExamCountdown">⏳ —</div>
@@ -4134,7 +4129,11 @@ function fqReset() {
     document.getElementById('fqTextGrid').style.display = 'none';
     document.querySelector('.fq-intro').style.display = 'none';
   } else {
-    fqGoHome();
+    // Show the text grid directly (calling fqGoHome here looped forever when no text was open)
+    document.getElementById('fqHome').style.display = 'block';
+    document.getElementById('fqReaderPanel').style.display = 'none';
+    document.getElementById('fqTextGrid').style.display = 'grid';
+    document.querySelector('.fq-intro').style.display = 'block';
   }
 }
 
@@ -10482,6 +10481,251 @@ var TQ_BANDS = {
   };
 })();
 
+</script>
+
+<style id="rj-v18-focus-css">
+/* Streak removed: keep the countdown card a sensible width */
+.rj-streak-card{display:none!important}
+.rj-topline{grid-template-columns:minmax(210px,360px)!important}
+
+/* Mode switch */
+#rjModeSwitch{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem}
+#rjModeSwitch button{font-family:'Syne',sans-serif;text-align:left;background:var(--card);border:2px solid var(--border);border-radius:4px;padding:.85rem 1rem;cursor:pointer;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+#rjModeSwitch button:hover{border-color:var(--gold)}
+#rjModeSwitch button strong{display:block;font-size:1rem;font-weight:800}
+#rjModeSwitch button span{display:block;font-family:'Lora',serif;font-size:.8rem;color:var(--muted);margin-top:.2rem;line-height:1.4}
+#rjModeSwitch button.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+#rjModeSwitch button.on span{color:#cfc6b7}
+@media(max-width:640px){#rjModeSwitch{grid-template-columns:1fr}}
+
+/* Focus Mode: hide everything else in the Journey tab */
+#tab-journey.rj-focus-on > *:not(.rj-hero):not(#rjModeSwitch):not(#rjFocusPanel){display:none!important}
+#tab-journey.rj-focus-on .rj-topline,#tab-journey.rj-focus-on .rj-sub{display:none!important}
+#rjFocusPanel{display:none}
+#tab-journey.rj-focus-on #rjFocusPanel{display:block}
+
+.fm-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1.2rem 1.25rem;margin-bottom:1rem}
+.fm-kicker{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.fm-h{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin:0 0 .3rem}
+.fm-p{font-size:.95rem;line-height:1.6;color:#3a352c;margin:0}
+.fm-group{margin-top:1rem}
+.fm-group h4{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:0 0 .5rem;border-bottom:1px solid var(--border);padding-bottom:.35rem}
+.fm-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem}
+.fm-tile{display:flex;align-items:center;gap:.6rem;background:#faf8f4;border:2px solid var(--border);border-radius:4px;padding:.7rem .75rem;cursor:pointer;text-align:left;font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;color:var(--ink);line-height:1.2;transition:border-color .15s,transform .15s}
+.fm-tile:hover{border-color:var(--gold);transform:translateY(-1px)}
+.fm-tile .ico{font-size:1.4rem;flex-shrink:0}
+.fm-tile .nm{flex:1}
+.fm-dots{display:flex;gap:3px;margin-top:.3rem}
+.fm-dots i{width:9px;height:9px;border-radius:50%;background:var(--border);display:block}
+.fm-dots i.d{background:var(--success)}
+.fm-tile.done{border-color:var(--success);background:#eef8f3}
+.fm-tile.next{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.18)}
+.fm-suggest{margin-top:1rem;font-size:.9rem;background:#fff8e6;border-left:4px solid var(--gold);padding:.6rem .8rem;border-radius:2px}
+.fm-suggest button{font:inherit;font-weight:700;background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;padding:0}
+
+.fm-top{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem}
+.fm-top .ico{font-size:2rem}
+.fm-top .txt{flex:1;min-width:180px}
+.fm-link{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:1px;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:2px;padding:.45rem .7rem;cursor:pointer;color:var(--ink)}
+.fm-link:hover{border-color:var(--ink)}
+.fm-steps{display:flex;align-items:center;margin:.2rem 0 1.1rem}
+.fm-steps .s{display:flex;flex-direction:column;align-items:center;gap:.3rem;flex:0 0 auto;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.fm-steps .s b{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1rem;background:#f1ece2;border:2px solid var(--border);color:var(--muted)}
+.fm-steps .s.done b{background:var(--success);border-color:var(--success);color:#fff}
+.fm-steps .s.now b{background:var(--ink);border-color:var(--ink);color:var(--gold)}
+.fm-steps .s.now{color:var(--ink);font-weight:700}
+.fm-steps .bar{flex:1;height:3px;background:var(--border);margin:0 .4rem 1.1rem}
+.fm-steps .bar.done{background:var(--success)}
+.fm-step{border:2px solid var(--ink);border-radius:4px;padding:1.2rem;background:#fffdf8}
+.fm-step .big{font-size:2.2rem;line-height:1;margin-bottom:.4rem}
+.fm-step h3{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;margin:0 0 .4rem}
+.fm-step ol{margin:.5rem 0 0 1.2rem;padding:0;font-size:.95rem;line-height:1.7}
+.fm-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.1rem}
+.fm-go{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;background:var(--gold);color:#fff;border:none;border-radius:3px;padding:.8rem 1.1rem;cursor:pointer}
+.fm-go:hover{background:#9a7009}
+.fm-done{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;background:var(--success);color:#fff;border:none;border-radius:3px;padding:.8rem 1.1rem;cursor:pointer}
+.fm-done:hover{background:#246a4f}
+.fm-back{font-family:'IBM Plex Mono',monospace;font-size:.7rem;background:none;border:none;color:var(--muted);cursor:pointer;text-decoration:underline;margin-top:.8rem;padding:0}
+.fm-feel{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.7rem}
+.fm-feel button{flex:1;min-width:120px;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;background:#faf8f4;border:2px solid var(--border);border-radius:4px;padding:.75rem;cursor:pointer;color:var(--ink)}
+.fm-feel button span{display:block;font-size:1.7rem;margin-bottom:.2rem}
+.fm-feel button.on{border-color:var(--ink);background:#fff3d8}
+.fm-msg{margin-top:.8rem;font-size:.9rem;color:#3a352c}
+</style>
+<script id="rj-v18-focus-js">
+(function(){
+  function q(id){return document.getElementById(id);}
+  function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function set(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  // Curated list: each text has ONE recap, ONE factsheet quiz and ONE place to find an exam question.
+  var TEXTS=[
+    {id:'quality_street',p:1,icon:'🍬',name:'Quality Street',recap:'recaps/adverts.html#qs-ml',fq:[['quality_street','']],qs:{text:'Quality Street'}},
+    {id:'nhs',p:1,icon:'🏥',name:'NHS 111',recap:'recaps/adverts.html#nhs',fq:[['nhs','']],qs:{comp:'1',sec:'A'}},
+    {id:'gq',p:1,icon:'👔',name:'GQ',recap:'recaps/magazines.html#gq',fq:[['gq','']],qs:{text:'GQ'}},
+    {id:'vogue',p:1,icon:'👗',name:'Vogue',recap:'recaps/magazines.html#vogue',fq:[['vogue','']],qs:{comp:'1',sec:'A'}},
+    {id:'tmwtgg',p:1,icon:'🔫',name:'The Man with the Golden Gun',recap:'recaps/bond.html#tmwtgg',fq:[['tmwtgg','']],qs:{text:'Golden Gun'}},
+    {id:'nttd',p:1,icon:'🎬',name:'No Time To Die',recap:'recaps/bond.html#nttd',fq:[['nttd','']],qs:{comp:'1'}},
+    {id:'sun',p:1,icon:'☀️',name:'The Sun',recap:'recaps/newspapers.html#sun',fq:[['sun','Year 11 front page (2021)'],['sun25','Year 10 front page (2025)']],qs:{text:'The Sun'}},
+    {id:'guardian',p:1,icon:'📄',name:'The Guardian',recap:'recaps/newspapers.html#guardian',fq:[['guardian','Year 11 front page (2022)'],['guardian25','Year 10 front page (2025)']],qs:{text:'Guardian'}},
+    {id:'fortnite',p:1,icon:'🎮',name:'Fortnite',recap:'recaps/fortnite.html',fq:[['fortnite','']],qs:{text:'Fortnite'}},
+    {id:'desert_island',p:1,icon:'📻',name:'Desert Island Discs',recap:'recaps/radio.html',fq:[['desert_island','']],qs:{comp:'1',sec:'B'}},
+    {id:'trigger_point',p:2,icon:'💣',name:'Trigger Point',recap:'recaps/trigger-point.html',fq:[['trigger_point','']],qs:{comp:'2',sec:'A'}},
+    {id:'sweeney',p:2,icon:'🚔',name:'The Sweeney',recap:'recaps/trigger-point.html',fq:[['sweeney','']],qs:{comp:'2',sec:'A'}},
+    {id:'lizzo',p:2,icon:'🎺',name:'Lizzo — Good As Hell',recap:'recaps/music.html#lizzo',fq:[['lizzo','']],qs:{text:'Lizzo'}},
+    {id:'bieber',p:2,icon:'🎵',name:'Justin Bieber — Intentions',recap:'recaps/music.html#bieber',fq:[['justin_bieber','']],qs:{text:'Intentions'}},
+    {id:'tlc',p:2,icon:'💧',name:'TLC — Waterfalls',recap:'recaps/music.html#tlc',fq:[['tlc','']],qs:{comp:'2',sec:'B'}}
+  ];
+  var STEP_NAMES=['Read','Quiz','Answer'];
+  var FEELS=[['1','😟','Still unsure'],['2','🙂','Getting there'],['3','😎',"I've got this"]];
+  function byId(id){return TEXTS.find(function(t){return t.id===id;});}
+  function done(t){return Math.max(0,Math.min(3,parseInt(get('rj_focus_'+t.id)||'0',10)||0));}
+  function setDone(t,n){set('rj_focus_'+t.id,String(n)); render();}
+  function cur(){return byId(get('rj_focus_current')||'');}
+  function suggestion(){
+    var c=cur();
+    return TEXTS.find(function(t){return done(t)<3 && (!c||t.id!==c.id);})||null;
+  }
+
+  window.rjFocusPick=function(id){ set('rj_focus_current',id); render(); scrollPanel(); };
+  window.rjFocusChange=function(){ set('rj_focus_current',''); render(); scrollPanel(); };
+  window.rjFocusDone=function(){ var t=cur(); if(t) setDone(t,Math.min(3,done(t)+1)); scrollPanel(); };
+  window.rjFocusBack=function(){ var t=cur(); if(t) setDone(t,Math.max(0,done(t)-1)); };
+  window.rjFocusRestart=function(){ var t=cur(); if(t){ set('rj_focus_'+t.id+'_feel',''); setDone(t,0);} };
+  window.rjFocusFeel=function(v){ var t=cur(); if(!t) return; set('rj_focus_'+t.id+'_feel',v); render(); };
+
+  window.rjFocusOpen=function(kind,arg){
+    var t=cur(); if(!t) return;
+    if(kind==='recap'){
+      try{ sessionStorage.setItem('rjFocusReturn','1'); }catch(e){}
+      window.location.href=t.recap; return;
+    }
+    if(kind==='quiz'){
+      rjJump('factcheck');
+      setTimeout(function(){
+        if(typeof fqGoHome==='function') fqGoHome();
+        if(typeof fqOpenReader==='function') fqOpenReader(arg||t.fq[0][0]);
+        window.scrollTo({top:(q('tab-factcheck')||document.body).getBoundingClientRect().top+window.scrollY-20,behavior:'smooth'});
+      },60);
+      return;
+    }
+    if(kind==='question'){
+      rjJump('questions');
+      setTimeout(function(){
+        if(typeof resetFilters==='function') resetFilters();
+        var map={comp:'f-comp',sec:'f-sec',text:'f-text'};
+        Object.keys(t.qs).forEach(function(k){ var el=q(map[k]); if(el) el.value=t.qs[k]; });
+        if(typeof applyFilters==='function') applyFilters();
+        var list=q('questionList')||document.body;
+        window.scrollTo({top:list.getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'});
+      },60);
+    }
+  };
+
+  function scrollPanel(){ var p=q('rjFocusPanel'); if(p) window.scrollTo({top:p.getBoundingClientRect().top+window.scrollY-20,behavior:'smooth'}); }
+
+  function dots(n){ var h=''; for(var i=0;i<3;i++) h+='<i class="'+(i<n?'d':'')+'"></i>'; return '<span class="fm-dots">'+h+'</span>'; }
+  function tile(t,next){
+    var n=done(t), feel=FEELS.find(function(f){return f[0]===get('rj_focus_'+t.id+'_feel');});
+    return '<button type="button" class="fm-tile'+(n>=3?' done':'')+(next&&next.id===t.id?' next':'')+'" onclick="rjFocusPick(\''+t.id+'\')">'+
+      '<span class="ico">'+t.icon+'</span><span class="nm">'+esc(t.name)+dots(n)+'</span>'+(feel?'<span title="'+esc(feel[2])+'">'+feel[1]+'</span>':'')+'</button>';
+  }
+
+  function pickerHTML(){
+    var next=suggestion();
+    var g=function(p,label){ return '<div class="fm-group"><h4>'+label+'</h4><div class="fm-tiles">'+TEXTS.filter(function(t){return t.p===p;}).map(function(t){return tile(t,next);}).join('')+'</div></div>'; };
+    return '<div class="fm-card"><div class="fm-kicker">Focus Mode</div><h2 class="fm-h">Pick one set text</h2>'+
+      '<p class="fm-p">You will do <strong>3 short steps</strong> for it: read, quiz, answer. That\'s it. The dots show how far you got.</p>'+
+      g(1,'Paper 1 · Component 1')+g(2,'Paper 2 · Component 2')+
+      (next?'<div class="fm-suggest">Not sure where to start? Try <button type="button" onclick="rjFocusPick(\''+next.id+'\')">'+esc(next.name)+'</button>.</div>':'<div class="fm-suggest">🎉 You\'ve done all three steps for every text. Pick any text to go again.</div>')+
+      '</div>';
+  }
+
+  function stepperHTML(n){
+    var h='<div class="fm-steps">';
+    STEP_NAMES.forEach(function(name,i){
+      var cls=i<n?'done':(i===n?'now':'');
+      h+='<div class="s '+cls+'"><b>'+(i<n?'✓':(i+1))+'</b>'+name+'</div>';
+      if(i<2) h+='<div class="bar'+(i<n?' done':'')+'"></div>';
+    });
+    return h+'</div>';
+  }
+
+  function stepHTML(t,n){
+    if(n===0) return '<div class="fm-step"><div class="big">📖</div><h3>Step 1: Read the recap</h3>'+
+      '<ol><li>Open the recap page for <strong>'+esc(t.name)+'</strong>.</li><li>Read it from the top.</li><li>Answer the quick questions as you go.</li><li>Come back here with <strong>← Hub</strong> at the top of the page.</li></ol>'+
+      '<div class="fm-actions"><button type="button" class="fm-go" onclick="rjFocusOpen(\'recap\')">Open the recap →</button><button type="button" class="fm-done" onclick="rjFocusDone()">✓ I\'ve done this</button></div></div>';
+    if(n===1){
+      var btns=t.fq.map(function(f){return '<button type="button" class="fm-go" onclick="rjFocusOpen(\'quiz\',\''+f[0]+'\')">'+(f[1]?'Open quiz: '+esc(f[1]):'Open the factsheet quiz')+' →</button>';}).join('');
+      return '<div class="fm-step"><div class="big">✏️</div><h3>Step 2: Do the quiz</h3>'+
+        '<ol><li>Read the factsheet.</li><li>Press <strong>Start quiz</strong> at the bottom.</li><li>Read the feedback when you get one wrong.</li><li>Come back to <strong>Revision Journey</strong>.</li></ol>'+
+        (t.fq.length>1?'<p class="fm-p" style="margin-top:.6rem;">Pick the front page your class studies.</p>':'')+
+        '<div class="fm-actions">'+btns+'<button type="button" class="fm-done" onclick="rjFocusDone()">✓ I\'ve done this</button></div>'+
+        '<button type="button" class="fm-back" onclick="rjFocusBack()">← Back to step 1</button></div>';
+    }
+    if(n===2) return '<div class="fm-step"><div class="big">📝</div><h3>Step 3: Answer one exam question</h3>'+
+      '<ol><li>Pick <strong>ONE</strong> question from the list.</li><li>Write your answer about <strong>'+esc(t.name)+'</strong> in your book.</li><li>Open the mark scheme points and tick what you included.</li><li>Come back to <strong>Revision Journey</strong>.</li></ol>'+
+      '<div class="fm-actions"><button type="button" class="fm-go" onclick="rjFocusOpen(\'question\')">Show me exam questions →</button><button type="button" class="fm-done" onclick="rjFocusDone()">✓ I\'ve done this</button></div>'+
+      '<button type="button" class="fm-back" onclick="rjFocusBack()">← Back to step 2</button></div>';
+    var feel=get('rj_focus_'+t.id+'_feel')||'';
+    var next=suggestion();
+    return '<div class="fm-step" style="border-color:var(--success);"><div class="big">🎉</div><h3>You finished '+esc(t.name)+'!</h3>'+
+      '<p class="fm-p">How do you feel about it now?</p>'+
+      '<div class="fm-feel">'+FEELS.map(function(f){return '<button type="button" class="'+(feel===f[0]?'on':'')+'" onclick="rjFocusFeel(\''+f[0]+'\')"><span>'+f[1]+'</span>'+f[2]+'</button>';}).join('')+'</div>'+
+      (feel==='1'?'<p class="fm-msg">That\'s fine. Do the 3 steps again in a few days. It gets easier each time.</p>':'')+
+      (feel==='3'?'<p class="fm-msg">Brilliant. Try a different text next.</p>':'')+
+      '<div class="fm-actions">'+(next?'<button type="button" class="fm-go" onclick="rjFocusPick(\''+next.id+'\')">Next: '+esc(next.name)+' →</button>':'')+
+      '<button type="button" class="fm-link" onclick="rjFocusChange()">Pick a different text</button><button type="button" class="fm-link" onclick="rjFocusRestart()">Do this text again</button></div></div>';
+  }
+
+  function render(){
+    var panel=q('rjFocusPanel'); if(!panel) return;
+    var t=cur();
+    if(!t){ panel.innerHTML=pickerHTML(); return; }
+    var n=done(t);
+    panel.innerHTML='<div class="fm-card"><div class="fm-top"><span class="ico">'+t.icon+'</span><div class="txt"><div class="fm-kicker">Focus Mode · your text</div><h2 class="fm-h" style="margin:0;">'+esc(t.name)+'</h2></div>'+
+      '<button type="button" class="fm-link" onclick="rjFocusChange()">Change text</button></div>'+stepperHTML(n)+stepHTML(t,n)+'</div>';
+  }
+
+  window.rjSetMode=function(mode){
+    set('rj_mode',mode);
+    var tab=q('tab-journey'); if(!tab) return;
+    tab.classList.toggle('rj-focus-on',mode==='focus');
+    var sw=q('rjModeSwitch');
+    if(sw) [].forEach.call(sw.querySelectorAll('button'),function(b){ b.classList.toggle('on',b.getAttribute('data-mode')===mode); });
+    if(mode==='focus') render();
+  };
+
+  function mount(){
+    var tab=q('tab-journey'); if(!tab) return;
+    var hero=tab.querySelector('.rj-hero');
+    if(!q('rjModeSwitch')){
+      var sw=document.createElement('div'); sw.id='rjModeSwitch';
+      sw.innerHTML='<button type="button" data-mode="focus" onclick="rjSetMode(\'focus\')"><strong>🎯 Focus Mode</strong><span>One text, three simple steps: read, quiz, answer.</span></button>'+
+        '<button type="button" data-mode="full" onclick="rjSetMode(\'full\')"><strong>🗺️ Full Journey</strong><span>Every checklist, tracker and theory checkpoint.</span></button>';
+      tab.insertBefore(sw,tab.firstChild);
+    }
+    var swEl=q('rjModeSwitch');
+    if(hero && hero.nextElementSibling!==swEl) tab.insertBefore(swEl,hero.nextSibling);
+    var panel=q('rjFocusPanel');
+    if(!panel){ panel=document.createElement('div'); panel.id='rjFocusPanel'; }
+    if(swEl.nextElementSibling!==panel) tab.insertBefore(panel,swEl.nextSibling);
+    var mode=get('rj_mode')||'full';
+    if(/^#focus$/i.test(window.location.hash)) mode='focus';
+    rjSetMode(mode);
+  }
+
+  function returnFromRecap(){
+    var back=false; try{ back=sessionStorage.getItem('rjFocusReturn')==='1'; sessionStorage.removeItem('rjFocusReturn'); }catch(e){}
+    if(/^#focus$/i.test(window.location.hash)) back=true;
+    if(back && typeof rjJump==='function'){ rjJump('journey'); setTimeout(function(){ mount(); var tab=q('tab-journey'); if(tab) window.scrollTo({top:tab.getBoundingClientRect().top+window.scrollY-20}); },350); }
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ mount(); returnFromRecap(); });
+  else { mount(); returnFromRecap(); }
+  window.addEventListener('load',function(){ setTimeout(mount,400); });
+})();
 </script>
 </body>
 </html>

@@ -114,6 +114,71 @@ footer{max-width:1050px;margin:30px auto 0;padding:26px 24px 46px;border-top:1px
 .decode summary{cursor:pointer;color:var(--amber);font-weight:700;font-size:.76rem;padding:9px 12px;list-style-position:inside}
 .decode summary:hover{color:#fff}
 .decode details p{padding:0 12px 11px;font-size:.79rem;color:#e4dbea;line-height:1.5}
+
+/* ===== Conventional vs not: the rulebook ===== */
+.rb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:18px;position:relative;overflow:hidden}
+.rb-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.rb-top h3{color:var(--amber);font-size:1.15rem;margin-bottom:4px}
+.rb-top p{color:var(--muted);font-size:.86rem;max-width:620px}
+.rb-exam{background:var(--panel2);border:1px dashed var(--amber);border-radius:10px;padding:10px 14px;font-size:.8rem;max-width:330px;color:#e4dbea}
+.rb-exam b{display:block;color:var(--amber);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+.rb-board{display:grid;grid-template-columns:1fr 46px 1fr;gap:0;align-items:stretch}
+.rb-col h4{display:flex;align-items:center;gap:8px;font-size:.95rem;padding:10px 14px;border-radius:10px 10px 0 0;letter-spacing:.5px}
+.rb-col.follow h4{background:rgba(76,201,240,.16);color:var(--blue);border:1px solid rgba(76,201,240,.45);border-bottom:none}
+.rb-col.break h4{background:rgba(224,82,153,.16);color:#ff9ccc;border:1px solid rgba(224,82,153,.5);border-bottom:none}
+.rb-col h4 small{margin-left:auto;font-weight:600;font-size:.72rem;opacity:.85}
+.rb-list{border-radius:0 0 10px 10px;padding:10px;display:flex;flex-direction:column;gap:9px;height:calc(100% - 42px)}
+.rb-col.follow .rb-list{border:1px solid rgba(76,201,240,.45);background:rgba(76,201,240,.04)}
+.rb-col.break .rb-list{border:1px solid rgba(224,82,153,.5);background:rgba(224,82,153,.04)}
+.rb-vs{display:flex;align-items:center;justify-content:center}
+.rb-vs span{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:900;letter-spacing:6px;color:var(--amber);font-size:.8rem;opacity:.85}
+.rb-card{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px 13px 11px 46px;position:relative;cursor:pointer;transition:transform .15s,border-color .15s}
+.rb-card:hover{transform:translateY(-2px)}
+.rb-col.follow .rb-card:hover{border-color:var(--blue)}
+.rb-col.break .rb-card:hover{border-color:var(--red)}
+.rb-card .ic{position:absolute;left:11px;top:11px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800}
+.rb-col.follow .ic{background:rgba(76,201,240,.2);color:var(--blue)}
+.rb-col.break .ic{background:rgba(224,82,153,.22);color:#ff9ccc}
+.rb-card .hd{font-weight:700;font-size:.92rem;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.rb-card .tg{font-size:.66rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:20px;background:rgba(255,209,102,.12);color:var(--amber);border:1px solid rgba(255,209,102,.4)}
+.rb-card .ev{font-size:.84rem;color:#e4dbea;margin-top:6px;display:none;line-height:1.5}
+.rb-card.open .ev{display:block}
+.rb-card .more{font-size:.7rem;color:var(--muted);margin-top:4px}
+.rb-card.open .more{display:none}
+.rb-tip{font-size:.8rem;color:var(--muted);margin-top:12px}
+.rb-tip b{color:var(--amber)}
+@media(max-width:760px){.rb-board{grid-template-columns:1fr}.rb-vs{padding:8px 0}.rb-vs span{writing-mode:horizontal-tb;transform:none}.rb-list{height:auto}}
+
+/* verdict meter */
+.rb-meter{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:16px}
+.rb-meter h4{font-size:.95rem;color:var(--amber);margin-bottom:4px}
+.rb-meter p.ins{font-size:.82rem;color:var(--muted);margin-bottom:12px}
+.rb-track{position:relative;height:16px;border-radius:20px;background:linear-gradient(90deg,var(--blue),#9b8bd6 50%,var(--red));margin:22px 4px 8px}
+.rb-track input{position:absolute;inset:-8px 0;width:100%;height:32px;margin:0;opacity:0;cursor:pointer;z-index:3}
+.rb-thumb{position:absolute;top:50%;width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--amber);transform:translate(-50%,-50%);box-shadow:0 2px 10px rgba(0,0,0,.4);pointer-events:none;z-index:2;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.rb-target{position:absolute;top:-26px;transform:translateX(-50%);display:none;flex-direction:column;align-items:center;z-index:1}
+.rb-target b{font-size:.66rem;background:var(--green);color:#06210f;padding:2px 7px;border-radius:12px;white-space:nowrap}
+.rb-target i{width:3px;height:40px;background:var(--green);margin-top:2px;border-radius:2px}
+.rb-meter.revealed .rb-target{display:flex}
+.rb-ends{display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.rb-ends span:first-child{color:var(--blue)} .rb-ends span:last-child{color:#ff9ccc}
+.rb-read{text-align:center;margin:12px 0 4px;font-size:.95rem}
+.rb-read strong{color:var(--amber)}
+.rb-starter{text-align:center;font-size:.82rem;color:#e4dbea;font-style:italic;min-height:1.3em}
+
+/* head to head */
+.h2h{background:linear-gradient(135deg,rgba(76,201,240,.08),rgba(224,82,153,.1));border:1px solid var(--line);border-radius:14px;padding:22px;margin:4px 0 18px}
+.h2h h3{color:var(--amber);font-size:1.1rem;margin-bottom:4px}
+.h2h p{color:var(--muted);font-size:.86rem}
+.h2h-line{position:relative;height:6px;background:linear-gradient(90deg,var(--blue),var(--red));border-radius:6px;margin:64px 10px 10px}
+.h2h-pin{position:absolute;bottom:14px;transform:translateX(-50%);text-align:center;width:150px}
+.h2h-pin .bub{background:var(--panel2);border:2px solid var(--amber);border-radius:10px;padding:5px 8px;font-size:.78rem;font-weight:700}
+.h2h-pin .bub small{display:block;font-weight:500;color:var(--muted);font-size:.68rem}
+.h2h-pin::after{content:"";position:absolute;left:50%;bottom:-14px;width:12px;height:12px;border-radius:50%;background:var(--amber);transform:translate(-50%,50%);box-shadow:0 0 0 4px rgba(255,209,102,.25)}
+.h2h-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.h2h-grid div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:.84rem;color:#e4dbea}
+.h2h-grid b{color:var(--amber)}
+@media(max-width:760px){.h2h-grid{grid-template-columns:1fr}.h2h-pin{width:110px}}
 </style>
 </head>
 <body>
@@ -124,6 +189,7 @@ footer{max-width:1050px;margin:30px auto 0;padding:26px 24px 46px;border-top:1px
   <a href="#basics">Set Texts</a>
   <a href="#lizzo">Lizzo</a>
   <a href="#bieber">Bieber</a>
+  <a href="#lizzo-conventions">Conventions</a>
   <a href="#tlc">TLC</a>
   <a href="#online">Websites &amp; Social</a>
   <a href="#indaud">Industry &amp; Audience</a>
@@ -237,6 +303,8 @@ footer{max-width:1050px;margin:30px auto 0;padding:26px 24px 46px;border-top:1px
     </div>
   </div>
 
+  <div class="rb" id="lizzo-conventions"><div class="rb-top"><div><h3>📏 vs ✂️ Is Good As Hell a typical music video?</h3><p>Steve Neale says genres work through <span class="kw">repetition and difference</span>. Good As Hell repeats plenty of music video conventions — but it also breaks some. Tap each card to see the evidence. These points come from the 2024 mark scheme.</p></div><div class="rb-exam"><b>2024 exam · Q3 · 20 marks</b>"How far are the two music videos you have studied <i>typical</i> in their use of codes and conventions?"</div></div><div class="rb-board"><div class="rb-col follow"><h4>📏 Plays by the rules <small>conventional</small></h4><div class="rb-list"><div class="rb-card" tabindex="0"><span class="ic">1</span><div class="hd">Performance at its heart <span class="tg">Performance</span></div><div class="more">Tap for the evidence</div><div class="ev">The video is <b>largely performance-based</b>: Lizzo sings and dances alongside a large cast — following music video conventions.</div></div><div class="rb-card" tabindex="0"><span class="ic">2</span><div class="hd">Star persona, centre stage <span class="tg">Star image</span></div><div class="more">Tap for the evidence</div><div class="ev">Lizzo's <b>gold costume</b> reflects her star persona, connoting glamour and success. Many shots place Lizzo <b>centred in the frame</b>, establishing her as the star.</div></div><div class="rb-card" tabindex="0"><span class="ic">3</span><div class="hd">A story with heroes <span class="tg">Propp</span></div><div class="more">Tap for the evidence</div><div class="ev">A <b>strong narrative with three strands</b>: each female student is the hero of her own narrative journey (Propp), blended into the performance.</div></div></div></div><div class="rb-vs"><span>VS</span></div><div class="rb-col break"><h4>✂️ Breaks the rules <small>not conventional</small></h4><div class="rb-list"><div class="rb-card" tabindex="0"><span class="ic">1</span><div class="hd">The star arrives late <span class="tg">00:43</span></div><div class="more">Tap for the evidence</div><div class="ev">Lizzo doesn't appear until <b>00:43</b>. The three young women are introduced <b>first</b> — unusual when the artist is normally the focus from the opening.</div></div><div class="rb-card" tabindex="0"><span class="ic">2</span><div class="hd">Her back to the camera <span class="tg">Camera</span></div><div class="more">Tap for the evidence</div><div class="ev">The first shot of Lizzo shows her <b>from behind, skipping into position</b> — not the glamorous, face-to-camera star reveal we might expect.</div></div><div class="rb-card" tabindex="0"><span class="ic">3</span><div class="hd">The "outtake" ending <span class="tg">Diegetic sound</span></div><div class="more">Tap for the evidence</div><div class="ev">The last shot uses <b>diegetic sound</b>: an "outtake"-style panning shot of students cheering and dancing after band practice — the music stops and real life takes over.</div></div><div class="rb-card" tabindex="0"><span class="ic">4</span><div class="hd">A different body ideal <span class="tg">Representation</span></div><div class="more">Tap for the evidence</div><div class="ev">Lizzo is a successful, <b>Black plus-size woman</b>, confident and proud of her body — challenging music videos' habit of upholding <b>western beauty ideals</b>.</div></div><div class="rb-card" tabindex="0"><span class="ic">5</span><div class="hd">Black excellence on screen <span class="tg">Context</span></div><div class="more">Tap for the evidence</div><div class="ev">An <b>entirely Black cast</b> and an <b>HBCU setting</b> (Southern University) represent Black empowerment and success — linking to social contexts including <b>#BlackLivesMatter</b>.</div></div></div></div></div><p class="rb-tip"><b>Exam move:</b> Good As Hell is conventional in its <b>form</b> (performance, star image, narrative) but less conventional in its <b>structure</b> (that late, back-turned entrance) and in <b>who</b> it represents.</p><div class="card" style="margin-top:16px;margin-bottom:0"><h3>🎯 Quick sort — conventional or not?</h3><div data-sort data-labels="Conventional,Not conventional"><div class="sort-item" data-key="0"><span>Lizzo in a gold costume, centred in the frame</span></div><div class="sort-item" data-key="1"><span>The video opens on three students, not Lizzo</span></div><div class="sort-item" data-key="0"><span>Lizzo sings and dances alongside a big cast</span></div><div class="sort-item" data-key="1"><span>The final shot: diegetic cheering, like an outtake</span></div><div class="sort-item" data-key="1"><span>An all-Black cast at an HBCU, celebrating success</span></div><div class="sort-item" data-key="0"><span>Each student follows her own hero's journey</span></div></div></div><div class="rb-meter" data-target="38"><h4>⚖️ Your verdict: how conventional is Good As Hell?</h4><p class="ins">Drag the dial to where you think the video sits, then compare with the teacher's verdict. "How far" questions need a judgement like this.</p><div class="rb-track"><input type="range" min="0" max="100" value="50" aria-label="How conventional is Good As Hell"><div class="rb-thumb">🎵</div><div class="rb-target" style="left:38%"><b>Teacher: mostly conventional</b><i></i></div></div><div class="rb-ends"><span>Totally typical</span><span>Rips up the rulebook</span></div><div class="rb-read">You say: <strong class="rb-word">A real mix</strong></div><div class="rb-starter"></div><button class="reveal-btn rb-reveal" type="button">Compare with the teacher's verdict</button><div class="model"><b>Model verdict:</b> Good As Hell is <span class="kw">largely conventional</span> in its use of codes and conventions — it is mainly a performance video in which Lizzo's gold costume and central framing build her star persona, with a three-strand narrative woven through it. However, it is <span class="kw">less conventional</span> in delaying Lizzo's entrance until 00:43 and showing her from behind, and most of all in its representations: a confident, plus-size Black woman and an all-Black HBCU cast challenge the western beauty ideals music videos have usually upheld. Neale's idea of repetition and difference explains this mix.</div></div></div>
+
   <div class="quiz" data-quiz>
     <h3>⚡ Quick Check — Good As Hell</h3>
     <div class="q"><p class="qt">1. Who directed the video, and where is it set?</p>
@@ -319,6 +387,8 @@ footer{max-width:1050px;margin:30px auto 0;padding:26px 24px 46px;border-top:1px
       <li><b>Contexts:</b> social awareness of homelessness, poverty and inequality; women of colour disproportionately affected (BLM-era context); high production values reflect the big-label economics behind the philanthropy.</li>
     </ul>
   </div>
+
+  <div class="rb" id="bieber-conventions"><div class="rb-top"><div><h3>📏 vs ✂️ Is Intentions a typical music video?</h3><p>Intentions breaks far more rules than Good As Hell — it is closer to a <span class="kw">mini-documentary</span>. Tap each card to see the evidence. Intentions wasn't on the 2024 paper, so these points use the same conventions checklist from that mark scheme.</p></div><div class="rb-exam"><b>2024 exam · Q3 · 20 marks</b>"How far are the two music videos you have studied <i>typical</i> in their use of codes and conventions?"</div></div><div class="rb-board"><div class="rb-col follow"><h4>📏 Plays by the rules <small>conventional</small></h4><div class="rb-list"><div class="rb-card" tabindex="0"><span class="ic">1</span><div class="hd">Star moments to camera <span class="tg">Direct address</span></div><div class="more">Tap for the evidence</div><div class="ev">Bieber performs in <b>direct mode of address</b> in his red hoodie, and Quavo raps <b>centre-frame</b> surrounded by a group — both clearly marked as stars.</div></div><div class="rb-card" tabindex="0"><span class="ic">2</span><div class="hd">Hip-hop genre signifiers <span class="tg">Typography</span></div><div class="more">Tap for the evidence</div><div class="ev">The <b>graffiti-style font</b> for the title and characters' names connotes the rap/hip-hop genre and the urban LA setting.</div></div><div class="rb-card" tabindex="0"><span class="ic">3</span><div class="hd">A narrative with heroes <span class="tg">Propp</span></div><div class="more">Tap for the evidence</div><div class="ev">Three clear <b>heroes</b> — Bahri, Marcy and Angela — each with an "intention" to help others. Narrative is a familiar music video convention.</div></div><div class="rb-card" tabindex="0"><span class="ic">4</span><div class="hd">Visuals match the lyrics <span class="tg">Goodwin</span></div><div class="more">Tap for the evidence</div><div class="ev">The lyrics praise women for who they are; the visuals show women <b>achieving</b> through study, art and helping others — the link between lyrics and visuals Goodwin describes.</div></div></div></div><div class="rb-vs"><span>VS</span></div><div class="rb-col break"><h4>✂️ Breaks the rules <small>not conventional</small></h4><div class="rb-list"><div class="rb-card" tabindex="0"><span class="ic">1</span><div class="hd">Documentary, not a concept video <span class="tg">Documentary style</span></div><div class="more">Tap for the evidence</div><div class="ev">It features <b>real women from Alexandria House</b>, a shelter in LA, not actors or models. Only parts of the song are performed — most of it is a <b>soundtrack to their stories</b>.</div></div><div class="rb-card" tabindex="0"><span class="ic">2</span><div class="hd">The stars are only helpers <span class="tg">Propp</span></div><div class="more">Tap for the evidence</div><div class="ev">Bieber and Quavo are Propp's <b>helpers</b>, gifting a car, school supplies and studio time. The artists step back and let the women be the heroes.</div></div><div class="rb-card" tabindex="0"><span class="ic">3</span><div class="hd">Women are active, not objectified <span class="tg">Mulvey</span></div><div class="more">Tap for the evidence</div><div class="ev">No glamorising: women <b>study, travel independently and create</b>. This subverts the <b>male gaze</b> that is still common in hip-hop and R&amp;B videos.</div></div><div class="rb-card" tabindex="0"><span class="ic">4</span><div class="hd">Dance isn't choreographed <span class="tg">Dance</span></div><div class="more">Tap for the evidence</div><div class="ev">Dancing is <b>spontaneous and communal</b> — Bahri in the street, a child on a table — not a slick routine.</div></div><div class="rb-card" tabindex="0"><span class="ic">5</span><div class="hd">Ends with a charity appeal <span class="tg">Purpose</span></div><div class="more">Tap for the evidence</div><div class="ev">A posed "family" shot and <b>"Thank You"</b> on screen point to the <b>Intentions Fund</b>. The video's purpose is raising awareness and donations, not only selling the song.</div></div></div></div></div><p class="rb-tip"><b>Exam move:</b> Intentions keeps the <b>star moments</b> and genre signifiers, but its documentary style, real women and charity purpose make it <b>largely unconventional</b>.</p><div class="card" style="margin-top:16px;margin-bottom:0"><h3>🎯 Quick sort — conventional or not?</h3><div data-sort data-labels="Conventional,Not conventional"><div class="sort-item" data-key="0"><span>Bieber singing straight to camera in his red hoodie</span></div><div class="sort-item" data-key="1"><span>Real women from a shelter instead of models</span></div><div class="sort-item" data-key="0"><span>A graffiti-style title signalling hip-hop</span></div><div class="sort-item" data-key="1"><span>Bieber and Quavo handing out gifts as helpers</span></div><div class="sort-item" data-key="1"><span>Children and residents dancing spontaneously</span></div><div class="sort-item" data-key="0"><span>Quavo rapping centre-frame surrounded by a crowd</span></div></div></div><div class="rb-meter" data-target="72"><h4>⚖️ Your verdict: how conventional is Intentions?</h4><p class="ins">Drag the dial to where you think the video sits, then compare with the teacher's verdict. "How far" questions need a judgement like this.</p><div class="rb-track"><input type="range" min="0" max="100" value="50" aria-label="How conventional is Intentions"><div class="rb-thumb">🎵</div><div class="rb-target" style="left:72%"><b>Teacher: largely unconventional</b><i></i></div></div><div class="rb-ends"><span>Totally typical</span><span>Rips up the rulebook</span></div><div class="rb-read">You say: <strong class="rb-word">A real mix</strong></div><div class="rb-starter"></div><button class="reveal-btn rb-reveal" type="button">Compare with the teacher's verdict</button><div class="model"><b>Model verdict:</b> Intentions is <span class="kw">largely unconventional</span>. It keeps some familiar codes — Bieber's direct address in his red hoodie, Quavo rapping centre-frame and graffiti-style hip-hop typography — but its documentary style, real women from Alexandria House rather than models, and artists who act as Propp's helpers rather than heroes all break music video conventions. Women are active and not objectified, and the closing "Thank You" shows the video's charitable purpose.</div></div></div><div class="h2h"><h3>🥊 Head to head: where do they sit?</h3><p>For a "how far are the two videos typical" answer, you need to compare. Put both on the same line and explain the gap.</p><div class="h2h-line"><div class="h2h-pin" style="left:38%"><div class="bub">Good As Hell<small>mostly conventional</small></div></div><div class="h2h-pin" style="left:74%"><div class="bub">Intentions<small>largely unconventional</small></div></div></div><div class="rb-ends" style="margin:0 6px"><span>Totally typical</span><span>Rips up the rulebook</span></div><div class="h2h-grid"><div><b>Same:</b> both blend <b>performance and narrative</b>, both use Propp's heroes, and both challenge how women are usually represented in music videos.</div><div><b>Different:</b> Lizzo is the clear <b>star</b> of a performance video; Bieber and Quavo step back as <b>helpers</b> in a documentary about real women.</div></div><p style="margin-top:12px">Sentence starter: <i>"While both videos use some typical conventions, Intentions departs from them far more than Good As Hell because…"</i></p></div>
 
   <div class="quiz" data-quiz>
     <h3>⚡ Quick Check — Intentions</h3>
@@ -843,6 +913,29 @@ footer{max-width:1050px;margin:30px auto 0;padding:26px 24px 46px;border-top:1px
   });
 
   updateChip();
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('.rb-card').forEach(function(c){
+    function t(){ c.classList.toggle('open'); }
+    c.addEventListener('click',t);
+    c.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); t(); } });
+  });
+  var BANDS=[[20,'Totally typical','"…is highly conventional, because…"'],[40,'Mostly conventional','"…is largely conventional, although…"'],[60,'A real mix','"…is conventional in some ways but not in others: for example…"'],[80,'Mostly breaks the rules','"…is largely unconventional, even though…"'],[101,'Rips up the rulebook','"…almost entirely rejects music video conventions, because…"']];
+  document.querySelectorAll('.rb-meter').forEach(function(m){
+    var inp=m.querySelector('input'), th=m.querySelector('.rb-thumb'), w=m.querySelector('.rb-word'), st=m.querySelector('.rb-starter');
+    var btn=m.querySelector('.rb-reveal'), model=m.querySelector('.model');
+    function upd(){ var v=+inp.value; th.style.left=v+'%'; var b=BANDS.find(function(x){return v<x[0];}); w.textContent=b[1]; st.textContent='Try: '+b[2]; }
+    inp.addEventListener('input',upd); upd();
+    btn.addEventListener('click',function(){
+      var on=!m.classList.contains('revealed');
+      m.classList.toggle('revealed',on); model.classList.toggle('show',on);
+      var gap=Math.abs(+inp.value - +m.dataset.target);
+      btn.textContent=on?(gap<=15?'✔ Close to the teacher\'s verdict — hide':'Hide verdict'):'Compare with the teacher\'s verdict';
+    });
+  });
 })();
 </script>
 </body>
