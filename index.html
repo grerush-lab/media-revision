@@ -10561,14 +10561,14 @@ var TQ_BANDS = {
 
   // Curated list: each text has ONE recap, ONE factsheet quiz and ONE place to find an exam question.
   var TEXTS=[
-    {id:'quality_street',p:1,icon:'🍬',name:'Quality Street',recap:'recaps/adverts.html#qs-ml',fq:[['quality_street','']],qs:{text:'Quality Street'}},
-    {id:'nhs',p:1,icon:'🏥',name:'NHS 111',recap:'recaps/adverts.html#nhs',fq:[['nhs','']],qs:{comp:'1',sec:'A'}},
-    {id:'gq',p:1,icon:'👔',name:'GQ',recap:'recaps/magazines.html#gq',fq:[['gq','']],qs:{text:'GQ'}},
-    {id:'vogue',p:1,icon:'👗',name:'Vogue',recap:'recaps/magazines.html#vogue',fq:[['vogue','']],qs:{comp:'1',sec:'A'}},
-    {id:'tmwtgg',p:1,icon:'🔫',name:'The Man with the Golden Gun',recap:'recaps/bond.html#tmwtgg',fq:[['tmwtgg','']],qs:{text:'Golden Gun'}},
-    {id:'nttd',p:1,icon:'🎬',name:'No Time To Die',recap:'recaps/bond.html#nttd',fq:[['nttd','']],qs:{comp:'1'}},
-    {id:'sun',p:1,icon:'☀️',name:'The Sun',recap:'recaps/newspapers.html#sun',fq:[['sun','Year 11 front page (2021)'],['sun25','Year 10 front page (2025)']],qs:{text:'The Sun'}},
-    {id:'guardian',p:1,icon:'📄',name:'The Guardian',recap:'recaps/newspapers.html#guardian',fq:[['guardian','Year 11 front page (2022)'],['guardian25','Year 10 front page (2025)']],qs:{text:'Guardian'}},
+    {id:'quality_street',ann:[['qs','']],p:1,icon:'🍬',name:'Quality Street',recap:'recaps/adverts.html#qs-ml',fq:[['quality_street','']],qs:{text:'Quality Street'}},
+    {id:'nhs',ann:[['nhs','']],p:1,icon:'🏥',name:'NHS 111',recap:'recaps/adverts.html#nhs',fq:[['nhs','']],qs:{comp:'1',sec:'A'}},
+    {id:'gq',ann:[['gq','']],p:1,icon:'👔',name:'GQ',recap:'recaps/magazines.html#gq',fq:[['gq','']],qs:{text:'GQ'}},
+    {id:'vogue',ann:[['vogue','']],p:1,icon:'👗',name:'Vogue',recap:'recaps/magazines.html#vogue',fq:[['vogue','']],qs:{comp:'1',sec:'A'}},
+    {id:'tmwtgg',ann:[['gg','']],p:1,icon:'🔫',name:'The Man with the Golden Gun',recap:'recaps/bond.html#tmwtgg',fq:[['tmwtgg','']],qs:{text:'Golden Gun'}},
+    {id:'nttd',ann:[['nttd','']],p:1,icon:'🎬',name:'No Time To Die',recap:'recaps/bond.html#nttd',fq:[['nttd','']],qs:{comp:'1'}},
+    {id:'sun',ann:[['sun21','Year 11 (2021)'],['sun25','Year 10 (2025)']],p:1,icon:'☀️',name:'The Sun',recap:'recaps/newspapers.html#sun',fq:[['sun','Year 11 front page (2021)'],['sun25','Year 10 front page (2025)']],qs:{text:'The Sun'}},
+    {id:'guardian',ann:[['gu22','Year 11 (2022)'],['gu25','Year 10 (2025)']],p:1,icon:'📄',name:'The Guardian',recap:'recaps/newspapers.html#guardian',fq:[['guardian','Year 11 front page (2022)'],['guardian25','Year 10 front page (2025)']],qs:{text:'Guardian'}},
     {id:'fortnite',p:1,icon:'🎮',name:'Fortnite',recap:'recaps/fortnite.html',fq:[['fortnite','']],qs:{text:'Fortnite'}},
     {id:'desert_island',p:1,icon:'📻',name:'Desert Island Discs',recap:'recaps/radio.html',fq:[['desert_island','']],qs:{comp:'1',sec:'B'}},
     {id:'trigger_point',p:2,icon:'💣',name:'Trigger Point',recap:'recaps/trigger-point.html',fq:[['trigger_point','']],qs:{comp:'2',sec:'A'}},
@@ -10600,6 +10600,20 @@ var TQ_BANDS = {
     if(kind==='recap'){
       try{ sessionStorage.setItem('rjFocusReturn','1'); }catch(e){}
       window.location.href=t.recap; return;
+    }
+    if(kind==='annotated'){
+      var id=arg||(t.ann&&t.ann[0][0]), af=q('annFrame');
+      if(af&&id){
+        if(!af.getAttribute('src')) af.setAttribute('data-src','annotated-set-texts.html#'+id);
+        else {
+          var ok=false;
+          try{ var chip=af.contentDocument.querySelector('.chip[data-id="'+id+'"]'); if(chip){ chip.click(); ok=true; } }catch(e){}
+          if(!ok) af.setAttribute('src','annotated-set-texts.html?t='+id+'#'+id);
+        }
+      }
+      rjJump('annotated');
+      window.scrollTo({top:(q('tab-annotated')||document.body).getBoundingClientRect().top+window.scrollY-20,behavior:'smooth'});
+      return;
     }
     if(kind==='quiz'){
       rjJump('factcheck');
@@ -10653,6 +10667,13 @@ var TQ_BANDS = {
   }
 
   function stepHTML(t,n){
+    if(n===0 && t.ann){
+      var abtns=t.ann.map(function(a){return '<button type="button" class="fm-go" onclick="rjFocusOpen(\'annotated\',\''+a[0]+'\')">'+(a[1]?'Annotated text: '+esc(a[1]):'Open the annotated text')+' →</button>';}).join('');
+      return '<div class="fm-step"><div class="big">📖</div><h3>Step 1: Read the recap and/or the annotated text</h3>'+
+      '<ol><li>Open the recap page for <strong>'+esc(t.name)+'</strong> and read it from the top, answering the quick questions as you go.</li><li><strong>And/or</strong> open the annotated text and go through the labels on the set text.</li><li>Come back to <strong>Revision Journey</strong> (use <strong>← Hub</strong> at the top of the recap page).</li></ol>'+
+      (t.ann.length>1?'<p class="fm-p" style="margin-top:.6rem;">For the annotated text, pick the front page your class studies.</p>':'')+
+      '<div class="fm-actions"><button type="button" class="fm-go" onclick="rjFocusOpen(\'recap\')">Open the recap →</button>'+abtns+'<button type="button" class="fm-done" onclick="rjFocusDone()">✓ I\'ve done this</button></div></div>';
+    }
     if(n===0) return '<div class="fm-step"><div class="big">📖</div><h3>Step 1: Read the recap</h3>'+
       '<ol><li>Open the recap page for <strong>'+esc(t.name)+'</strong>.</li><li>Read it from the top.</li><li>Answer the quick questions as you go.</li><li>Come back here with <strong>← Hub</strong> at the top of the page.</li></ol>'+
       '<div class="fm-actions"><button type="button" class="fm-go" onclick="rjFocusOpen(\'recap\')">Open the recap →</button><button type="button" class="fm-done" onclick="rjFocusDone()">✓ I\'ve done this</button></div></div>';
@@ -10719,7 +10740,10 @@ var TQ_BANDS = {
   function returnFromRecap(){
     var back=false; try{ back=sessionStorage.getItem('rjFocusReturn')==='1'; sessionStorage.removeItem('rjFocusReturn'); }catch(e){}
     if(/^#focus$/i.test(window.location.hash)) back=true;
-    if(back && typeof rjJump==='function'){ rjJump('journey'); setTimeout(function(){ mount(); var tab=q('tab-journey'); if(tab) window.scrollTo({top:tab.getBoundingClientRect().top+window.scrollY-20}); },350); }
+    if(!back || typeof rjJump!=='function') return;
+    function go(){ rjJump('journey'); mount(); var tab=q('tab-journey'); if(tab) window.scrollTo({top:tab.getBoundingClientRect().top+window.scrollY-20}); }
+    setTimeout(go,350);
+    window.addEventListener('load',function(){ setTimeout(go,700); });
   }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ mount(); returnFromRecap(); });
