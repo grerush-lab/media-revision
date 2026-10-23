@@ -1316,7 +1316,7 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
 <div class="tab-section" id="tab-theorygames">
   <div class="tg-hero">
     <div class="tg-title">🎮 Individual Theory Games</div>
-    <p class="tg-sub">Homework-friendly theory games. <strong>Understand the theory</strong> checks the core ideas; <strong>Apply it to set texts</strong> tests you on using Propp, Todorov, Uses &amp; Gratifications and Stuart Hall with specific Eduqas set products — filter by exam section or a single text.</p>
+    <p class="tg-sub">Homework-friendly theory games. <strong>Understand the theory</strong> checks the core ideas; <strong>Apply it to set texts</strong> tests you on using Propp, Todorov, Uses &amp; Gratifications and Stuart Hall with specific Eduqas set products — filter by exam section or a single text. <strong>Picture games</strong> (Todorov, Propp and Lévi-Strauss with film images) are <a href="#tgPictureGames" style="color:inherit;text-decoration:underline">further down this page ↓</a>.</p>
   </div>
 
   <div class="tg-panel">
@@ -1412,6 +1412,19 @@ body.es-coach-on .es-click-slot .coach-example{display:block}
       </div>
       <div class="tg-homework" id="tgHomework" style="display:none;"></div>
     </div>
+  </div>
+
+  <!-- PICTURE GAMES (separate from the quiz above) -->
+  <div id="tgPictureGames" style="margin-top:2rem;scroll-margin-top:80px;">
+    <div class="reg-hero">
+      <div>
+        <div class="reg-kicker">Narrative theory · Picture games</div>
+        <div class="reg-title">🖼️ Todorov, Propp &amp; Lévi-Strauss</div>
+        <p class="reg-sub">A separate set of drag-and-drop games using film images from class: put Purl into Todorov's five stages, cast Harry Potter into Propp's roles, and match binary oppositions to images. Scores here are not part of the quiz above.</p>
+      </div>
+      <a class="reg-open" href="narrative-theory-games.html" target="_blank" rel="noopener">Open full screen ↗</a>
+    </div>
+    <iframe id="ntgFrame" class="reg-frame" style="height:min(920px,88vh);min-height:640px;" title="Narrative theory picture games" data-src="narrative-theory-games.html" loading="lazy"></iframe>
   </div>
 </div>
 
@@ -6930,6 +6943,7 @@ function switchTab(id, btn) {
   if (id === 'journey' && typeof rjInit === 'function') rjInit();
   if (id === 'terms' && typeof renderKeyTermsFallback === 'function') renderKeyTermsFallback();
   if (id === 'theorygames' && typeof tgShowTheoryOverview === 'function') tgShowTheoryOverview('propp', document.querySelector('#tgOverviewTabs .tg-overview-tab'));
+  if (id === 'theorygames') { var nf = document.getElementById('ntgFrame'); if (nf && !nf.getAttribute('src')) nf.setAttribute('src', nf.getAttribute('data-src')); }
   if (id === 'examskills' && typeof esClickLoad === 'function' && !document.querySelector('#esClickPool .es-click-item')) esClickLoad('ml', document.querySelector('.es-click-stagebar button'));
   if (id === 'trickyq' && typeof tqInit === 'function') tqInit();
   if (id === 'genrenarrative') {
