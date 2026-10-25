@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music Videos — Guided Lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1a16; --paper:#f5f0e8; --card:#fdf8f0; --border:#d8d0c0;
+    --muted:#6f6656; --gold:#b8860b; --gold-d:#8a6408; --accent:#c0392b;
+    --green:#2e7d32; --red:#b3261e; --purple:#6b21a8;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55;}
+  header{position:sticky;top:0;z-index:30;background:rgba(245,240,232,.95);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);padding:.6rem 1.1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;}
+  header .back-link{font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:20px;padding:4px 10px;white-space:nowrap;}
+  header .back-link:hover{border-color:var(--gold);color:var(--gold-d);}
+  header .brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;}
+  header .crumb{font-family:'IBM Plex Mono',monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);}
+  .chips{margin-left:auto;display:flex;gap:.4rem;flex-wrap:wrap}
+  .chip{font-family:'IBM Plex Mono',monospace;background:#fff;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:.78rem;color:var(--gold-d);font-weight:600;white-space:nowrap}
+  .layout{max-width:1220px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:1.6rem;padding:1.2rem 1.1rem 3rem;}
+  /* map */
+  nav.map{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.8rem .7rem 1rem;}
+  .map-prog{height:6px;background:#eadfca;border-radius:4px;overflow:hidden;margin:.2rem .3rem .8rem}
+  .map-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .3s}
+  .map h4{font-family:'IBM Plex Mono',monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin:.9rem .3rem .35rem}
+  .map h4:first-of-type{margin-top:.2rem}
+  .map button{display:flex;gap:.5rem;align-items:flex-start;width:100%;text-align:left;font:inherit;font-size:.86rem;background:none;border:0;border-radius:8px;padding:.38rem .45rem;cursor:pointer;color:var(--ink);line-height:1.3}
+  .map button:hover{background:#f1e7d3}
+  .map button.on{background:var(--ink);color:var(--paper)}
+  .map .tick{flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border);display:grid;place-items:center;font-size:.7rem;margin-top:1px;background:#fff;color:#fff}
+  .map button.done .tick{background:var(--green);border-color:var(--green)}
+  .map button.on .tick{border-color:var(--gold)}
+  .map .notes-btn{margin-top:.9rem;justify-content:center;border:1px dashed var(--gold);color:var(--gold-d);font-weight:600}
+  .map-toggle{display:none}
+  /* main */
+  main{min-width:0}
+  .hero{background:var(--accent);color:#fff;border-radius:14px;padding:1.1rem 1.3rem;margin-bottom:1.1rem;}
+  .hero .meta{font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:2px;opacity:.92;}
+  .hero h1{font-family:'Syne',sans-serif;font-weight:800;margin:.15rem 0 .35rem;font-size:1.6rem;line-height:1.15;}
+  .hero p{margin:.35rem 0 0;font-size:.94rem}
+  .hero a{color:#fff;font-weight:700}
+  .step-head{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;margin:.2rem 0 .3rem}
+  .step-kick{font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700}
+  h2.step-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.65rem;line-height:1.15;margin:.1rem 0 .7rem}
+  .walt{background:#fff;border:1px solid var(--border);border-left:5px solid var(--gold);border-radius:10px;padding:.55rem .8rem;font-size:.9rem;margin:.4rem 0 1rem}
+  .walt b{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-d);margin-right:.4rem}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.1rem;margin:.9rem 0;}
+  .card h3{font-family:'Syne',sans-serif;font-size:1.05rem;margin:.1rem 0 .5rem;color:var(--accent);}
+  .card p{margin:.45rem 0;font-size:.95rem}
+  .card ul,.card ol{margin:.35rem 0;padding-left:1.2rem}.card li{margin:.3rem 0;font-size:.94rem}
+  .kw{background:#f3e9d2;border-bottom:1px solid var(--gold);padding:0 3px;border-radius:3px;font-weight:600}
+  .theory{display:inline-block;background:#efe7f7;border:1px solid #cdb8e6;color:var(--purple);border-radius:6px;padding:1px 7px;font-size:.8rem;font-weight:600}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.8rem;margin:.6rem 0}
+  .mini{background:#fff;border:1px solid var(--border);border-top:4px solid var(--gold);border-radius:10px;padding:.7rem .85rem}
+  .mini h4{font-family:'Syne',sans-serif;margin:.05rem 0 .3rem;font-size:.98rem}
+  .mini p{margin:.2rem 0;font-size:.9rem}
+  .tip{background:#fff7e0;border:1px solid #ecd28b;border-radius:10px;padding:.6rem .85rem;font-size:.9rem;margin:.8rem 0}
+  .tip b{color:var(--gold-d)}
+  figure.shot{margin:.7rem 0;text-align:center}
+  figure.shot img,.row img,.gal img{cursor:zoom-in}
+  figure.shot img{max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;box-shadow:0 2px 10px rgba(60,40,10,.1)}
+  figure.shot.narrow img{max-width:420px;width:100%}
+  figcaption{font-size:.76rem;color:var(--muted);margin-top:.35rem;font-family:'IBM Plex Mono',monospace;line-height:1.35}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.6rem;margin:.7rem 0}
+  .row figure{margin:0;text-align:center}
+  .row img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
+  .row.tall img{aspect-ratio:auto;max-height:300px;object-fit:contain;background:#fff}
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.45rem;margin:.6rem 0}
+  .gal figure{margin:0}
+  .gal img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--border);display:block}
+  .gal figcaption{font-size:.66rem;margin-top:.15rem}
+  .video{position:relative;aspect-ratio:16/9;background:#111;border-radius:12px;overflow:hidden;margin:.7rem 0;display:grid;place-items:center}
+  .video button{font:inherit;font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;background:var(--accent);color:#fff;border:0;border-radius:30px;padding:.75rem 1.4rem;cursor:pointer}
+  .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .video .vsub{position:absolute;bottom:.7rem;left:0;right:0;text-align:center;color:#cfc6b6;font-family:'IBM Plex Mono',monospace;font-size:.72rem}
+  /* activities */
+  .act{background:#fbf6ec;border:1px solid var(--border);border-left:5px solid var(--accent);border-radius:12px;padding:.9rem 1.05rem;margin:1rem 0}
+  .act>h3{font-family:'Syne',sans-serif;font-size:1rem;margin:.05rem 0 .55rem;color:var(--accent);display:flex;gap:.45rem;align-items:center}
+  .act>h3 .tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;background:var(--accent);color:#fff;border-radius:4px;padding:2px 6px}
+  .act .prompt{font-size:.93rem;margin:.1rem 0 .6rem}
+  .q{margin:.6rem 0 1rem}.qt{font-weight:600;margin:0 0 .45rem;font-size:.94rem}
+  .q img.qimg{display:block;max-width:360px;width:100%;border-radius:8px;border:1px solid var(--border);margin:.2rem 0 .5rem}
+  .opts{display:flex;flex-direction:column;gap:.4rem}
+  .opts button{text-align:left;font:inherit;font-size:.91rem;background:#fff;border:1px solid var(--border);border-radius:8px;padding:.5rem .7rem;cursor:pointer}
+  .opts button:hover:not(:disabled){border-color:var(--gold);background:#fffdf7}
+  .opts button:disabled{cursor:default}
+  .ok{background:#e6f4ea!important;border-color:var(--green)!important;color:#1b5e20}
+  .no{background:#fbe7e5!important;border-color:var(--red)!important;color:#8c1d16}
+  .fb{font-size:.86rem;margin-top:.35rem;font-weight:600}
+  .fb.y{color:var(--green)}.fb.n{color:var(--red)}
+  .sitem{background:#fff;border:1px solid var(--border);border-radius:8px;padding:.5rem .7rem;margin:.4rem 0;display:flex;gap:.6rem;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:.91rem}
+  .sbtns{display:flex;gap:.3rem;flex-wrap:wrap}
+  .sbtns button{font:inherit;font-size:.78rem;background:var(--ink);color:#fff;border:0;border-radius:6px;padding:.35rem .6rem;cursor:pointer}
+  .sbtns button:hover{background:var(--accent)}
+  .verdict{font-size:.82rem;font-weight:700}
+  .mrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:.6rem;align-items:center;background:#fff;border:1px solid var(--border);border-radius:8px;padding:.5rem .7rem;margin:.4rem 0;font-size:.91rem}
+  .mrow img{width:100%;max-width:220px;border-radius:6px;display:block}
+  select{font:inherit;font-size:.88rem;padding:.35rem .4rem;border:1px solid var(--border);border-radius:6px;background:#fff;max-width:100%}
+  .gaps{font-size:.95rem;line-height:2.1;background:#fff;border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem}
+  .gaps select{padding:.15rem .3rem}
+  textarea{width:100%;font:inherit;font-size:.92rem;border:1px solid var(--border);border-radius:8px;padding:.55rem .7rem;background:#fff;resize:vertical;line-height:1.45}
+  textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+  .wlabel{font-weight:600;font-size:.92rem;margin:.7rem 0 .3rem}
+  .saved{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted)}
+  .reveal-btn{font:inherit;font-size:.84rem;background:none;border:1px dashed var(--gold);color:var(--gold-d);border-radius:6px;padding:.35rem .75rem;cursor:pointer;margin-top:.45rem}
+  .model{display:none;margin-top:.55rem;padding:.7rem .85rem;background:#f3e9d2;border-radius:8px;font-size:.92rem}
+  .model.show{display:block}.model p{margin:.35rem 0}.model ul{margin:.3rem 0;padding-left:1.15rem}
+  .scale{display:flex;gap:.35rem;flex-wrap:wrap;margin:.4rem 0 .5rem}
+  .scale button{flex:1 1 90px;font:inherit;font-size:.8rem;background:#fff;border:1px solid var(--border);border-radius:8px;padding:.45rem .4rem;cursor:pointer}
+  .scale button.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .statement{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;background:#fff;border-left:5px solid var(--purple);padding:.6rem .8rem;border-radius:0 8px 8px 0;margin:.3rem 0 .6rem}
+  .stepnav{display:flex;justify-content:space-between;gap:.6rem;margin:1.6rem 0 .5rem;flex-wrap:wrap}
+  .stepnav button{font:inherit;font-weight:700;border-radius:10px;padding:.7rem 1.1rem;cursor:pointer;font-size:.95rem}
+  .prev{background:#fff;border:1px solid var(--border);color:var(--ink)}
+  .next{background:var(--ink);border:0;color:var(--paper);margin-left:auto}
+  .next:hover{background:var(--accent)}
+  .lesson-end{background:var(--ink);color:var(--paper);border-radius:14px;padding:1rem 1.2rem;margin:1.2rem 0}
+  .lesson-end h3{font-family:'Syne',sans-serif;margin:.1rem 0 .3rem;color:#e9c46a}
+  .res-big{font-family:'Syne',sans-serif;font-weight:800;font-size:2.4rem;color:var(--gold-d);line-height:1}
+  .miss{background:#fbe7e5;border-left:3px solid var(--red);border-radius:6px;padding:.45rem .7rem;margin:.35rem 0;font-size:.9rem}
+  .btn{display:inline-block;font:inherit;font-weight:700;font-size:.9rem;background:var(--gold);color:#fff;border:0;border-radius:8px;padding:.55rem 1rem;text-decoration:none;cursor:pointer;margin:.3rem .3rem 0 0}
+  .btn.alt{background:#fff;color:var(--gold-d);border:1px solid var(--gold)}
+  .lb{position:fixed;inset:0;background:rgba(10,8,6,.88);z-index:60;display:grid;place-items:center;padding:16px;cursor:zoom-out}
+  .lb img{max-width:100%;max-height:88vh;border-radius:6px}
+  .lb p{color:#eee;font-family:'IBM Plex Mono',monospace;font-size:.8rem;text-align:center;margin:.5rem 0 0}
+  @media (max-width:980px){
+    .layout{grid-template-columns:minmax(0,1fr);gap:.8rem}
+    nav.map{position:static;max-height:none;display:none}
+    nav.map.open{display:block}
+    .map-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;font:inherit;font-weight:700;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.65rem .9rem;cursor:pointer}
+  }
+  @media (max-width:560px){
+    h2.step-title{font-size:1.3rem}.hero h1{font-size:1.3rem}
+    .mrow{grid-template-columns:minmax(0,1fr)}
+    header .crumb{display:none}
+  }
+  @media print{header,nav.map,.map-toggle,.stepnav,.video{display:none!important}.layout{display:block}.model{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back-link" href="../index.html" title="Back to the GCSE Media hub">&#8592; Hub</a>
+  <span class="brand">GCSE Media</span>
+  <span class="crumb">Component 2 · Section B · Music videos &amp; online media · Guided lessons</span>
+  <span class="chips"><span class="chip" id="progChip">Step 1 / 1</span><span class="chip" id="scoreChip">Score: 0 / 0</span></span>
+</header>
+
+<div class="layout">
+  <div>
+    <button class="map-toggle" id="mapToggle" aria-expanded="false">&#9776; Lesson map <span id="mapToggleNote" class="saved"></span></button>
+    <nav class="map" id="map" aria-label="Lesson map"></nav>
+  </div>
+  <main id="main">
+    <div class="hero">
+      <div class="meta">Set texts · Lizzo · Justin Bieber · TLC · 10 guided lessons</div>
+      <h1>Music videos &amp; online media — the full lessons, step by step</h1>
+      <p>Everything we cover in class, in order: read each part, try the activities, then check against the model answers. Your notes save on this device and you can download them at the end. Want the quick version? Open the <a href="music.html">Music Videos recap</a>.</p>
+    </div>
+    <div id="step" aria-live="polite"></div>
+  </main>
+</div>
+
+<script>
+const A='music_lessons_assets/';
+const S=n=>A+n+'.jpg';
+
+const LESSONS=['Lesson 1 · Introduction to music videos','Lessons 3–4 · Lizzo: media language','Lesson 5 · Lizzo: representation','Lessons 6–7 · Bieber: media language','Lesson 8 · Bieber: representation','Lessons 9–10 · TLC: Waterfalls','Lessons 14–15 · Lizzo online','Lessons 15–16 · Lizzo: industry & audience','Lessons 17–18 · Bieber online','Lessons 19–20 · Bieber: industry & audience','Your results'];
+
+const STEPS=[
+/* ═════════ LESSON 1 ═════════ */
+{id:'start',L:0,title:'Start here: what you need to know',walt:'To understand what we study for each music text and how it is examined.',blocks:[
+ {t:'img',src:S('gah-band'),cap:'Lizzo, Good As Hell (2019): the Southern University marching band'},
+ {t:'text',h:`<h3>Where this unit fits in the exam</h3>
+ <p>Music is studied for <b>Component 2, Section B: Music videos and online media</b>.</p>
+ <div class="grid2">
+ <div class="mini"><h4>Lizzo — Good As Hell (2019 video)</h4><p>The full <span class="kw">MIRAC</span>: media language, industry, representation, audience and contexts. Plus her <b>website</b> and <b>social media</b>.</p></div>
+ <div class="mini"><h4>Justin Bieber ft. Quavo — Intentions (2020)</h4><p>The full <span class="kw">MIRAC</span>, plus his <b>website</b> and <b>social media</b>.</p></div>
+ <div class="mini"><h4>TLC — Waterfalls (1995)</h4><p>Your <b>historical</b> text: <span class="kw">media language</span>, <span class="kw">representation</span> and <span class="kw">context</span> only.</p></div></div>
+ <h3>How this unit runs</h3><ul>
+ <li><b>Lesson 1:</b> what music videos are for, Goodwin, and the three types of video</li>
+ <li><b>Lessons 3 to 5:</b> Lizzo’s media language, then representation</li>
+ <li><b>Lessons 6 to 8:</b> Bieber’s media language, then representation</li>
+ <li><b>Lessons 9 and 10:</b> TLC’s Waterfalls and its 1990s context</li>
+ <li><b>Lessons 14 to 16:</b> Lizzo online, then her industry and audience</li>
+ <li><b>Lessons 17 to 20:</b> Bieber online, then his industry and audience</li></ul>`},
+ {t:'sort',id:'exam',title:'Which text could this question be about?',prompt:'Tap whether each topic could be asked about TLC’s Waterfalls.',b:['Yes: Waterfalls','No: Lizzo or Bieber only'],items:[
+  ['How camera shots create meaning in the video',0],['How gang culture is represented',0],['How the video reflects the 1990s',0],
+  ['Who owns the record label and why that matters',1],['How fans interact with the artist on social media',1],['What the artist’s website sells',1]]},
+ {t:'tip',h:'<b>Want the quick version?</b> The <a href="music.html">Music Videos recap</a> covers everything on one page. These lessons go step by step, in the order we teach them.'}
+]},
+{id:'starter',L:0,title:'Starter: you and music',walt:'To think about how and why audiences use music and music videos.',blocks:[
+ {t:'text',h:`<p>In class, you interviewed a partner about their music tastes. Answer the same questions for yourself. There are no wrong answers: this is about <b>you as an audience</b>.</p>`},
+ {t:'write',id:'w_me',p:'How much time do you spend listening to music? What is your favourite type of music and why? Do you prefer music videos that show the artist performing, or ones that tell a story?',rows:4},
+ {t:'text',h:`<h3>What is the purpose of a music video?</h3><p>Think about it from both sides: <b>why do artists make them</b>, and <b>why do audiences watch them</b>?</p>`},
+ {t:'write',id:'w_purpose',p:'Can you sum up the single main purpose of a music video?',rows:3,model:`<p>The main purpose of a music video is to <b>market and promote</b> the song and the artist. It is an advert for the single and the album, and it builds the artist’s <b>star persona</b>. For audiences, videos also <b>entertain</b>, give them a way to connect with the artist (personal identity) and something to share and talk about (social interaction).</p>`},
+ {t:'text',h:`<h3>How do people access music videos?</h3><p>Think about when, where and how people in the UK watch them.</p>
+ <div class="grid2"><div class="mini"><h4>Online</h4><p>YouTube, the artist’s own website, social media, streaming apps, record label and radio station websites.</p></div><div class="mini"><h4>Traditional</h4><p>Music TV channels and music shows on TV.</p></div></div>
+ <p>Most people now watch on a <b>phone</b>, on <b>YouTube</b> or through <b>social media</b>. This is why artists and labels put so much effort into their online presence.</p>`}
+]},
+{id:'goodwin',L:0,title:'Goodwin’s music video analysis',walt:'To use Goodwin’s ideas to analyse the conventions of music videos.',blocks:[
+ {t:'text',h:`<p>Andrew Goodwin, writing in <i>Dancing in the Distraction Factory</i> (1992), identified features that appear again and again in music videos.</p>
+ <div class="grid2">
+ <div class="mini"><h4>1 · Genre characteristics</h4><p>Videos show the conventions of their genre: a stage performance for rock, “bling” and clubs for R&amp;B, choreographed dance for pop.</p></div>
+ <div class="mini"><h4>2 · Lyrics and visuals</h4><p>There is a relationship between the lyrics and what we see. It can be literal or it can contrast.</p></div>
+ <div class="mini"><h4>3 · Music and visuals</h4><p>The editing and movement often match the rhythm, tempo and mood of the music.</p></div>
+ <div class="mini"><h4>4 · Close-ups of the artist</h4><p>The record label wants lots of close-ups of the star. Artists may develop <b>motifs</b> that recur across their work: a visual style.</p></div>
+ <div class="mini"><h4>5 · Looking</h4><p>Frequent references to looking (screens within screens, mirrors, telescopes) and often a voyeuristic treatment of the female body.</p></div>
+ <div class="mini"><h4>6 · Intertextuality</h4><p>References to other texts: films, TV programmes, other music videos.</p></div></div>`},
+ {t:'match',id:'goodwin',title:'Match Goodwin to the set texts',prompt:'Match each Goodwin feature to an example from the videos we study.',pairs:[
+  ['Genre characteristics','Good As Hell’s marching band and dance group performing at a homecoming game'],
+  ['Lyrics and visuals','Intentions’ lyrics praise women, while we watch three women achieve through study and helping others'],
+  ['Close-ups of the artist','Bieber singing straight to camera in his red hoodie'],
+  ['Intertextuality','Waterfalls’ water effect borrowing the liquid metal from Terminator 2'],
+  ['Looking','Marcy looking at herself in the mirror while doing her make-up']]},
+ {t:'mcq',id:'goodwinq',title:'Quick check: Goodwin',items:[
+  {q:'Goodwin says record labels demand lots of what in a music video?',o:['Close-ups of the artist','Shots of the audience','Long establishing shots','Animated sequences'],a:0,f:'The label wants the star’s face to be recognisable, so videos use plenty of close-ups.'},
+  {q:'A video that references a famous film is an example of…',o:['Intertextuality','Voyeurism','Synergy','Diegetic sound'],a:0,f:'Intertextuality is when one text refers to another text.'}]}
+]},
+{id:'types',L:0,title:'The three types of music video',walt:'To identify performance, narrative and conceptual music videos.',blocks:[
+ {t:'cards',items:[
+  ['Performance','Captures the artist or band performing, showing the excitement of a live event: lip-synching, sometimes choreographed dance. Common in rock, metal, punk and country. It tells the viewer the <b>music itself</b> matters most.'],
+  ['Narrative','Tells a story with a beginning, middle and end, almost like a short film without dialogue. Usually linked to the lyrics, literally or metaphorically. The star can perform and/or appear in the story. Many videos mix narrative with performance.'],
+  ['Conceptual','Doesn’t tell a story in a linear way. It creates a mood or feeling and can be artistic, shocking, emotional or humorous. Often used in dance and indie. Open to <b>multiple meanings</b>, because the viewer interprets the metaphor.']]},
+ {t:'sort',id:'types',title:'What type of video is it?',prompt:'Most of our set texts mix types. Tap the main type for each feature.',b:['Performance','Narrative','Conceptual'],items:[
+  ['Lizzo singing and dancing with the marching band at the game',0],
+  ['Three students each overcome a problem before feeling good about themselves',1],
+  ['Bahri, Marcy and Angela’s stories, followed documentary-style',1],
+  ['TLC singing on the surface of the ocean',0],
+  ['TLC appearing as almost supernatural beings made of water',2],
+  ['A young man is killed after getting involved with drug dealers',1]]},
+ {t:'tip',h:'<b>Exam move:</b> say a video is a <b>hybrid</b>, then explain which type dominates and why. For example: “Good As Hell is largely performance-based but blends in a narrative of three female students.”'},
+ {t:'end',h:'<h3>End of Lesson 1</h3><p>You can now explain what music videos are for, apply Goodwin, and name the three types of video. Next: Lizzo.</p>'}
+]},
+
+/* ═════════ LESSONS 3–4 LIZZO ML ═════════ */
+{id:'gah-watch',L:1,title:'Good As Hell: background and first viewing',walt:'To explore in detail how media language creates meaning in Good As Hell.',blocks:[
+ {t:'video',id:'vuq-VAiW9kw',label:'Watch Lizzo — Good As Hell'},
+ {t:'text',h:`<h3>Background context</h3><ul>
+ <li>The song was released in <b>2016</b> on Lizzo’s <i>Coconut Oil</i> EP.</li>
+ <li>The first video (May 2016) showed Lizzo and friends getting their nails and hair done, and tied in with the film <i>Barbershop: The Next Cut</i>.</li>
+ <li>The <b>set product video</b> premiered on YouTube on <b>9 December 2019</b>: the second official video for the track.</li>
+ <li>Directed by <b>Alan Ferguson</b> and set at <b>Southern University</b> in Baton Rouge, Louisiana.</li>
+ <li>Lizzo’s performances reflect her own background playing <b>piccolo and flute in a marching band</b>.</li>
+ <li>In 2020 it was nominated for Best Editing at the MTV awards and Video of the Year at the Soul Train awards.</li></ul>`},
+ {t:'row',imgs:[[S('gah-sign'),'Southern University, Baton Rouge'],[S('gah-lizzo'),'Lizzo in her marching band uniform']]},
+ {t:'write',id:'w_gah_first',p:'After watching: what decade do you think the song is from, and why? What is it about? Who is the target audience? How are men portrayed, and how are women portrayed?',rows:5,model:`<ul><li><b>Decade:</b> the song sounds like it could be older (brass, a soul and gospel feel) but the video is clearly <b>2010s</b>: phones, styling and the HBCU setting.</li><li><b>About:</b> self-love and confidence. Moving on from a bad relationship and feeling good about yourself.</li><li><b>Audience:</b> mainly young women, roughly 16 to 25, and fans of pop and R&amp;B.</li><li><b>Men:</b> some are shown negatively (the ex-boyfriend, the male teacher shaking his head), but the band shows men and women working together.</li><li><b>Women:</b> supportive of each other, confident and talented. They lift each other up.</li></ul>`}
+]},
+{id:'gah-ml1',L:1,title:'Setting, colour, iconography and costume',walt:'To consider how the combination of elements of media language influences meaning.',blocks:[
+ {t:'text',h:`<p>In class you analysed sections of the video in teams and presented a shared slide deck. These are the key points to add to your notes.</p>
+ <div class="grid2">
+ <div class="mini"><h4>Setting</h4><p>Southern University. Lizzo performs in the <b>practice room</b>, on the <b>field</b> and on a custom “Lizzo” <b>school bus</b>.</p></div>
+ <div class="mini"><h4>Colour palette</h4><p>Becomes <b>richer</b> as the narrative progresses: regulation navy tracksuit tops in practice, then bright <b>blue and gold</b> at the homecoming game. Gold connotes <span class="kw">glamour and success</span>.</p></div>
+ <div class="mini"><h4>Iconography</h4><p>Associated with <b>music, not sport</b>: rows of brass instruments add to the triumphant, celebratory mood.</p></div>
+ <div class="mini"><h4>Costume</h4><p>Sports kit as conductor, her own band uniform on the bus, a dance costume with the Dancing Dolls. She is always <b>part of the group</b>: unity, support and teamwork.</p></div></div>`},
+ {t:'row',imgs:[[S('gah-band'),'Blue and gold: glamour and success'],[S('gah-dolls'),'The Dancing Dolls on the field'],[S('gah-locker'),'Band uniforms in the locker room']]},
+ {t:'gaps',id:'gahgaps',title:'Fill the gaps',text:`The colour palette becomes [[richer|duller|darker]] as the narrative progresses, moving from navy tracksuits to [[blue and gold|black and white|red and silver]] costumes. Gold connotes [[glamour and success|danger and fear|innocence]]. The iconography is linked to [[music|sport|fashion]] rather than football, and Lizzo’s costumes show her as [[part of the group|separate from the students|a strict teacher]].`},
+ {t:'write',id:'w_gah_colour',p:'Pick one image above. Explain how the colour or costume creates meaning. Use a PEE paragraph.',rows:4,model:`<p><b>Point:</b> Colour is used to show success. <b>Evidence:</b> at the homecoming game the marching band and Lizzo wear bright blue and gold. <b>Explain:</b> gold connotes glamour, wealth and winning, so the colour palette shows how far the students have come since the navy tracksuits of band practice. It reflects the theme of the song: feeling confident and successful.</p>`}
+]},
+{id:'gah-ml2',L:1,title:'Codes and conventions: performance and narrative',walt:'To consider the codes and conventions of media language and how they influence meaning.',blocks:[
+ {t:'text',h:`<p>Following music video conventions, Good As Hell is <b>largely performance-based</b>: Lizzo sings and dances, and a large cast of students performs in the marching band and dance groups.</p>
+ <p>It also <b>blends in a narrative</b> that follows three female students, each facing a problem before they can feel “Good as Hell”:</p>
+ <ul><li><b>Nicole</b> is told off in chemistry class because she is more focused on playing music.</li><li>The second student has had a <b>romantic break-up</b>.</li><li>The third feels <b>isolated</b> from the percussion section of the band.</li></ul>
+ <p>All three are <span class="theory">Propp</span> <b>heroes</b>, who receive help from other female students (and Lizzo) on their journey towards confidence and self-love.</p>`},
+ {t:'row',imgs:[[S('gah-hero'),'A hero on her own in the practice room'],[S('gah-celebrate'),'The new equilibrium: shared celebration']]},
+ {t:'text',h:`<h3>Apply Todorov</h3><p>Each hero’s story follows <span class="theory">Todorov</span>’s narrative structure.</p>`},
+ {t:'match',id:'todgah',title:'Todorov in Good As Hell',prompt:'Match each stage to Nicole’s story.',pairs:[
+  ['Equilibrium','Nicole is a student who loves music'],
+  ['Disruption','She is told off in chemistry class for focusing on music'],
+  ['Recognition','She realises she is feeling down about herself'],
+  ['Attempt to repair','Other women and Lizzo support her'],
+  ['New equilibrium','She performs with confidence at the homecoming game']]},
+ {t:'text',h:`<h3>Technical codes and sound</h3><ul>
+ <li><b>Direct address</b> from Lizzo builds intimacy with a female audience who may relate through <span class="kw">personal identity</span>.</li>
+ <li>Frequent <b>wide shots</b> of students playing together and marching in formation represent <b>teamwork</b>.</li>
+ <li><b>Diegetic sound</b> at the start and in the last shot: an “out-take” style panning shot of students cheering after practice. It follows the on-screen thank you and adds <b>inclusion and realism</b>.</li>
+ <li>The <b>trumpet zoom</b> becomes an <b>action match</b>: the bus party seems to be inside the trumpet, linked by the matching gold colour.</li></ul>`},
+ {t:'img',src:S('gah-trumpet'),cap:'The trumpet zoom: an action match into the bus party',narrow:1},
+ {t:'mcq',id:'gahml',title:'Quick check: Good As Hell media language',items:[
+  {q:'What type of music video is Good As Hell, mainly?',o:['Performance-based, with a narrative blended in','Purely conceptual','A documentary','Purely narrative, with no performance'],a:0,f:'It follows the performance convention but blends in the stories of three students.'},
+  {q:'In Propp’s terms, the three female students are…',o:['Heroes','Villains','Donors','False heroes'],a:0,f:'Each student is a hero on a journey towards confidence, helped by other women.'},
+  {q:'Why does the final shot use diegetic sound?',o:['To add inclusion and realism, like an out-take','To hide mistakes in the music','Because the song had finished recording','To introduce a new song'],a:0,f:'Hearing the students cheer after practice makes the video feel real and inclusive.'},
+  {q:'What does the trumpet zoom create?',o:['An action match into the bus party','A jump cut to a flashback','A split screen','A freeze frame'],a:0,f:'The matching gold links the two shots, so the party seems to be inside the trumpet.'}]}
+]},
+{id:'gah-conv',L:1,title:'Is Good As Hell a conventional music video?',walt:'To make a judgement about how typical the video is.',blocks:[
+ {t:'sort',id:'gahconv',title:'Conventional or not?',prompt:'Tap whether each feature follows or breaks music video conventions.',b:['Conventional','Not conventional'],items:[
+  ['Lizzo in a gold costume, centred in the frame',0],['The video opens on three students, not on Lizzo',1],['Lizzo sings and dances alongside a big cast',0],
+  ['The final shot: diegetic cheering, like an out-take',1],['An all-Black cast at an HBCU, celebrating success',1],['Each student follows her own hero’s journey',0],
+  ['Lizzo first appears from behind, skipping into position',1]]},
+ {t:'write',id:'w_gah_conv',p:'How far is Good As Hell a typical music video? Write a short judgement with two examples.',rows:5,model:`<p>Good As Hell is <b>mostly conventional</b>. It is largely performance-based, with Lizzo centred in the frame in a gold costume that reflects her star persona, and it uses a narrative of Proppian heroes, which is common in music videos. However, it is less conventional in its <b>structure</b>: Lizzo doesn’t appear until 43 seconds in, and the first shot shows her from behind. It also breaks conventions in <b>who it represents</b>: a plus-size Black woman as the star, and an all-Black cast at an HBCU.</p>`},
+ {t:'end',h:'<h3>End of Lessons 3–4</h3><p>You can now analyse Good As Hell’s setting, colour, costume, narrative and technical codes. Next: representation.</p>'}
+]},
+
+/* ═════════ LESSON 5 LIZZO REP ═════════ */
+{id:'gah-rep1',L:2,title:'Representation: supporting or challenging stereotypes?',walt:'To explore how representation is constructed in Good As Hell, and how stereotypes are used but also subverted.',blocks:[
+ {t:'text',h:`<p>Good As Hell explores the <b>pressures on young women</b> in society. It is also rich in representations of <b>ethnicity</b> that can be explored in relation to <b>self-confidence</b>.</p>`},
+ {t:'row',imgs:[[S('gah-dolls'),'The Dancing Dolls'],[S('gah-lizzo'),'Lizzo'],[S('gah-locker'),'Male students in the locker room'],[S('gah-celebrate'),'Students celebrating']]},
+ {t:'sort',id:'gahrep',title:'Supports or challenges the stereotype?',prompt:'These are the four images we sorted in class. Decide for each.',b:['Supports a stereotype','Challenges a stereotype'],items:[
+  ['The Dancing Dolls’ costumes, hair and make-up',0],
+  ['Lizzo, with an alternative body type, happily eating Cheetos on the bus',1],
+  ['Black male students in a locker room wearing band uniforms, not sports kit',1],
+  ['A large group of Black teenagers being rowdy and disruptive in a public space',0]]},
+ {t:'reveal',label:'Show the class answers',h:`<ul><li><b>Supports:</b> the costumes, hair and make-up adhere to female stereotypes. However, a <b>post-feminist</b> perspective would argue they construct female empowerment through body confidence.</li><li><b>Challenges:</b> Lizzo shows an alternative female body type. Eating an unhealthy snack challenges the stereotype that women only eat low-calorie food with their appearance in mind.</li><li><b>Challenges:</b> stereotypically, Black male students in a locker room would be shown in sports kit rather than band uniforms.</li><li><b>Supports:</b> a large group of Black teenagers being rowdy in a public space could be seen as adhering to a negative stereotype.</li></ul>`},
+ {t:'write',id:'w_gah_12',p:'In 12 words, explain why one photo challenges the female stereotype. Then argue against one of the class answers: suggest it does the opposite.',rows:4}
+]},
+{id:'gah-rep2',L:2,title:'Gender and ethnicity',walt:'To explain representations of gender and ethnicity using examples.',blocks:[
+ {t:'cards',items:[
+  ['Women','Represented as <b>emotionally supportive</b> of each other: stereotypical, but positive. A montage of close-ups near the end shows each female “character” smiling, connoting the happiness they feel after receiving support.'],
+  ['Feminist vs post-feminist','A <b>feminist</b> view: the Dancing Dolls’ costumes and the lyrics’ references to hair and nails uphold beauty ideals. A <b>post-feminist</b> view: these are tools for feeling good, <b>not</b> for appealing to the male gaze.'],
+  ['Men','Represented negatively through individual characters: the ex-boyfriend (the villain) and the male teacher shaking his head at the saxophonist. But group shots of men and women in the band represent <b>harmony through a shared goal</b>.'],
+  ['Ethnicity','Lizzo is a successful <b>Black woman</b>, confident and proud of her body: a role model for anyone who has experienced body shaming. The entirely Black cast and HBCU setting send a message of <b>Black empowerment, confidence and success</b>.']]},
+ {t:'text',h:`<h3>Contexts</h3><p>Can you give one example from the video for each of these?</p><ul>
+ <li>A <b>post-feminist</b> society with conflicting messages of female empowerment and objectification</li>
+ <li>The rise of <b>body positivity</b></li>
+ <li><b>Gender stereotypes</b></li></ul>`},
+ {t:'write',id:'w_gah_ctx',p:'Give one example from the video for each context above.',rows:4,model:`<ul><li><b>Post-feminist society:</b> the Dancing Dolls wear glamorous costumes and make-up, but they are performing for themselves and each other, not for men.</li><li><b>Body positivity:</b> Lizzo is the star of the video and is shown dancing and celebrating in a gold costume, confident in her body.</li><li><b>Gender stereotypes:</b> the male teacher in authority telling off a female student; the women supporting each other emotionally.</li></ul>`},
+ {t:'mcq',id:'gahrepq',title:'Quick check: representation',items:[
+  {q:'A post-feminist reading of the glamorous costumes would say…',o:['They empower women through body confidence, not to please men','They only exist to appeal to the male gaze','They are historically accurate','They hide the dancers’ identities'],a:0,f:'Post-feminism sees the glamour as a tool for women’s own confidence.'},
+  {q:'What does the HBCU setting and all-Black cast communicate?',o:['Black empowerment, confidence and success','That the video is about sport','That it was filmed in the UK','That the students are failing'],a:0,f:'Southern University is part of a historically Black college and university system.'},
+  {q:'How are men represented through the band group shots?',o:['As working in harmony with women towards a shared goal','As villains','As absent','As the main heroes'],a:0,f:'Individual men are negative, but the group shots show unity.'}]}
+]},
+{id:'gah-essay',L:2,title:'Exam practice: gender stereotypes',walt:'To write a balanced, “how far” argument about representation.',blocks:[
+ {t:'statement',h:'“Music videos reinforce gender stereotypes.” How far is this true of the video for Lizzo — Good As Hell?'},
+ {t:'text',h:`<p>In your response, you must:</p><ul><li>explore representations of <b>gender</b> in the music video</li><li>refer to relevant <b>media contexts</b>, such as social or cultural</li><li>consider whether you <b>agree or disagree</b> with the statement.</li></ul>
+ <div class="tip"><b>Make sure you:</b> give plenty of examples, name camera shots and angles, mention the <b>male gaze</b>, use the words <b>subvert</b> and <b>challenge</b>, and argue that one example could both reinforce and challenge (e.g. the Dancing Dolls wearing make-up). Timing: 12 minutes.</div>`},
+ {t:'scale',id:'sc_gah',s:'Good As Hell reinforces gender stereotypes.',p:'Explain where you stand, with one example.'},
+ {t:'write',id:'w_gah_essay',p:'Write your balanced answer, using PEE paragraphs.',rows:12,model:`<p><b>Agree (reinforces):</b> the Dancing Dolls’ costumes, hair and make-up adhere to stereotypical beauty ideals, and the lyrics’ references to hair and nails could be read as upholding them. Men hold positions of authority, such as the male teacher who tells Nicole off in class.</p>
+ <p><b>Disagree (challenges):</b> Lizzo is a plus-size Black woman who is the confident star of the video, which challenges the beauty ideals usually seen in music videos and reflects the rise of <b>body positivity</b>. The Cheetos moment rejects the idea that women only eat with their appearance in mind. The women drive every narrative and rescue each other: female solidarity, not male help, creates the new equilibrium.</p>
+ <p><b>Both ways:</b> the glamorous costumes could reinforce stereotypes, but a <b>post-feminist</b> reading sees them as tools for feeling good, not for the <b>male gaze</b>. The camera celebrates the women performing rather than objectifying them.</p>
+ <p><b>Judgement:</b> the video uses some gender stereotypes but mostly <b>subverts</b> them, so the statement is only partly true.</p>`},
+ {t:'end',h:'<h3>End of Lesson 5</h3><p>Homework from class: complete the Google Slides with 4–5 screenshots of your choice that cover all areas of MIRAC. Next: Justin Bieber.</p>'}
+]},
+
+/* ═════════ LESSONS 6–7 BIEBER ML ═════════ */
+{id:'int-watch',L:3,title:'Intentions: background and first viewing',walt:'To explore how media language creates meaning in Intentions.',blocks:[
+ {t:'video',id:'9p2wMpVVtXg',label:'Watch Justin Bieber ft. Quavo — Intentions'},
+ {t:'text',h:`<h3>Background context</h3><ul>
+ <li>Released in <b>February 2020</b> as the second single from Bieber’s fifth album, <i>Changes</i>, with guest vocals from rapper <b>Quavo</b>.</li>
+ <li>Directed by <b>Michael D Ratner</b>, whose company OBB Media works across film, TV and online promotion.</li>
+ <li>Filmed at <b>Alexandria House</b>, a non-profit in Los Angeles that gives shelter and support to vulnerable women and children, and at a library at California State University.</li>
+ <li>Bieber set up an <b>Intentions Fund</b>, donating <b>$200,000</b> to Alexandria House. The video helped raise over <b>$10,000</b> in its first three days.</li></ul>`},
+ {t:'img',src:S('int-title'),cap:'The graffiti-style title',narrow:1},
+ {t:'write',id:'w_int_first',p:'After watching: what is the video about, and what do you think its purpose is? Is it what you expected from a Justin Bieber video?',rows:4,model:`<p>The video follows three women from Alexandria House, a shelter in LA, and shows Bieber and Quavo giving them gifts to help them achieve their goals. Its purpose is partly to promote the song, but mainly to <b>raise awareness and donations</b> for the shelter, as the “Thank You” at the end shows. It is unexpected because it is more like a <b>documentary</b> than a typical pop video.</p>`}
+]},
+{id:'int-ml1',L:3,title:'Concept, narrative and the three heroes',walt:'To analyse how narrative and character are constructed.',blocks:[
+ {t:'text',h:`<p>The video is largely <b>concept-based</b> and follows the narratives of three women from Alexandria House, each with an <b>intention</b> to help others.</p>`},
+ {t:'row',imgs:[[S('int-bahri'),'Bahri'],[S('int-marcy'),'Marcy'],[S('int-angela'),'Angela']]},
+ {t:'cards',items:[
+  ['Bahri','Established through setting, gesture and props: studying an <i>Introduction to Criminal Justice</i> book, waiting for the bus, working on the long journey home at night. Her intention is to help others, and we see the struggle she faces to succeed.'],
+  ['Marcy','Shown in the library: education as the way out of challenging circumstances. Her mirror scene can be read two ways (see Lesson 8).'],
+  ['Angela','On the streets supporting homeless people in LA. She is gifted studio air-time to amplify her work.'],
+  ['Bieber and Quavo','<span class="theory">Propp</span>’s <b>helpers</b>, not heroes: they gift Bahri a car, Marcy backpacks of school supplies and Angela studio air-time.']]},
+ {t:'text',h:`<p>Only parts of the song are performed by the artists. Most of it works as a <b>soundtrack to the women’s stories</b>, highlighting the video’s purpose of raising awareness for charity.</p>`},
+ {t:'mcq',id:'intprop',title:'Quick check: narrative',items:[
+  {q:'In Propp’s terms, Bieber and Quavo are…',o:['Helpers','Heroes','Villains','Princesses'],a:0,f:'They give gifts that help the three heroes achieve their intentions.'},
+  {q:'What does Bahri’s criminal justice textbook signify?',o:['Her intention to study and help others','That she is in trouble with the police','That she works in a library','That she is a teacher'],a:0,f:'Props establish character: her book shows her goals.'},
+  {q:'Why is most of the song used as a soundtrack rather than performed?',o:['To keep the focus on the women’s stories and the charity','Because Bieber was unavailable','To save money','Because it is a conceptual video about water'],a:0,f:'The women’s stories, not the stars, are the focus.'}]}
+]},
+{id:'int-ml2',L:3,title:'Visual codes, gesture and typography',walt:'To analyse how visual codes, gesture codes and typography create meaning.',blocks:[
+ {t:'row',imgs:[[S('int-hug'),'Gesture codes: an emotional hug'],[S('int-dance'),'Spontaneous dance'],[S('int-artists'),'Bieber and Quavo'],[S('int-family'),'The “family” group shot']]},
+ {t:'text',h:`<ul>
+ <li><b>Gesture codes</b> are key signifiers: hugs, smiles, high-fives and hands on shoulders signify <b>emotional support and community</b>.</li>
+ <li><b>High-fives</b> are a <b>motif</b>: each of the three women uses one at key moments, conveying their confidence and achievements.</li>
+ <li><b>Dance</b> is spontaneous (Bahri dancing in the street, a child on a table) rather than choreographed. Women are <b>active, not passive</b>.</li>
+ <li>The <b>graffiti-style font</b> for the title and the women’s names connotes the <b>rap/hip-hop</b> genre and the urban setting.</li>
+ <li>Bieber performing in <b>direct mode of address</b> in his red hoodie represents him as a <b>star</b>; Quavo rapping in the centre of a group mirrors this.</li>
+ <li>The posed <b>“family” group shot</b> at the end, with “Thank You” on screen, reminds the audience of the video’s charitable purpose.</li></ul>`},
+ {t:'match',id:'intml',title:'What does it connote?',prompt:'Match each media language choice to its meaning.',pairs:[
+  ['Graffiti-style typography','The rap/hip-hop genre and the urban LA setting'],
+  ['Hugs and hands on shoulders','Emotional support and community at Alexandria House'],
+  ['Repeated high-fives','The women’s confidence and achievements'],
+  ['Bieber’s direct address in a red hoodie','His status as a star'],
+  ['The posed group shot with “Thank You”','The video’s charitable purpose']]},
+ {t:'write',id:'w_int_ml',p:'Choose one of the images above. Write a PEE paragraph explaining how it creates meaning.',rows:4,model:`<p><b>Point:</b> Gesture codes show the support the women receive. <b>Evidence:</b> when a woman is given her gift, we see an emotional hug in close-up. <b>Explain:</b> the hug signifies care, love and community, which represents Alexandria House as a safe and warm place. The close-up encourages an emotional response from the audience, supporting the video’s purpose of raising donations.</p>`}
+]},
+{id:'int-conv',L:3,title:'Is Intentions a conventional music video?',walt:'To make a judgement about how typical the video is, compared with Good As Hell.',blocks:[
+ {t:'sort',id:'intconv',title:'Conventional or not?',prompt:'Tap whether each feature follows or breaks music video conventions.',b:['Conventional','Not conventional'],items:[
+  ['Bieber singing straight to camera in his red hoodie',0],['Real women from a shelter instead of models',1],['A graffiti-style title signalling hip-hop',0],
+  ['Bieber and Quavo handing out gifts as helpers',1],['Children and residents dancing spontaneously',1],['Quavo rapping centre-frame surrounded by a crowd',0],['It ends with a “Thank You” and a charity message',1]]},
+ {t:'write',id:'w_int_conv',p:'Finish both sentences with examples from the video. Then say which you agree with most. (1) “Intentions is different to other music videos, it provides a social and political message, an example of this is…” (2) “Intentions is just another music video, its purpose is to promote the artist and make money, this is the case because…”',rows:6,model:`<p>(1) …the women from Alexandria House are the heroes, and the video ends with a “Thank You” that points audiences to the Intentions Fund. It raised over $10,000 in three days.</p><p>(2) …Bieber still performs in direct address as the star, he wears his own Drew House brand, and the video promoted the single and the album <i>Changes</i>.</p><p><b>Judgement:</b> Intentions is <b>largely unconventional</b>. It keeps some star moments, but its documentary style, real women and charity purpose make it very different from a typical pop video.</p>`},
+ {t:'end',h:'<h3>End of Lessons 6–7</h3><p>You can now analyse Intentions’ narrative, gesture codes and typography. Next: how Intentions represents gender and ethnicity.</p>'}
+]},
+
+/* ═════════ LESSON 8 BIEBER REP ═════════ */
+{id:'int-rep1',L:4,title:'Representation of women and Alexandria House',walt:'To explore how Intentions represents women, ethnicity and social issues.',blocks:[
+ {t:'cards',items:[
+  ['Alexandria House','Represented positively as a place of <b>safety, warmth and community</b>: women and children from different ethnic groups hugging, dancing and eating together.'],
+  ['Women','<b>Not objectified or glamorised</b>, which is conventional in many music videos. The focus is on their empowerment through educational, creative and artistic achievement.'],
+  ['Marcy’s mirror scene','Doing her hair and make-up could reinforce a stereotype, or it may represent the <b>insecurities many young women feel</b> when presenting themselves to the world.'],
+  ['Women as “victims”?','The shelter setting represents women and children as <b>in need</b>, which could reinforce stereotypes. But they are shown on a journey towards stability and independence.']]},
+ {t:'row',imgs:[[S('int-marcy'),'Marcy'],[S('int-bahri'),'Bahri studying'],[S('int-family'),'The diverse community']]},
+ {t:'sort',id:'intrep',title:'Subverts or reinforces?',prompt:'For each point, decide whether it subverts or reinforces stereotypes.',b:['Subverts a stereotype','Reinforces a stereotype'],items:[
+  ['Bahri studying law: educated, with high aspirations',0],
+  ['Women of colour shown studying, travelling and creating, not objectified',0],
+  ['Angela helping homeless people: selfless and caring',0],
+  ['The women needing gifts from two rich male stars to succeed',1],
+  ['Quavo’s gold teeth and baggy clothes, the typical image of a rapper',1],
+  ['Dancing together and having fun as a community',0]]}
+]},
+{id:'int-rep2',L:4,title:'The debate: charity or self-promotion?',walt:'To evaluate the representation of the artists, using both sides of the argument.',blocks:[
+ {t:'text',h:`<h3>How are the artists represented?</h3><p>Bieber and Quavo are represented as <b>caring and generous</b>. This was part of Bieber’s <b>rebrand</b> after earlier negative publicity: mature, compassionate and socially responsible.</p>
+ <h3>The counter-argument</h3><ul>
+ <li>A lyric tells the women they are their own brand, while Bieber is wearing his own <b>Drew House</b> hoodie: is this <b>self-promotion</b> undermining the charity?</li>
+ <li>The women need gifts from two wealthy male stars to succeed. Some critics call this a <b>“white saviour”</b> representation.</li>
+ <li>Quavo appears less often and his name is smaller, which could suggest he is less important than Bieber.</li></ul>`},
+ {t:'img',src:S('int-artists'),cap:'Bieber in his own Drew House hoodie, with Quavo',narrow:1},
+ {t:'scale',id:'sc_int',s:'Intentions is more about promoting Justin Bieber than helping the women of Alexandria House.',p:'Explain your view with one example from the video.'},
+ {t:'text',h:`<h3>A student example from class</h3><p>Read this student’s answer about ethnicity. Notice how it argues <b>both ways</b> and uses <b>specific examples</b>.</p>`},
+ {t:'reveal',label:'Show the student example',h:`<p>Intentions subverts stereotypes of Black people being less educated, as it shows Bahri studying law. It shows she has high aspirations and goals. We also see all three women being hard-working, for example Marcy in the library and on the bus. They are trying to achieve a good future, and this creates a positive representation. However, the women needing to be given things like a car could suggest they can’t help themselves, which links to a white saviour complex. There are no stereotypes of violence; instead there are welcoming gesture codes, such as hugs and thumbs up, showing them as supported. Angela helping the homeless shows she is selfless and caring. Quavo, in baggy clothes and gold teeth, fits the stereotype of a Black rapper, and he is seen helping less, which could suggest the white star has to fix the problem. Overall, Intentions mostly subverts negative stereotypes of people of colour, while reinforcing some.</p>`},
+ {t:'write',id:'w_int_eth',p:'“Music videos reinforce stereotypes of ethnicity.” How far is this true of Intentions? Write two PEE paragraphs: one agreeing, one disagreeing.',rows:10,model:`<p><b>Disagree:</b> Intentions largely <b>subverts</b> stereotypes. Women of colour are active, educated and empowered: Bahri studies a criminal justice textbook on the bus home, and Marcy works in the library. They are not objectified, which subverts the <b>male gaze</b> common in hip-hop and R&amp;B videos. Alexandria House is a warm, diverse community, shown through hugs and the final “family” shot.</p>
+ <p><b>Agree:</b> the women are framed as <b>victims in need</b> of gifts from two wealthy male stars, which some critics read as a white saviour narrative. Quavo’s costume of baggy clothes and gold teeth fits the stereotype of a rapper.</p>
+ <p><b>Judgement:</b> the video mostly challenges stereotypes of ethnicity, but its charity framing complicates that message.</p>`},
+ {t:'end',h:'<h3>End of Lesson 8</h3><p>You can now evaluate Intentions’ representations from both sides. Next: the historical text, TLC’s Waterfalls.</p>'}
+]},
+
+/* ═════════ LESSONS 9–10 TLC ═════════ */
+{id:'tlc-watch',L:5,title:'Waterfalls: first viewing',walt:'To analyse a historical music video.',blocks:[
+ {t:'video',id:'8WEtxJ4-sh4',label:'Watch TLC — Waterfalls (1995)'},
+ {t:'tip',h:'<b>Remember:</b> you will be asked about this text in the exam. You study it for <b>media language</b>, <b>representation</b> and <b>context</b> only.'},
+ {t:'write',id:'w_tlc_first',p:'Answer in detail: what decade is it from, and why? What is the theme of the video? How are teenagers, parents and the young adult couple represented? How are drug-related crime, street violence and HIV/AIDS explored?',rows:6,model:`<ul><li><b>Decade:</b> the 1990s: the fashion (baggy clothes, caps), the R&amp;B sound and the early CGI.</li><li><b>Theme:</b> a warning about the dangers of drugs, gang violence and unprotected sex. “Don’t go chasing waterfalls” means don’t chase risky things.</li><li><b>Teenagers:</b> vulnerable and tempted by easy money. <b>Parents:</b> worried and powerless to protect their children. <b>The couple:</b> at first romantic and glamorous, then tragic.</li><li><b>The issues:</b> shown through symbolism and sympathetic stories rather than graphic images.</li></ul>`}
+]},
+{id:'tlc-shots',L:5,title:'Camera shots and connotations',walt:'To identify camera shots and explain their purpose and effect.',blocks:[
+ {t:'text',h:`<p>Music videos are an important part of a song’s marketing and are constructed to engage the audience. Look at these stills from Waterfalls: what shot is each one, and what does it connote?</p>`},
+ {t:'match',id:'tlcshots',title:'Name the shot',prompt:'Match each still description to the right shot type.',pairs:[
+  ['The city from above as the video opens','High angle / bird’s-eye view'],
+  ['The singer pointing at the viewer','Medium close-up with direct address'],
+  ['The three members singing on the ocean','Wide / extreme long shot'],
+  ['The brown paper bag','Extreme close-up'],
+  ['From the pavement, beside the body of the young man','Low angle shot']]},
+ {t:'row',imgs:[[S('tlc-city'),'High angle: the city'],[S('tlc-mcu'),'MCU: direct address'],[S('tlc-ocean'),'Wide shot: on the ocean']]},
+ {t:'row',imgs:[[S('tlc-gang'),'The gang, with the ghostly mother'],[S('tlc-bag'),'ECU: the brown paper bag']]},
+ {t:'reveal',label:'Show what each shot connotes',h:`<ul>
+ <li><b>High angle of the city:</b> establishes the urban location. This shot usually puts the viewer in a superior position, but the camera movement and rapid editing suggest a <b>fall</b>, which is unsettling and connotes <b>narrative disruption</b>.</li>
+ <li><b>MCU with direct address:</b> a typical convention that connects performer and viewer. The pointing underlines the <b>cautionary</b> lyrics and the warning in the video.</li>
+ <li><b>Wide shot on the ocean:</b> performance is a typical convention. They are dressed similarly but each has her own identity. The water links to the lyrics and sets TLC apart: they are <b>narrators</b>, not characters.</li>
+ <li><b>The gang and the ghostly mother:</b> a slightly low angle connotes the <b>threat</b> to the teenage boy; aggressive gestures and frame dominance mean there is no escape route. The mother knows the danger but couldn’t protect her son.</li>
+ <li><b>Low angle from the pavement:</b> places us beside the boy’s body, positioning us to <b>sympathise</b> with him and his despairing mother, and connoting their powerlessness against gang violence.</li>
+ <li><b>ECU of the bag:</b> it contains the drugs that led to the boy’s murder. This symbolic prop communicates a powerful message: drugs can lead to violence and death.</li></ul>`}
+]},
+{id:'tlc-ml',L:5,title:'Narrative, symbolism, effects and intertextuality',walt:'To analyse how Waterfalls uses narrative, symbolism and special effects.',blocks:[
+ {t:'text',h:`<ul>
+ <li>Waterfalls is a <b>hybrid</b>: performance (TLC on the water), two <b>narratives</b>, and conceptual elements.</li>
+ <li><b>Narrative 1:</b> a young man gets involved with drug dealers to make money, despite his mother’s worries, and is shot.</li>
+ <li><b>Narrative 2:</b> a couple have unprotected sex; the man becomes ill with HIV/AIDS.</li>
+ <li><b>Symbolism</b> communicates meaning through connotation. Drugs are never shown: they are symbolised by the <b>brown paper bag</b>. AIDS is symbolised by <b>skin deterioration</b> and a <b>montage of photos</b> of the woman’s previous boyfriends.</li>
+ <li><b>CGI and special effects:</b> the ghostly superimposed mother, TLC formed from water, the man’s deteriorating skin. The water effect is <b>intertextual</b>: it borrows the liquid metal effect from <i>Terminator 2</i> (1991).</li>
+ <li><b>Mise-en-scène:</b> inner-city sets (the brownstone, the stoop, the street corner) connote a “ghetto”; baggy tracksuits, caps and dark glasses connote danger. These are <b>intertextual</b> links to 1990s films like <i>New Jack City</i> and <i>Boyz N the Hood</i>.</li>
+ <li>The HIV/AIDS story uses the iconography of <b>romance</b> (silk, tangled sheets, mirrors), which turns threatening, like a <b>horror</b> transformation scene.</li></ul>`},
+ {t:'img',src:S('tlc-street'),cap:'The inner-city street corner: an intertextual nod to 1990s “hood” films',narrow:1},
+ {t:'mcq',id:'tlcml',title:'Quick check: Waterfalls media language',items:[
+  {q:'What do the brown bag, the man’s skin and the photo montage have in common?',o:['They are symbols: drugs and AIDS are never shown directly','They are product placement','They are continuity errors','They are flashbacks'],a:0,f:'Connotation carries the message, so the video avoids graphic images.'},
+  {q:'The water effect is an intertextual reference to…',o:['Terminator 2','Titanic','Jaws','Free Willy'],a:0,f:'It borrows the liquid metal effect from Terminator 2 (1991).'},
+  {q:'How many narratives does Waterfalls follow?',o:['Two','One','Three','None: it is purely performance'],a:0,f:'The drug-violence story and the HIV/AIDS story.'},
+  {q:'Performing on the water positions TLC as…',o:['Narrators set apart from the stories','Characters inside the narratives','The villains','Victims of the gang'],a:0,f:'They comment on the stories rather than taking part.'}]},
+ {t:'write',id:'w_tlc_tod',p:'Apply Todorov to one of the two narratives: equilibrium, disruption, recognition, attempt to repair, new equilibrium.',rows:5,model:`<p><b>The young man:</b> <b>Equilibrium</b>: he lives at home with his worried mother. <b>Disruption</b>: he joins a drug gang to make easy money. <b>Recognition</b>: his mother sees the danger and begs him to stop. <b>Attempt to repair</b>: he signals to his mother that he will call her, showing he cares. <b>New equilibrium</b>: he is shot and killed. The new equilibrium is tragic, which reinforces the cautionary message.</p>`}
+]},
+{id:'tlc-rep',L:5,title:'Representation in Waterfalls',walt:'To explore representations of age, ethnicity, gender, gang culture and sexuality.',blocks:[
+ {t:'cards',items:[
+  ['The young Black man','<b>Not</b> a typical gangster: he is trying to make easy money to help his family. His “call me” gesture shows he still cares about his mother. He becomes a <b>victim</b> of the violent gang.'],
+  ['The gang','The violent Black male gang members <b>do reinforce</b> ethnic and gender stereotypes through props, dress and gesture codes.'],
+  ['The couple and sexuality','First represented as glamorous and intimate. Multiple close-ups of the man as he becomes ill encourage <b>empathy</b>, not condemnation.'],
+  ['TLC','Almost <b>supernatural</b>, appearing from water. Their image mixes feminine codes (make-up, colourful crop tops) with masculine ones (loose combat-style trousers that hide their legs, which many hip-hop and R&amp;B videos focus on).'],
+  ['The issues','Represented <b>sympathetically</b>: the video sends its message without preaching.']]},
+ {t:'sort',id:'tlcrep',title:'Reinforces or challenges?',prompt:'Decide for each representation.',b:['Reinforces a stereotype','Challenges a stereotype'],items:[
+  ['Aggressive gang members with dark glasses and threatening gestures',0],
+  ['A young man who cares about his mother and wants to help his family',1],
+  ['TLC’s loose combat trousers that hide their legs',1],
+  ['The sick man shown in sympathetic close-ups',1]]}
+]},
+{id:'tlc-ctx',L:5,title:'Context: how Waterfalls reflects the 1990s',walt:'To explain how a music video reflects the time in which it was made.',blocks:[
+ {t:'text',h:`<ul>
+ <li>In the 1990s there was huge public concern and media coverage about <b>HIV/AIDS</b> (then a deadly condition) and <b>drug-gang street violence</b>.</li>
+ <li>Many R&amp;B videos focused on romance, and many hip-hop videos showed men celebrating wealth gained through crime. Waterfalls references these conventions but is <b>cautionary</b>, not glamorising.</li>
+ <li>TLC were the <b>second-biggest girl band of the 1990s</b> after the Spice Girls, with a similar message of female solidarity and empowerment.</li>
+ <li>It can be seen as <b>“socially aware” hip-hop</b>. Gangsta rappers (Ice-T, NWA, Notorious B.I.G.) also made songs about poverty and crime, but Waterfalls is more emotional and nuanced.</li>
+ <li>The video uses <b>expressionism</b> (symbolism and spectacle) rather than social realism.</li>
+ <li>Its CGI was cutting-edge technology for the time.</li></ul>`},
+ {t:'statement',h:'How do music videos reflect the time in which they were made? Refer to TLC to support your points. [10]'},
+ {t:'write',id:'w_tlc_exam',p:'Write your answer. Aim for three developed points, each with a specific example from the video.',rows:10,model:`<p>Waterfalls reflects mid-1990s public concern about <b>HIV/AIDS</b>, which was then a deadly condition, through the narrative of the couple. The illness is symbolised by the man’s deteriorating skin and the montage of his partner’s previous boyfriends, rather than shown directly.</p>
+ <p>It also reflects concern about <b>drug-gang violence</b> in American cities. The brown paper bag symbolises drugs, and the inner-city setting and costumes (baggy tracksuits, caps, dark glasses) are intertextual references to 1990s films like <i>Boyz N the Hood</i>.</p>
+ <p>Technologically, the water CGI borrowed from <i>Terminator 2</i> shows off the special effects of the time.</p>
+ <p>Culturally, TLC chose a cautionary, sympathetic message at a time when gangsta rap often glamorised crime, and they represented female solidarity, like the Spice Girls in the same decade.</p>`},
+ {t:'end',h:'<h3>End of Lessons 9–10</h3><p>Homework from class: read the story of how TLC made Waterfalls and make notes. Next: Lizzo’s website and social media.</p>'}
+]},
+
+/* ═════════ LESSONS 14–15 LIZZO ONLINE ═════════ */
+{id:'web-intro',L:6,title:'Why do artists have websites?',walt:'To understand the purpose of an artist’s website and how people access it.',blocks:[
+ {t:'write',id:'w_web_purpose',p:'Why do artists have websites? Why do audiences browse them? What is their main purpose?',rows:3,model:`<p>An artist’s website is an extra platform that <b>generates new fans</b> and keeps existing fans engaged. Its main purpose is <b>commercial</b>: promoting the latest single and album, selling tour tickets and merchandise. For audiences, it offers information, exclusive content and a sense of connection with the artist.</p>`},
+ {t:'text',h:`<h3>How do people find an artist’s website?</h3><p>Search engines, links on social media and YouTube, posters and tour flyers, the record label’s promotion, the music press, mailing lists and word of mouth. People access it on <b>phones</b>, tablets and computers.</p>`},
+ {t:'sort',id:'goodweb',title:'Good website or bad website?',prompt:'Decide whether each statement describes a good artist website.',b:['Good website','Bad website'],items:[
+  ['The page is simple and uncluttered',0],['A continual theme, colour scheme and font across all pages',0],['Links to all social media platforms',0],['Music that starts only when you click',0],
+  ['Auto-play music',1],['Every page has a completely different colour scheme and theme',1],['Pages jam-packed with information',1],['No way for fans to interact or get in touch',1]]},
+ {t:'cards',items:[
+  ['House style','Consistent branding tied to the latest single or album. Rebranding keeps the star “current”.'],
+  ['Star persona','Constructed through media language: images, colours, fonts.'],
+  ['Commercial imperative','Promotion of the current release, and opportunities to listen, buy music, tour tickets and merchandise.'],
+  ['Interactivity','Interactive features and links to social media, which reflect the social media age.']]}
+]},
+{id:'lz-web',L:6,title:'Lizzo’s website',walt:'To explore the conventions and purpose of Lizzo’s website.',blocks:[
+ {t:'row',imgs:[[S('lz-home'),'The “Special” era homepage'],[S('lz-store'),'The store: merch via Warner']]},
+ {t:'text',h:`<ul>
+ <li>The <b>homepage</b> is built around Lizzo as a <b>brand</b> and the latest release. In the <i>Special</i> era it used a <b>black and white</b> colour palette that matched the album cover: <span class="kw">house style</span>.</li>
+ <li>It featured videos, tour dates and official merchandise. Together, this creates a strong <b>commercial message</b> designed to make users buy.</li>
+ <li>The <b>menu bar</b>: Music, Video, Tour, Store. Tour and Store are commercial; the others let fans engage with the Lizzo experience.</li>
+ <li>The <b>Store</b> takes users to a separate Warner-run site that changes by location (eurostore.warnermusic.com in the UK). It sells vinyl, CDs, cassettes and “Merch”: hoodies, t-shirts and underwear.</li>
+ <li><b>Social media links</b> appear prominently on the homepage, which reinforces their importance.</li>
+ <li>It has a <b>limited sense of personal identity</b>: it feels like a corporate website focused on promoting the album and tour, which links to her being signed to a major label.</li></ul>`},
+ {t:'write',id:'w_lz_web',p:'To what extent do you feel you have engaged with Lizzo herself on the website? To what extent is it just a corporate tool to promote her brand?',rows:4,model:`<p>The website offers <b>limited</b> engagement with Lizzo as a person. Almost every element promotes a product: the album, the tour or merchandise, and the store is run by Warner. The house style matches the album artwork rather than showing her personality. It is mainly a <b>corporate tool</b>, though the links to her social media let fans find the more personal Lizzo elsewhere.</p>`},
+ {t:'mcq',id:'lzweb',title:'Quick check: Lizzo’s website',items:[
+  {q:'The homepage’s black and white palette matching the album is an example of…',o:['House style','Accessibility','Data capture','A printing limitation'],a:0,f:'Consistent branding tied to the latest release.'},
+  {q:'The store redirecting to a Warner-run site shows…',o:['Her major-label industry context','A fan-made website','A website error','That she sells nothing'],a:0,f:'Warner Music Group handles the commerce.'},
+  {q:'Why does it benefit the industry when fans use a hashtag?',o:['It is free marketing: fans share and spread the campaign','It is required by law','It stops piracy','It makes the website load faster'],a:0,f:'Word of mouth is a valuable marketing tool.'},
+  {q:'How does a hashtag benefit the audience?',o:['They feel part of the collective identity of the fandom','They get paid','It gives them free merchandise','It blocks adverts'],a:0,f:'Liking and sharing helps them build their own online identity.'}]},
+ {t:'text',h:`<h3>Context: websites today</h3><ul><li><b>Digital convergence:</b> links to Spotify, Apple Music and YouTube rather than selling CDs.</li><li><b>Monetisation:</b> merch, tickets and VIP bundles replace physical sales. Artists now rely more on touring and merch.</li><li><b>Designed for mobile</b> as much as desktop.</li><li>Physical CDs and vinyl appear as nostalgic or premium <b>collectors’ items</b>.</li></ul>`}
+]},
+{id:'lz-social',L:6,title:'Lizzo on social media',walt:'To analyse how Lizzo represents herself on social media.',blocks:[
+ {t:'text',h:`<p>Fans now form communities <b>online</b>. Most new tracks and videos launch on social channels, and engagement is monitored to plan the next campaign. Artists rarely write every post themselves: <b>brand managers</b> help balance promotional and personal content.</p>
+ <p>Lizzo’s Instagram and TikTok take a <b>more personal approach</b>. She has posted about body shaming, racism, LGBTQ+ Pride and the 2020 US election. <b>TikTok is her biggest platform</b>, which she used to connect with fans during the 2020 lockdown.</p>`},
+ {t:'gallery',title:'Lizzo’s posts',shots:[['lz-yitty','Twitter renamed “FOLLOW @YITTY”'],['lz-biggrrls','Big Grrrls casting call'],['lz-fine','Body confidence post'],['lz-her','Self-love as a mission'],['lz-activist','Speaking about anti-Black rhetoric'],['lz-car','Dancing by a luxury car'],['lz-comedy','Comedy TikTok'],['lz-tiktokstats','TikTok profile']]},
+ {t:'match',id:'lzposts',title:'What does each post represent?',prompt:'Match each post to what it represents about Lizzo.',pairs:[
+  ['Her Twitter profile renamed “FOLLOW @YITTY”','A businesswoman using her platform to advertise her shapewear brand'],
+  ['The Big Grrrls casting call','Empowerment and inclusion, and a TV business deal'],
+  ['Speaking about anti-Black rhetoric','An activist using her reach for Black women'],
+  ['Green-screen comedy TikToks','Funny and relatable: a “best friend” persona'],
+  ['Posting about how good she looked','Unapologetic self-love and body confidence']]},
+ {t:'write',id:'w_lz_follow',p:'Despite having millions of followers, Lizzo follows very few people. Why do you think that is?',rows:3,model:`<p>Despite having millions of followers, Lizzo follows very few people. This shows she uses social media mainly to <b>promote</b> herself and her brands, not to catch up with friends like most users. Following thousands of strangers would fill her feed and take up time she doesn’t have. It also suggests <b>one-way communication</b>: fans follow her, rather than a two-way relationship.</p>`},
+ {t:'end',h:'<h3>End of Lessons 14–15</h3><p>Homework from class: spend time exploring Lizzo’s website. The more familiar you are with it, the easier the exam questions will be. Next: Lizzo’s industry and audience.</p>'}
+]},
+
+/* ═════════ LESSONS 15–16 LIZZO IND/AUD ═════════ */
+{id:'lz-ind',L:7,title:'The music industry and Lizzo',walt:'To investigate the industry context of Good As Hell.',blocks:[
+ {t:'sort',id:'lztf',title:'True or false?',prompt:'The starter quiz from class.',b:['True','False'],items:[
+  ['Lizzo was the first artist to have a video reach over a billion views on YouTube',1],
+  ['Lizzo is Canadian',1],
+  ['Good As Hell reached number 1 in the UK Singles Chart',1],
+  ['Lizzo has appeared in the Star Wars universe',0]]},
+ {t:'reveal',label:'Show the answers',h:`<ul><li><b>False:</b> her most-watched video is Truth Hurts; Good As Hell has around 40 million views.</li><li><b>False:</b> she was born in Detroit, Michigan, and moved to Houston, Texas, aged 10.</li><li><b>False:</b> the song peaked at number 7 in the UK (number 3 in the US).</li><li><b>True:</b> she played The Duchess in an episode of <i>The Mandalorian</i>.</li></ul>`},
+ {t:'text',h:`<h3>Overview of the music industry</h3><ul>
+ <li>Music is a huge global industry. Britain’s is the <b>third largest</b> in the world.</li>
+ <li>Record sales have fallen, and the internet has changed how we consume music. <b>Streaming</b> services like Spotify now account for <b>more than 50%</b> of consumption. They are funded by adverts and subscriptions, and the label is paid every time a track is streamed.</li>
+ <li>CD sales are declining, but <b>vinyl</b> is popular again: fans like a physical copy and the artwork, and nostalgia plays a part.</li></ul>
+ <h3>How music is made and released</h3><p>An <b>advance</b> is paid to the artist → <b>production</b> (recording, mixing, physical formats) → <b>distribution and circulation</b>: marketing, press and promotion teams publicise the music with a single and a music video, articles and TV appearances, radio airplay, and online and social media teams. A sales division gets the products to shops and online retailers.</p>`},
+ {t:'write',id:'w_trends',p:'In your own words, sum up the key trends in the music industry. What is decreasing? What is increasing? What are the advantages of new technology?',rows:4,model:`<p><b>Decreasing:</b> CD sales and traditional downloads. <b>Increasing:</b> streaming (over half of consumption), vinyl sales, and touring and merch income. <b>Advantages:</b> artists can reach a global audience instantly, labels earn money from every stream, and social media gives free promotion and direct contact with fans.</p>`}
+]},
+{id:'lz-own',L:7,title:'Ownership, conglomerates and regulation',walt:'To explain who owns Lizzo’s label and how music videos are regulated.',blocks:[
+ {t:'cards',items:[
+  ['Vertical integration','One company controls more than one stage of production or distribution. Example: Netflix makes its own shows and shows them on its own platform.'],
+  ['Horizontal integration','One company owns or buys other companies at the same stage. Example: Disney buying Pixar and Marvel.'],
+  ['Conglomerate','A company that owns a range of other companies across media platforms. These companies dominate the market.'],
+  ['Lizzo’s label','<b>Atlantic Records</b> is owned by <b>Warner Music Group</b>, a subsidiary of Access Industries.']]},
+ {t:'img',src:S('atlantic'),cap:'Atlantic Records: part of Warner Music Group',narrow:1},
+ {t:'text',h:`<p>The <b>Big Three</b>, Universal Music Group, Sony and Warner Music Group, dominate the music market.</p>
+ <p><b>How does Lizzo benefit</b> from a label owned by a conglomerate? More money for production and high-profile global promotion (videos often cost £1m+), <b>cross-media promotion and convergence</b>, and <b>synergy</b> with other companies in the group.</p>
+ <h3>Regulation</h3><ul><li>Music has <b>no single regulator</b>.</li><li>The <b>BPI</b> runs the voluntary <b>Parental Advisory</b> scheme: a logo for strong language, violence, sexual behaviour, discrimination or dangerous behaviour.</li><li>The <b>Video Recordings Act 1984</b> (amended 2014): music videos on DVD must be classified by the <b>BBFC</b> if they would be rated 12 or above.</li><li>Since 2014–15 the BBFC has worked with <b>YouTube and Vevo</b> to age-rate online music videos (e.g. Ariana Grande’s Dangerous Woman got a 15).</li></ul>`},
+ {t:'mcq',id:'lzind',title:'Industry recap quiz',items:[
+  {q:'What record label is Lizzo signed to?',o:['Atlantic Records','Def Jam','Island','Columbia'],a:0,f:'Atlantic Records, owned by Warner Music Group.'},
+  {q:'Who are the Big Three?',o:['Universal, Sony and Warner','Apple, Spotify and Amazon','EMI, Decca and RCA','Atlantic, Def Jam and Island'],a:0,f:'They dominate the global music market.'},
+  {q:'What is horizontal integration?',o:['When companies at the same stage of production join together','When one company controls production and distribution','When a company sells to a new country','When artists write their own songs'],a:0,f:'For example, Disney buying Pixar and Marvel.'},
+  {q:'Who regulates the music industry in the UK?',o:['No single organisation: the BPI’s voluntary scheme, plus the BBFC for 12+ videos','Ofcom','IPSO','PEGI'],a:0,f:'This is a favourite one-mark trap.'}]}
+]},
+{id:'lz-aud',L:7,title:'Lizzo’s audience',walt:'To identify Lizzo’s target audience and apply audience theory.',blocks:[
+ {t:'cards',items:[
+  ['Mainstreamer','Likes big-name artists and chart music; listens to Radio 1.'],
+  ['Aspirer','Likes young, attractive artists; follows them on Instagram and buys into their image.'],
+  ['Explorer','Likes new bands and live music; goes to see bands play.'],
+  ['Reformer','Rejects the mainstream; prefers unsigned or independent-label bands, and loses interest once they become popular.'],
+  ['Succeeder','Too busy to follow the charts; uses music to unwind.']]},
+ {t:'write',id:'w_lz_profile',p:'Create an audience profile for Lizzo: age, gender, psychographic group, interests, TV and films, social media habits, other music tastes.',rows:5,model:`<p><b>Age:</b> mainly 18 to 24 (her biggest group), with a wider 12 to 25 reach. <b>Gender:</b> largely female, but broad. <b>Psychographic:</b> mainstreamer and aspirer. <b>Interests:</b> fashion, body positivity, dance, comedy content. <b>Social media:</b> very active on TikTok and Instagram. <b>Other music:</b> pop, R&amp;B and hip-hop.</p>`},
+ {t:'text',h:`<h3>Stuart Hall’s reception theory</h3><p>Different audiences read media texts differently: <b>preferred</b> (agree with the producer’s message), <b>negotiated</b> (partly agree), <b>oppositional</b> (disagree).</p>`},
+ {t:'sort',id:'lzhall',title:'Which reading of Good As Hell?',prompt:'Decide which reading each audience is most likely to have.',b:['Preferred','Negotiated','Oppositional'],items:[
+  ['A body positivity activist',0],
+  ['A feminist who likes the independent women but questions the make-up and outfits',1],
+  ['A man who dislikes the negative male characters, like the coach and the ex',2],
+  ['A fan of Lizzo who loves the message of female empowerment',0]]},
+ {t:'text',h:`<h3>Uses and gratifications (PIES)</h3><p>Why might people choose to watch her video, visit her website or follow her social media? <b>P</b>ersonal identity, <b>I</b>nformation, <b>E</b>ntertainment, <b>S</b>ocial interaction.</p>`},
+ {t:'write',id:'w_lz_ug',p:'Write two PEE paragraphs using two different parts of the uses and gratifications model. Example start: “A fan might use her website to gain information such as…”',rows:6,model:`<p><b>Personal identity:</b> a young woman who has been body-shamed may watch Good As Hell and relate to Lizzo’s confidence. Seeing a plus-size star celebrated helps her feel better about herself.</p><p><b>Information:</b> a fan might use Lizzo’s website to find tour dates and buy tickets, or to hear about her latest album.</p>`},
+ {t:'end',h:'<h3>End of Lessons 15–16</h3><p>You can now explain Lizzo’s industry context and audience. Next: Justin Bieber online.</p>'}
+]},
+
+/* ═════════ LESSONS 17–18 BIEBER ONLINE ═════════ */
+{id:'jb-web',L:8,title:'Justin Bieber’s website',walt:'To explore the conventions and purpose of Justin Bieber’s website.',blocks:[
+ {t:'row',imgs:[[S('jb-shop'),'The Justice era shop'],[S('jb-merch'),'Merchandise drops']]},
+ {t:'text',h:`<ul>
+ <li><b>justinbiebermusic.com</b> has a sleek, minimal, modern design. His name follows down every page; headings are subtle and faded.</li>
+ <li>It is <b>rebranded around each release</b> (for example, the <i>Justice</i> era).</li>
+ <li><b>Music and Video</b> pages let you stream, download and share every release. “Load more” reveals years of brand reinvention.</li>
+ <li><b>Commerce and data:</b> a Shop, a Tour page with ticket links, and a newsletter sign-up that builds a marketing database.</li>
+ <li>The <b>Photos</b> page is posed and artistic: a controlled star persona.</li></ul>`},
+ {t:'write',id:'w_jb_web',p:'Make notes on Bieber’s website: landing page, music, tour, shop, videos, photos. How is he represented?',rows:5,model:`<ul><li><b>Landing page:</b> promotes the latest album in its house style.</li><li><b>Music:</b> stream, download and share every release.</li><li><b>Tour:</b> dates with links to buy tickets.</li><li><b>Shop:</b> merch drops tied to the album era.</li><li><b>Videos and photos:</b> posed, artistic images.</li><li><b>Representation:</b> a stylish, successful, commercially powerful star. Like Lizzo’s, it offers little of the “real” person.</li></ul>`}
+]},
+{id:'jb-social',L:8,title:'Bieber on social media',walt:'To explore the social media presence of Justin Bieber.',blocks:[
+ {t:'text',h:`<p><b>Synergy</b> means two or more organisations working together for mutual benefit. Look out for it in Bieber’s posts.</p>`},
+ {t:'gallery',title:'Bieber’s posts',shots:[['jb-award','Best Pop Act winner'],['jb-bears','Drew House bears'],['jb-vespa','Designing a Vespa'],['jb-timhortons','Tim Hortons partnership'],['jb-therapy','Free therapy for his tour family'],['jb-haiti','Haiti charity auction'],['jb-hailey','With Hailey'],['jb-jet','Tour life by private jet'],['jb-basketball','Topless basketball'],['jb-dog','His dog']]},
+ {t:'match',id:'jbposts',title:'What does each post represent?',prompt:'Match each post to what it represents about Bieber.',pairs:[
+  ['Drew House bears','A successful businessman promoting his fashion brand'],
+  ['Designing a Vespa','A synergy deal framed as gratitude'],
+  ['Free therapy for his tour family','Caring, humble and aware of mental health'],
+  ['Posts with Hailey','A loving husband: family values'],
+  ['Topless basketball','A sex symbol'],
+  ['His dog','Relatable: a glimpse into his private world']]},
+ {t:'reveal',label:'Show the class answers on the therapy and Vespa posts',h:`<p><b>Therapy post:</b> why has he posted it? To raise awareness of a professional therapy organisation. Who is he targeting? Anyone who may need the service. What is he presenting about himself? That he is humble and recognises we all have hard times. He is arguably also showing what a “great guy” he is, and there may be synergy, as promoting them could earn discounts for his team.</p>
+ <p><b>Vespa post:</b> he frames it as an “opportunity” and says thank you. It is clever marketing: it brings in Vespa fans and sends his brand into new markets, adding to his star power beyond music.</p>`},
+ {t:'text',h:`<h3>Opinion leader</h3><p>An <b>opinion leader</b> is a well-known person with the power to influence public opinion. Bieber’s tweets and retweets (supporting causes, other artists and Canada’s sports teams) show him using that influence.</p>`},
+ {t:'scale',id:'sc_jb',s:'Justin Bieber only uses social media to promote himself.',p:'Give evidence for both sides, then say where you stand.'}
+]},
+{id:'sm-essay',L:8,title:'Exam practice: social media and self-representation',walt:'To compare how both artists represent themselves through social media.',blocks:[
+ {t:'statement',h:'How far are these two artists able to represent themselves through social media? [20]'},
+ {t:'text',h:`<p>In your response, you must:</p><ul><li>explore examples from the social media of the two artists</li><li>refer to relevant media contexts</li><li>make judgements and draw conclusions.</li></ul>
+ <div class="tip"><b>Mark scheme reminder:</b> if you only write about one artist, your mark is halved. Top-band answers engage with the <b>“how far”</b> part of the question and sustain a line of argument.</div>`},
+ {t:'write',id:'w_sm_essay',p:'Write your answer.',rows:14,model:`<p><b>They can represent themselves:</b> social media lets artists step outside their carefully crafted persona. Lizzo posts about body confidence and anti-Black rhetoric, so we see the values behind the star. Bieber constructs <b>multiple identities</b>: the loving husband with Hailey, the relatable dog owner, the caring boss who offers therapy to his tour family.</p>
+ <p><b>But it is still constructed:</b> all the images are representations, not “real”. Both personas are managed by brand managers who balance promotional and personal posts. Lizzo renamed her whole Twitter profile to advertise Yitty; Bieber’s posts sell Drew House, Vespa and Tim Hortons through <b>synergy</b>. House styles are locked to album campaigns.</p>
+ <p><b>Contexts:</b> celebrity and selfie culture, consumerism, body positivity and Black Lives Matter, and the global music industry (Bieber courting Asian markets after the Hybe–Ithaca merger).</p>
+ <p><b>Judgement:</b> social media gives artists <b>more</b> self-representation than websites, which are corporate tools. But it is a <b>curated authenticity</b>, still shaped by the commercial needs of their labels, as Curran and Seaton would argue.</p>`},
+ {t:'end',h:'<h3>End of Lessons 17–18</h3><p>You can now analyse and compare both artists’ online media. Next: Bieber’s industry and audience.</p>'}
+]},
+
+/* ═════════ LESSONS 19–20 BIEBER IND/AUD ═════════ */
+{id:'jb-ind',L:9,title:'Justin Bieber: industry',walt:'To explain the industry context of Intentions.',blocks:[
+ {t:'text',h:`<ul>
+ <li>Born in Canada, Bieber was <b>discovered on YouTube</b> after his mother posted home videos. After a chance meeting with Usher, he signed to <b>Island Def Jam</b> in 2008, aged 14.</li>
+ <li>His breakthrough was <i>Baby</i> (2010). By 2013 he had five number one albums on the Billboard 200: the <b>youngest artist ever</b> to do so, at 19.</li>
+ <li>Director Michael D Ratner also made the <b>Seasons</b> docuseries for YouTube, which broke the YouTube Originals record with 32 million views in its first week. The song title was first revealed in it: <span class="kw">digital convergence</span>.</li>
+ <li>Promotion: a “Big announcement tomorrow” tweet (5 February 2020), a teaser the next day, and an interview with Bieber and Quavo on MTV’s YouTube channel.</li>
+ <li>In 2021 Korean conglomerate <b>Hybe</b> (whose label signed BTS) merged with <b>Ithaca</b>, who manage Bieber, Ariana Grande and Demi Lovato. His Asian-market tweets often outperform his English ones.</li></ul>`},
+ {t:'img',src:S('defjam'),cap:'Def Jam Recordings: owned by Universal Music Group',narrow:1},
+ {t:'text',h:`<p>Bieber’s label is <b>Def Jam</b>, owned by <b>Universal Music Group</b>: one of the Big Three.</p>
+ <h3>The problem with a few big companies</h3><p><span class="theory">Curran and Seaton</span> argue that the media is controlled by a <b>small number of companies</b>, driven by the logic of <b>profit and power</b>. This concentration limits <b>variety, creativity and quality</b>.</p>`},
+ {t:'mcq',id:'jbind',title:'Quick check: Bieber’s industry',items:[
+  {q:'How was Bieber discovered?',o:['On YouTube, through his mother’s home videos','On a TV talent show','Busking in Toronto','Through a radio competition'],a:0,f:'This led to a meeting with Usher and a Def Jam deal at 14.'},
+  {q:'Bieber’s label chain is…',o:['Def Jam → Universal Music Group','Atlantic → Warner','Columbia → Sony','Island → Warner'],a:0,f:'Lizzo is Atlantic → Warner. Don’t mix them up.'},
+  {q:'Revealing the song title in the Seasons docuseries is an example of…',o:['Digital convergence','Horizontal integration','Regulation','Reception theory'],a:0,f:'Content across platforms promotes the music.'},
+  {q:'Curran and Seaton argue that media concentration…',o:['Limits variety, creativity and quality','Always improves quality','Gives audiences total control','Has no effect'],a:0,f:'A few profit-driven companies dominate.'}]},
+ {t:'write',id:'w_jb_reg',p:'Would Intentions be likely to get an age rating? Why or why not?',rows:3,model:`<p>No. Intentions contains no strong language, violence, sexual content or dangerous behaviour, so it would not reach a 12 rating. It would not need BBFC classification or a Parental Advisory label. Its positive, charitable message makes it suitable for all ages.</p>`}
+]},
+{id:'jb-aud',L:9,title:'Justin Bieber: audience',walt:'To identify Justin Bieber’s target audience and apply audience theory.',blocks:[
+ {t:'text',h:`<ul>
+ <li>Bieber has a huge YouTube following: <b>69.3 million subscribers</b> (June 2022), the all-time most subscribed artist on YouTube music.</li>
+ <li>He appeals to a <b>mass global audience</b>. His early music targeted teenage girls, but his primary audience is now <b>older (18 to 30)</b>, as fans have grown up with him.</li>
+ <li>Fans are called <b>“Beliebers”</b>, named one of the best new words of 2010.</li>
+ <li><b>Collaborations</b> with rap artists (Chance the Rapper, DJ Khaled, Quavo) have widened his appeal to hip-hop fans.</li>
+ <li>Intentions was named the <b>32nd best song of 2020</b> by Billboard and nominated for Best Pop Video at the MTV awards. It raised over $10,000 for Alexandria House in three days.</li></ul>`},
+ {t:'text',h:`<h3>Active audiences and fandom</h3><p>Fans buy physical products and merch, collect memorabilia, dress like the artist, go to concerts, follow and enter competitions on social media. Streaming lets us choose, but the platform also <b>suggests</b> what to listen to. So while we are more involved, the industry is still arguably <b>in control</b>.</p>`},
+ {t:'match',id:'jbug',title:'Uses and gratifications in Intentions',prompt:'Match each use to an example.',pairs:[
+  ['Information','Learning about homelessness and the work of Alexandria House'],
+  ['Entertainment','The feel-good scenes of dance and celebration'],
+  ['Personal identity','A student with a long journey to school relates to Bahri'],
+  ['Social interaction','Fans commenting on and sharing the video']]},
+ {t:'write',id:'w_jb_hall',p:'Apply Hall: write one example each of a preferred, a negotiated and an oppositional reading, from his music video, socials or website.',rows:5,model:`<ul><li><b>Preferred:</b> a young fan sees Intentions as an inspiring video and is moved to donate to Alexandria House.</li><li><b>Negotiated:</b> a woman who has lived in sheltered housing appreciates that Bieber is raising awareness, but the video brings back difficult memories.</li><li><b>Oppositional:</b> a critic sees the video as self-promotion: Bieber wears his own Drew House brand and the women are framed as needing rescue.</li></ul>`},
+ {t:'scale',id:'sc_jbactive',s:'Intentions wants its audience to be active, not passive.',p:'What does the video want us to do? To what extent does it promote him rather than the charity?'}
+]},
+{id:'final',L:9,title:'Final check: the whole unit',walt:'To check your knowledge across all three texts.',blocks:[
+ {t:'mcq',id:'finalq',title:'Mixed final quiz',items:[
+  {q:'Who directed Good As Hell?',o:['Alan Ferguson','Michael D Ratner','Melina Matsoukas','Hype Williams'],a:0,f:'Ratner directed Intentions.'},
+  {q:'Where is Good As Hell set?',o:['Southern University, Baton Rouge','Alexandria House, LA','Toronto','A London school'],a:0,f:'Part of the only HBCU system in the US.'},
+  {q:'Which text is studied for media language, representation and context only?',o:['TLC — Waterfalls','Lizzo — Good As Hell','Bieber — Intentions','All three'],a:0,f:'Waterfalls is the historical text.'},
+  {q:'Which platform is Lizzo biggest on?',o:['TikTok','Facebook','LinkedIn','Snapchat'],a:0,f:'Her TikTok following is huge.'},
+  {q:'In Intentions, the three women are Propp’s…',o:['Heroes','Helpers','Villains','Dispatchers'],a:0,f:'Bieber and Quavo are the helpers.'},
+  {q:'What is a star persona?',o:['A constructed representation of the artist, not simply the real person','The artist’s legal name','The artist’s fan club','A type of music video'],a:0,f:'It is built through music, visuals, websites and social media.'}]},
+ {t:'end',h:'<h3>End of the unit</h3><p>Well done. Go to the next step for your results card. Screenshot it and post it on Google Classroom.</p>'}
+]},
+{id:'results',L:10,title:'Your results',walt:'',blocks:[
+ {t:'results'}]}
+];
+
+
+/* ───────── engine ───────── */
+const KEY='gcse-music-lessons-v1';
+let ST={cur:0,done:{},res:{},notes:{},scale:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s)ST=Object.assign(ST,s)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(ST))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const $=s=>document.querySelector(s);
+const hashIdx=()=>{const h=(location.hash||'').slice(1);const i=STEPS.findIndex(s=>s.id===h);return i};
+
+function score(){let c=0,n=0;Object.values(ST.res).forEach(r=>{n++;if(r.c)c++});return [c,n]}
+function chips(){const [c,n]=score();$('#scoreChip').textContent='Score: '+c+' / '+n;
+  const d=STEPS.filter(s=>ST.done[s.id]).length;$('#progChip').textContent='Step '+(ST.cur+1)+' / '+STEPS.length+' · '+d+' done';}
+
+function renderMap(){
+  let h='<div class="map-prog"><i style="width:'+(100*STEPS.filter(s=>ST.done[s.id]).length/STEPS.length)+'%"></i></div>';
+  LESSONS.forEach((L,li)=>{h+='<h4>'+esc(L)+'</h4>';STEPS.forEach((s,i)=>{if(s.L!==li)return;
+    h+='<button type="button" data-go="'+i+'" class="'+(i===ST.cur?'on ':'')+(ST.done[s.id]?'done':'')+'"><span class="tick">'+(ST.done[s.id]?'✓':'')+'</span><span>'+esc(s.title)+'</span></button>'})});
+  h+='<button type="button" class="notes-btn" data-notes>⬇ Download my notes</button>';
+  $('#map').innerHTML=h;
+  $('#map').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{go(+b.dataset.go);if(innerWidth<=980){$('#map').classList.remove('open');$('#mapToggle').setAttribute('aria-expanded','false')}});
+  $('#map').querySelector('[data-notes]').onclick=downloadNotes;
+}
+
+function imgFig(src,cap,cls){return '<figure class="shot'+(cls?' '+cls:'')+'"><img src="'+src+'" alt="'+esc(cap||'')+'" loading="lazy">'+(cap?'<figcaption>'+esc(cap)+'</figcaption>':'')+'</figure>'}
+function row(imgs,tall){return '<div class="row'+(tall?' tall':'')+'">'+imgs.map(([s,c])=>'<figure><img src="'+s+'" alt="'+esc(c)+'" loading="lazy"><figcaption>'+esc(c)+'</figcaption></figure>').join('')+'</div>'}
+
+function block(b,si){
+  switch(b.t){
+  case 'text':return '<div class="card">'+b.h+'</div>';
+  case 'tip':return '<div class="tip">'+b.h+'</div>';
+  case 'statement':return '<div class="statement">'+b.h+'</div>';
+  case 'img':return imgFig(b.src,b.cap,b.narrow?'narrow':'');
+  case 'row':return row(b.imgs,b.tall);
+  case 'gallery':return '<div class="card"><h3>'+esc(b.title)+'</h3><p class="saved">Tap a screenshot to enlarge it.</p><div class="gal">'+b.shots.map(([n,c])=>'<figure><img src="'+S(n)+'" alt="'+esc(c)+'" loading="lazy"><figcaption>'+esc(c)+'</figcaption></figure>').join('')+'</div></div>';
+  case 'video':return '<div class="video" data-yt="'+b.id+'"><button type="button">▶ '+esc(b.label)+'</button><span class="vsub">Opens the video from YouTube</span></div>';
+  case 'end':return '<div class="lesson-end">'+b.h+'</div>';
+  case 'cards':return '<div class="grid2">'+b.items.map(([t,h])=>'<div class="mini"><h4>'+esc(t)+'</h4><p>'+h+'</p></div>').join('')+'</div>';
+  case 'reveal':return '<div class="act" style="border-left-color:var(--gold)"><button type="button" class="reveal-btn" data-reveal>'+esc(b.label)+'</button><div class="model">'+b.h+(b.imgs?row(b.imgs):'')+'</div></div>';
+  case 'mcq':return '<div class="act" data-mcq="'+b.id+'"><h3><span class="tag">Quiz</span>'+esc(b.title||'Quick check')+'</h3>'+b.items.map((it,i)=>{const id=b.id+'_'+i,r=ST.res[id];
+     const opts=shuf(it.o.map((o,k)=>({o,k})));
+     return '<div class="q" data-q="'+id+'">'+(it.img?'<img class="qimg" src="'+it.img+'" alt="" loading="lazy">':'')+'<p class="qt">'+esc(it.q)+'</p><div class="opts">'+opts.map(x=>{let cls='';if(r){if(x.k===it.a)cls='ok';else if(x.o===r.v)cls='no'}return '<button type="button" data-k="'+x.k+'" class="'+cls+'"'+(r?' disabled':'')+'>'+esc(x.o)+'</button>'}).join('')+'</div><div class="fb'+(r?(r.c?' y':' n'):'')+'">'+(r?(r.c?'✓ Correct. ':'✗ Not quite. ')+esc(it.f):'')+'</div></div>'}).join('')+'</div>';
+  case 'sort':return '<div class="act"><h3><span class="tag">Sort</span>'+esc(b.title)+'</h3><p class="prompt">'+esc(b.prompt)+'</p>'+b.items.map((it,i)=>{const id=b.id+'_'+i,r=ST.res[id];
+     return '<div class="sitem'+(r?(r.c?' ok':' no'):'')+'" data-s="'+id+'"><span>'+esc(it[0])+'</span>'+(r?'<span class="verdict">'+(r.c?'✓ ':'✗ → ')+esc(b.b[it[1]])+'</span>':'<span class="sbtns">'+b.b.map((bb,k)=>'<button type="button" data-k="'+k+'">'+esc(bb)+'</button>').join('')+'</span>')+'</div>'}).join('')+'</div>';
+  case 'match':{const rights=shuf(b.pairs.map(p=>p[1]));return '<div class="act"><h3><span class="tag">Match</span>'+esc(b.title)+'</h3><p class="prompt">'+esc(b.prompt)+'</p>'+b.pairs.map((p,i)=>{const id=b.id+'_'+i,r=ST.res[id];
+     return '<div class="mrow'+(r?(r.c?' ok':' no'):'')+'" data-m="'+id+'"><span><b>'+esc(p[0])+'</b></span><span>'+(r?(r.c?'✓ ':'✗ ')+esc(p[1]):'<select aria-label="Match for '+esc(p[0])+'"><option value="">Choose…</option>'+rights.map(x=>'<option>'+esc(x)+'</option>').join('')+'</select>')+'</span></div>'}).join('')+'</div>'}
+  case 'gaps':{let n=0;const html=b.text.replace(/\[\[(.+?)\]\]/g,(m,g)=>{const parts=g.split('|'),id=b.id+'_'+(n++),r=ST.res[id];
+     if(r)return '<b class="'+(r.c?'fb y':'fb n')+'">'+(r.c?'':'✗ ')+esc(parts[0])+'</b>';
+     return '<select data-g="'+id+'" data-a="'+esc(parts[0])+'"><option value="">…</option>'+shuf(parts).map(x=>'<option>'+esc(x)+'</option>').join('')+'</select>'});
+     return '<div class="act"><h3><span class="tag">Gaps</span>'+esc(b.title)+'</h3><div class="gaps">'+html+'</div></div>'}
+  case 'write':return '<div class="act" style="border-left-color:var(--ink)"><p class="wlabel">✎ '+esc(b.p)+'</p><textarea data-w="'+b.id+'" rows="'+(b.rows||3)+'" placeholder="Write your answer…">'+esc(ST.notes[b.id]||'')+'</textarea><span class="saved" data-saved="'+b.id+'">'+(ST.notes[b.id]?'Saved on this device':'')+'</span>'+(b.model?'<br><button type="button" class="reveal-btn" data-reveal>Show the model answer</button><div class="model">'+b.model+'</div>':'')+'</div>';
+  case 'scale':{const v=ST.scale[b.id];const L=['Strongly disagree','Disagree','Not sure','Agree','Strongly agree'];
+     return '<div class="act"><h3><span class="tag">Debate</span>Where do you stand?</h3><div class="statement">'+esc(b.s)+'</div><div class="scale" data-scale="'+b.id+'">'+L.map((l,k)=>'<button type="button" data-k="'+k+'" class="'+(v===k?'sel':'')+'">'+l+'</button>').join('')+'</div><p class="wlabel">✎ '+esc(b.p)+'</p><textarea data-w="'+b.id+'_why" rows="3" placeholder="Explain your view with examples…">'+esc(ST.notes[b.id+'_why']||'')+'</textarea></div>'}
+  case 'results':return resultsHTML();
+  }return '';
+}
+
+function resultsHTML(){
+  const [c,n]=score(),done=STEPS.filter(s=>ST.done[s.id]).length,wrote=Object.values(ST.notes).filter(x=>x&&x.trim()).length;
+  let miss='';STEPS.forEach(s=>s.blocks.forEach(b=>{
+    if(b.t==='mcq')b.items.forEach((it,i)=>{const r=ST.res[b.id+'_'+i];if(r&&!r.c)miss+='<div class="miss"><b>'+esc(it.q)+'</b><br>✓ '+esc(it.o[it.a])+'</div>'});
+    if(b.t==='sort')b.items.forEach((it,i)=>{const r=ST.res[b.id+'_'+i];if(r&&!r.c)miss+='<div class="miss"><b>'+esc(it[0])+'</b><br>✓ '+esc(b.b[it[1]])+'</div>'});
+    if(b.t==='match')b.pairs.forEach((p,i)=>{const r=ST.res[b.id+'_'+i];if(r&&!r.c)miss+='<div class="miss"><b>'+esc(p[0])+'</b><br>✓ '+esc(p[1])+'</div>'})}));
+  return '<div class="card" style="border:2px solid var(--gold)"><h3>Your Music Videos results</h3><div class="res-big">'+c+' / '+n+'</div><p>Quiz, sort and match answers correct · '+done+' of '+STEPS.length+' steps complete · '+wrote+' written answers saved.</p><div class="tip"><b>Screenshot this card</b> and post it on Google Classroom.</div>'
+   +(miss?'<h3>Look at these again</h3>'+miss:(n?'<p style="color:var(--green);font-weight:700">Everything you attempted is correct.</p>':''))
+   +'<p><button type="button" class="btn" data-notes>⬇ Download my notes</button><a class="btn alt" href="music.html">Open the Music Videos recap</a><a class="btn alt" href="../index.html">Back to the hub → Exam Questions</a></p>'
+   +'<p class="saved"><button type="button" class="reveal-btn" data-reset>Start again (clears this page’s answers)</button></p></div>';
+}
+
+function go(i){ST.cur=Math.max(0,Math.min(STEPS.length-1,i));save();
+  try{history.replaceState(null,'','#'+STEPS[ST.cur].id)}catch(e){}
+  render();window.scrollTo({top:0,behavior:'smooth'});}
+
+function render(){
+  const s=STEPS[ST.cur];
+  let h='<div class="step-head"><span class="step-kick">'+esc(LESSONS[s.L])+' · Step '+(STEPS.filter(x=>x.L===s.L).indexOf(s)+1)+' of '+STEPS.filter(x=>x.L===s.L).length+'</span></div><h2 class="step-title">'+esc(s.title)+'</h2>';
+  if(s.walt)h+='<div class="walt"><b>WALT</b>'+esc(s.walt)+'</div>';
+  h+=s.blocks.map(b=>block(b)).join('');
+  h+='<div class="stepnav">'+(ST.cur>0?'<button type="button" class="prev" data-prev>← Previous</button>':'')+(ST.cur<STEPS.length-1?'<button type="button" class="next" data-next>'+(ST.done[s.id]?'Next step →':'Done · next step →')+'</button>':'')+'</div>';
+  $('#step').innerHTML=h;document.querySelector('.hero').style.display=ST.cur===0?'':'none';bind();renderMap();chips();
+}
+
+function mark(id,c,v){ST.res[id]={c,v};save();chips()}
+function bind(){
+  const root=$('#step');
+  root.querySelectorAll('[data-prev]').forEach(b=>b.onclick=()=>go(ST.cur-1));
+  root.querySelectorAll('[data-next]').forEach(b=>b.onclick=()=>{ST.done[STEPS[ST.cur].id]=1;go(ST.cur+1)});
+  root.querySelectorAll('[data-reveal]').forEach(b=>b.onclick=()=>{const m=b.nextElementSibling;m.classList.toggle('show');b.textContent=m.classList.contains('show')?'Hide ▲':b.dataset.label});
+  root.querySelectorAll('[data-reveal]').forEach(b=>b.dataset.label=b.textContent);
+  root.querySelectorAll('.video').forEach(v=>v.querySelector('button').onclick=()=>{v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v.dataset.yt+'?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>'});
+  // mcq
+  root.querySelectorAll('[data-q]').forEach(q=>{const [bid,i]=splitId(q.dataset.q);const it=findBlock(bid).items[i];
+    q.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{const k=+btn.dataset.k,c=k===it.a;
+      q.querySelectorAll('button').forEach(x=>{x.disabled=true;if(+x.dataset.k===it.a)x.classList.add('ok')});if(!c)btn.classList.add('no');
+      const fb=q.querySelector('.fb');fb.className='fb '+(c?'y':'n');fb.textContent=(c?'✓ Correct. ':'✗ Not quite. ')+it.f;mark(q.dataset.q,c,it.o[k])})});
+  // sort
+  root.querySelectorAll('[data-s]').forEach(row=>{const [bid,i]=splitId(row.dataset.s);const b=findBlock(bid),it=b.items[i];
+    row.querySelectorAll('.sbtns button').forEach(btn=>btn.onclick=()=>{const k=+btn.dataset.k,c=k===it[1];
+      row.classList.add(c?'ok':'no');row.querySelector('.sbtns').outerHTML='<span class="verdict">'+(c?'✓ ':'✗ → ')+esc(b.b[it[1]])+'</span>';mark(row.dataset.s,c,k)})});
+  // match
+  root.querySelectorAll('[data-m]').forEach(row=>{const [bid,i]=splitId(row.dataset.m);const p=findBlock(bid).pairs[i];const sel=row.querySelector('select');if(!sel)return;
+    sel.onchange=()=>{if(!sel.value)return;const c=sel.value===p[1];row.classList.add(c?'ok':'no');sel.parentNode.innerHTML=(c?'✓ ':'✗ ')+esc(p[1]);mark(row.dataset.m,c,sel.value)}});
+  // gaps
+  root.querySelectorAll('[data-g]').forEach(sel=>sel.onchange=()=>{if(!sel.value)return;const c=sel.value===sel.dataset.a;const b=document.createElement('b');b.className='fb '+(c?'y':'n');b.textContent=(c?'':'✗ ')+sel.dataset.a;mark(sel.dataset.g,c,sel.value);sel.replaceWith(b)});
+  // writing
+  root.querySelectorAll('textarea[data-w]').forEach(t=>{let tm;t.oninput=()=>{ST.notes[t.dataset.w]=t.value;clearTimeout(tm);tm=setTimeout(()=>{save();const s=root.querySelector('[data-saved="'+t.dataset.w+'"]');if(s)s.textContent='Saved on this device'},400)}});
+  root.querySelectorAll('[data-scale]').forEach(sc=>sc.querySelectorAll('button').forEach(b=>b.onclick=()=>{ST.scale[sc.dataset.scale]=+b.dataset.k;save();sc.querySelectorAll('button').forEach(x=>x.classList.toggle('sel',x===b))}));
+  root.querySelectorAll('[data-notes]').forEach(b=>b.onclick=downloadNotes);
+  root.querySelectorAll('[data-reset]').forEach(b=>b.onclick=()=>{if(confirm('Clear all your answers and notes on this page?')){ST={cur:0,done:{},res:{},notes:{},scale:{}};save();go(0)}});
+  // lightbox
+  root.querySelectorAll('figure img, img.qimg').forEach(im=>im.onclick=()=>{const d=document.createElement('div');d.className='lb';d.innerHTML='<div><img src="'+im.src+'" alt=""><p>'+esc(im.alt||'')+' · tap to close</p></div>';d.onclick=()=>d.remove();document.body.appendChild(d)});
+}
+function splitId(id){const k=id.lastIndexOf('_');return [id.slice(0,k),+id.slice(k+1)]}
+function findBlock(id){for(const s of STEPS)for(const b of s.blocks)if(b.id===id)return b}
+
+function downloadNotes(){
+  const L=['MUSIC VIDEOS & ONLINE MEDIA — MY LESSON NOTES','GCSE Media Studies · Component 2 Section B','',''];
+  const SC=['Strongly disagree','Disagree','Not sure','Agree','Strongly agree'];
+  STEPS.forEach(s=>{const parts=[];s.blocks.forEach(b=>{
+    if(b.t==='write'&&ST.notes[b.id]&&ST.notes[b.id].trim())parts.push('Q: '+b.p+'\n'+ST.notes[b.id].trim());
+    if(b.t==='scale'&&(ST.scale[b.id]!=null||ST.notes[b.id+'_why']))parts.push('Statement: '+b.s+'\nMy view: '+(ST.scale[b.id]!=null?SC[ST.scale[b.id]]:'—')+'\n'+(ST.notes[b.id+'_why']||'').trim())});
+    if(parts.length)L.push('== '+LESSONS[s.L]+' · '+s.title+' ==','',parts.join('\n\n'),'','')});
+  if(L.length<=4)L.push('(No written answers yet.)');
+  const blob=new Blob([L.join('\n')],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='music-videos-notes.txt';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
+}
+
+$('#mapToggle').onclick=()=>{const m=$('#map');m.classList.toggle('open');$('#mapToggle').setAttribute('aria-expanded',m.classList.contains('open'))};
+window.addEventListener('hashchange',()=>{const i=hashIdx();if(i>=0&&i!==ST.cur){ST.cur=i;save();render()}});
+{const i=hashIdx();if(i>=0)ST.cur=i;}
+if(ST.cur>=STEPS.length)ST.cur=0;
+render();
+</script>
+</body>
+</html>
