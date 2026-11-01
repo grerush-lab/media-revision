@@ -103,26 +103,34 @@ h1 span{color:var(--gold)}
 .dcard{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:.8rem}
 .dcard b{display:block;color:var(--gold);font-size:.86rem;margin-bottom:2px}
 
-/* M3 poster hunt */
-.hunt{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+/* M3 poster hunt: numbered pins + zoom */
+.hunt{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
 @media(max-width:780px){.hunt{grid-template-columns:1fr}}
-.poster-box{position:relative;border-radius:10px;overflow:hidden;cursor:crosshair;max-width:560px;margin:0 auto;user-select:none;-webkit-user-select:none;border:1px solid var(--line)}
-.poster-box img{display:block;width:100%;height:auto;pointer-events:none}
-.zone{position:absolute;border:2px solid var(--ok);background:rgba(95,207,138,.15);border-radius:6px;pointer-events:none;animation:pop .3s ease}
-.zone.hint{border-color:var(--gold);background:rgba(212,175,55,.18);border-style:dashed}
-.zone.old{opacity:.35}
-.zone.old span{display:none}
-.zone span{position:absolute;left:4px;top:4px;font-family:var(--mono);font-size:.62rem;background:#0d0b08;color:var(--ok);padding:1px 5px;border-radius:3px;white-space:nowrap}
-.ping{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border:3px solid var(--no);border-radius:50%;pointer-events:none;animation:ping .7s ease forwards}
-@keyframes ping{from{transform:scale(.4);opacity:1}to{transform:scale(1.6);opacity:0}}
+.poster-box{position:relative;border-radius:10px;overflow:hidden;max-width:560px;width:100%;margin:0 auto;border:1px solid var(--line)}
+.poster-box img{display:block;width:100%;height:auto}
+.pin{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:2px solid #fff;background:var(--red);color:#fff;font-family:var(--mono);font-weight:700;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.6);transition:transform .15s;padding:0}
+.pin:hover{transform:scale(1.15)}
+.pin.sel{background:var(--gold);color:#1a1408;transform:scale(1.25);box-shadow:0 0 0 5px rgba(212,175,55,.45),0 2px 8px rgba(0,0,0,.6)}
+.pin.ok{background:var(--ok);color:#0d0b08}
+.pin.miss{background:#8a7a5c}
+@media(max-width:480px){.pin{width:28px;height:28px;margin:-14px 0 0 -14px;font-size:.75rem}}
 .target{position:sticky;top:76px}
-.target .find{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
-.target h3{font-family:var(--display);font-weight:400;font-size:1.9rem;letter-spacing:.03em;color:var(--gold2);line-height:1.05;margin:4px 0 8px}
-.target .clue{font-size:.88rem;color:var(--muted);margin-bottom:10px}
-.found-list{list-style:none;margin-top:14px;font-size:.84rem}
-.found-list li{padding:4px 0;border-bottom:1px dashed var(--line);color:var(--muted)}
+@media(max-width:780px){.target{position:static}}
+.target .find{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.zoom{border-radius:8px;border:2px solid var(--gold);background-repeat:no-repeat;background-color:#fff;margin:0 auto 12px;max-width:100%}
+.hopts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.hopts button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left;font-size:.82rem;line-height:1.3}
+.hopts button:hover:not(:disabled){border-color:var(--gold)}
+.hopts button.wrong{background:var(--no-bg);border-color:var(--no)}
+.hopts button.right{background:var(--ok-bg);border-color:var(--ok)}
+.hopts button:disabled{opacity:.4;cursor:default}
+.hopts button.wrong:disabled,.hopts button.right:disabled{opacity:1}
+.tclue{font-size:.84rem;color:var(--muted);margin-top:8px}
+.found-list{list-style:none;margin-top:14px;font-size:.84rem;columns:2;column-gap:14px}
+.found-list li{padding:3px 0;color:var(--muted);break-inside:avoid}
 .found-list li.ok{color:var(--fg)}
 .found-list li.ok::before{content:"✓ ";color:var(--ok)}
+.found-list li.miss::before{content:"• ";color:var(--muted)}
 
 /* M4 context */
 .ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -239,18 +247,12 @@ h1 span{color:var(--gold)}
   <!-- MISSION 3 -->
   <section class="mission" data-mission="2">
     <div class="m-head"><span class="tag">Mission 3</span><h2>Poster hunt</h2></div>
-    <p class="brief">Robert McGinnis packed the 1974 poster with Bond conventions. <b>Click on the poster</b> where you find each one. Two misses and you can ask Q for a hint.</p>
+    <p class="brief">Robert McGinnis packed the 1974 poster with Bond conventions. <b>Tap a numbered pin</b> to zoom in on that spot, then choose which convention it shows. Get it first time for a point.</p>
     <div class="hunt">
       <div class="poster-box" id="pbox"><img src="bond_game_assets/poster.jpg" alt="The Man with the Golden Gun poster, 1974" id="pimg"></div>
       <div class="card target" id="tgt">
         <div class="find" id="tNum"></div>
-        <h3 id="tName"></h3>
-        <p class="clue" id="tClue"></p>
-        <div class="reveal" id="tWhy"></div>
-        <div class="next-row" style="justify-content:flex-start">
-          <button class="btn ghost" id="tHint" disabled>Hint from Q</button>
-          <button class="btn" id="tNext" hidden>Next target →</button>
-        </div>
+        <div id="tBody"></div>
         <ul class="found-list" id="tList"></ul>
       </div>
     </div>
@@ -448,58 +450,65 @@ $('#dAgain').addEventListener('click',startDecode);
 function startDecode(){S.decode[0]=0;renderScore();dOrder=shuffle(CONV);dI=0;$('#decode').hidden=false;$('#dossier').classList.remove('show');$('#dDone').hidden=true;showDecode()}
 startDecode();
 
-/* ---------- Mission 3: poster hunt (boxes in % of 987x1500 poster) ---------- */
-const P=(x1,y1,x2,y2)=>[x1/987*100,y1/1500*100,(x2-x1)/987*100,(y2-y1)/1500*100];
+/* ---------- Mission 3: poster hunt — numbered pins, zoomed crop, pick the convention (coords in px of a 987x1500 poster) ---------- */
+const PW=987,PH=1500;
 const TARGETS=[
- {n:'The hero',clue:'Who dominates the centre of the frame?',b:[P(300,290,600,760)],w:'Bond is the <b>central image</b>, shown in a mid-shot and using <b>direct address</b>. He is Propp\'s <b>hero</b>: calm and in control despite the chaos around him.'},
- {n:'Bond\'s signature gun',clue:'Part of his "uniform".',b:[P(420,330,590,520)],w:'The gun signifies <b>danger and action</b>. Held across his body, it shows that Bond is ready to fight.'},
- {n:'Star billing',clue:'Who is selling this film?',b:[P(220,90,740,240)],w:'"ROGER MOORE as JAMES BOND 007". The <b>star</b> and the <b>character</b> are both selling points, and Moore was already well known from <i>The Saint</i>.'},
- {n:'The villain\'s weapon',clue:'Gold, enormous, and pointed at Bond.',b:[P(300,620,950,1110)],w:'An extreme close-up of the golden gun being loaded with a bullet engraved "007". This is an <b>enigma code</b>: whose hand is it? It signals an assassination narrative.'},
- {n:'A "Bond girl"',clue:'There are two to choose from.',b:[P(230,520,570,880),P(610,460,860,900)],w:'Two women in bikinis frame Bond. This is a <b>stereotypical</b>, sexualised 1970s representation aimed at the <b>male gaze</b>.'},
- {n:'Exotic location',clue:'Look at the top corners.',b:[P(90,250,340,460),P(620,300,880,480)],w:'Stilt huts and boats signify <b>South-East Asia</b>. The film was shot in Hong Kong, Thailand and Macau, which offered escapism and spectacle.'},
- {n:'Spectacular action',clue:'Smoke and flames…',b:[P(60,540,310,900)],w:'Explosions and fire are <b>action-adventure codes</b>. Red, black and orange dominate this side of the poster.'},
- {n:'Technology & the energy crisis',clue:'Lower left: a laboratory, and a beam aimed at Bond.',b:[P(40,860,310,1110),P(140,470,350,640)],w:'The solar power plant and the energy beam hint at the <b>1973 energy crisis</b>. Their silver, lab-like look adds a touch of <b>science fiction</b>.'},
- {n:'The henchman',clue:'Small, but armed. Bowler hat.',b:[P(585,540,710,735)],w:'Nick Nack, Scaramanga\'s henchman, one of Bond\'s <b>larger-than-life villains</b>.'},
- {n:'Martial arts',clue:'Fighters in the middle of the montage.',b:[P(350,720,575,895)],w:'Kung Fu fighters reflect the 1970s <b>martial arts craze</b> (Bruce Lee). This is a context that broadened the film\'s appeal.'},
- {n:'Title & author',clue:'The franchise\'s literary roots.',b:[P(190,1110,850,1345)],w:'"Ian Fleming\'s" links the film to the <b>original novels</b>, and the gold typography echoes the golden gun and <i>Goldfinger</i>.'}
+ {n:'The hero',pin:[430,395],c:[300,290,620,760],clue:'Who dominates the centre of the frame?',w:'Bond is the <b>central image</b>, shown in a mid-shot and using <b>direct address</b>. He is Propp\'s <b>hero</b>: calm and in control despite the chaos around him.'},
+ {n:'Bond\'s signature gun',pin:[510,440],c:[400,330,620,540],clue:'Part of his "uniform".',w:'The gun signifies <b>danger and action</b>. Held across his body, it shows that Bond is ready to fight.'},
+ {n:'Star billing',pin:[480,195],c:[220,90,760,250],clue:'Who is selling this film?',w:'"ROGER MOORE as JAMES BOND 007". The <b>star</b> and the <b>character</b> are both selling points, and Moore was already well known from <i>The Saint</i>.'},
+ {n:'The villain\'s weapon',pin:[550,985],c:[420,820,800,1110],clue:'Look closely at the bullet.',w:'An extreme close-up of the golden gun being loaded with a bullet engraved "007". This is an <b>enigma code</b>: whose hand is it? It signals an assassination narrative.'},
+ {n:'A "Bond girl"',pin:[760,640],c:[600,460,870,900],clue:'Costume and pose.',w:'Women in bikinis frame Bond on both sides. This is a <b>stereotypical</b>, sexualised 1970s representation aimed at the <b>male gaze</b>.'},
+ {n:'Exotic location',pin:[740,395],c:[600,300,890,490],clue:'Stilts, boats, water.',w:'Stilt huts and boats signify <b>South-East Asia</b>. The film was shot in Hong Kong, Thailand and Macau, which offered escapism and spectacle.'},
+ {n:'Spectacular action',pin:[150,700],c:[50,540,330,920],clue:'Smoke and flames…',w:'Explosions and fire are <b>action-adventure codes</b>. Red, black and orange dominate this side of the poster.'},
+ {n:'Technology & the energy crisis',pin:[150,1000],c:[30,870,340,1110],clue:'A silver laboratory.',w:'The solar power plant (and the energy beam aimed at Bond) hint at the <b>1973 energy crisis</b>. Their silver, lab-like look adds a touch of <b>science fiction</b>.'},
+ {n:'The henchman',pin:[650,625],c:[560,530,740,750],clue:'Small, armed, bowler hat.',w:'Nick Nack, Scaramanga\'s henchman, one of Bond\'s <b>larger-than-life villains</b>.'},
+ {n:'Martial arts',pin:[460,800],c:[330,700,590,900],clue:'Fighters mid-kick.',w:'Kung Fu fighters reflect the 1970s <b>martial arts craze</b> (Bruce Lee). This is a context that broadened the film\'s appeal.'},
+ {n:'Title & author',pin:[520,1230],c:[120,1110,880,1350],clue:'The franchise\'s literary roots.',w:'"Ian Fleming\'s" links the film to the <b>original novels</b>, and the gold typography echoes the golden gun and <i>Goldfinger</i>.'}
 ];
-let tI=0,misses=0,hunted=new Set();
+const hunt={sel:-1,state:{}}; // state[i] = 'ok' (first try) | 'miss' (solved after a wrong guess) ; tries[i]
+const tries={};
 const pbox=$('#pbox');
-function drawZone(t,cls,label){t.b.forEach(r=>{const z=document.createElement('div');z.className='zone '+cls;z.style.cssText=`left:${r[0]}%;top:${r[1]}%;width:${r[2]}%;height:${r[3]}%`;if(label)z.innerHTML=`<span>${esc(label)}</span>`;pbox.appendChild(z)})}
-function showTarget(){
-  $$('.zone.hint',pbox).forEach(z=>z.remove());$$('.zone',pbox).forEach(z=>z.classList.add('old'));
-  const t=TARGETS[tI];misses=0;
-  $('#tNum').textContent=`Target ${tI+1} of ${TARGETS.length} · Find…`;
-  $('#tName').textContent=t.n;$('#tClue').textContent=t.clue;
-  $('#tWhy').classList.remove('show');$('#tHint').disabled=true;$('#tNext').hidden=true;
-  $('#tList').innerHTML=TARGETS.map((x,i)=>`<li class="${hunted.has(i)?'ok':''}">${esc(x.n)}</li>`).join('');
+TARGETS.forEach((t,i)=>{const b=document.createElement('button');b.className='pin';b.textContent=i+1;b.style.left=(t.pin[0]/PW*100)+'%';b.style.top=(t.pin[1]/PH*100)+'%';
+  b.setAttribute('aria-label','Pin '+(i+1));b.addEventListener('click',()=>selectPin(i));pbox.appendChild(b)});
+function zoomStyle(c){const [x1,y1,x2,y2]=c,cw=x2-x1,ch=y2-y1,ar=cw/ch;
+  return `width:min(100%,${Math.round(230*ar)}px);aspect-ratio:${ar.toFixed(3)};background-image:url('bond_game_assets/poster.jpg');background-size:${(PW/cw*100).toFixed(2)}% auto;background-position:${(x1/(PW-cw)*100).toFixed(2)}% ${(y1/(PH-ch)*100).toFixed(2)}%`}
+function renderHuntList(){
+  const solved=Object.keys(hunt.state).length;
+  $('#tList').innerHTML=TARGETS.map((x,i)=>hunt.state[i]?`<li class="${hunt.state[i]}">${i+1}. ${esc(x.n)}</li>`:'').join('');
+  $$('.pin',pbox).forEach((p,i)=>{p.classList.toggle('ok',hunt.state[i]==='ok');p.classList.toggle('miss',hunt.state[i]==='miss');p.classList.toggle('sel',i===hunt.sel)});
+  return solved;
 }
-pbox.addEventListener('click',e=>{
-  if(tI>=TARGETS.length||!$('#tNext').hidden)return;
-  const r=pbox.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*100,y=(e.clientY-r.top)/r.height*100;
-  const t=TARGETS[tI];
-  const hit=t.b.some(b=>x>=b[0]&&x<=b[0]+b[2]&&y>=b[1]&&y<=b[1]+b[3]);
-  if(hit){
-    $$('.zone.hint',pbox).forEach(z=>z.remove());
-    if(misses<3){S.hunt[0]++;renderScore()}
-    hunted.add(tI);drawZone(t,'',t.n);
-    const w=$('#tWhy');w.innerHTML=`<p><span class="lbl">Found it</span>${t.w}</p>`;w.classList.add('show');
-    $('#tNext').hidden=false;$('#tNext').textContent=tI===TARGETS.length-1?'Finish hunt ✓':'Next target →';
-    $('#tList').innerHTML=TARGETS.map((x,i)=>`<li class="${hunted.has(i)?'ok':''}">${esc(x.n)}</li>`).join('');
-  }else{
-    misses++;const p=document.createElement('div');p.className='ping';p.style.left=x+'%';p.style.top=y+'%';pbox.appendChild(p);setTimeout(()=>p.remove(),700);
-    if(misses>=2)$('#tHint').disabled=false;
+function selectPin(i){
+  hunt.sel=i;const t=TARGETS[i],done=hunt.state[i];
+  $('#tNum').textContent=`Pin ${i+1} · ${Object.keys(hunt.state).length} of ${TARGETS.length} solved`;
+  let h=`<div class="zoom" style="${zoomStyle(t.c)}" role="img" aria-label="Close-up of pin ${i+1}"></div>`;
+  if(done){h+=`<div class="reveal show"><p><span class="lbl">${esc(t.n)}</span>${t.w}</p></div>`}
+  else{
+    h+=`<div class="qtext" style="font-size:.98rem;margin-bottom:8px">Which convention is at pin ${i+1}?</div><div class="hopts">`+
+      shuffleFixed(i).map(k=>`<button data-k="${k}"${hunt.state[k]?' disabled':''}>${esc(TARGETS[k].n)}</button>`).join('')+`</div><p class="tclue">Clue: ${esc(t.clue)}</p>`;
   }
-});
-$('#tHint').addEventListener('click',()=>{misses=3;drawZone(TARGETS[tI],'hint');$('#tHint').disabled=true});
-$('#tNext').addEventListener('click',()=>{
-  tI++;
-  if(tI<TARGETS.length){showTarget();return}
-  $('#tNum').textContent='Hunt complete';$('#tName').textContent=`${S.hunt[0]} / ${TARGETS.length} found`;
-  $('#tClue').textContent='Every convention on this poster is doing a job: selling the star, the genre, the spectacle and the enigma. Use this in your 10-mark answer.';
-  $('#tWhy').classList.remove('show');$('#tNext').hidden=true;$('#tHint').disabled=true;
-});
-showTarget();
+  $('#tBody').innerHTML=h;renderHuntList();
+  $$('#tBody .hopts button').forEach(b=>b.addEventListener('click',()=>guess(i,+b.dataset.k,b)));
+  if(window.matchMedia('(max-width:780px)').matches){const y=$('#tgt').getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:y,behavior:'smooth'})}
+}
+const optOrder={};function shuffleFixed(i){return optOrder[i]||(optOrder[i]=shuffle(TARGETS.map((_,k)=>k)))}
+function guess(i,k,btn){
+  if(k!==i){btn.classList.add('wrong');btn.disabled=true;tries[i]=(tries[i]||0)+1;return}
+  hunt.state[i]=tries[i]?'miss':'ok';if(!tries[i]){S.hunt[0]++;renderScore()}
+  const solved=renderHuntList();
+  selectPin(i);
+  if(solved===TARGETS.length){
+    const ok=Object.values(hunt.state).filter(v=>v==='ok').length;
+    $('#tBody').insertAdjacentHTML('beforeend',`<div class="reveal show" style="border-color:var(--ok)"><p><span class="lbl">Hunt complete</span><b>${ok} / ${TARGETS.length}</b> first time. Every convention on this poster is doing a job: selling the star, the genre, the spectacle and the enigma. Use this in your 10-mark answer.</p></div>`);
+  } else {
+    const nxt=TARGETS.findIndex((_,j)=>!hunt.state[j]&&j>i)>-1?TARGETS.findIndex((_,j)=>!hunt.state[j]&&j>i):TARGETS.findIndex((_,j)=>!hunt.state[j]);
+    $('#tBody').insertAdjacentHTML('beforeend',`<div class="next-row" style="justify-content:flex-start;margin-top:10px"><button class="btn" id="tGo">Next pin (${nxt+1}) →</button></div>`);
+    $('#tGo').addEventListener('click',()=>selectPin(nxt));
+  }
+}
+$('#tNum').textContent=`0 of ${TARGETS.length} solved`;
+$('#tBody').innerHTML='<p class="brief" style="margin:0">Tap any numbered pin on the poster to start. You can do them in any order.</p>';
+renderHuntList();
 
 /* ---------- Mission 4: context ---------- */
 $$('.redact').forEach(r=>{r.tabIndex=0;r.setAttribute('role','button');const f=()=>r.classList.add('open');r.addEventListener('click',f);r.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
