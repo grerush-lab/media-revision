@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bond Conventions Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* A briefing room: gun-barrel gold on black, mission files as tabs, dossier cards for each convention */
+:root{
+  --bg:#0d0b08; --panel:#17130e; --panel2:#211b13; --line:#3a2f20;
+  --gold:#d4af37; --gold2:#f2d27a; --red:#e0561f; --fg:#f1ece4; --muted:#a89d8a;
+  --ok:#5fcf8a; --no:#ff6b5e; --ok-bg:rgba(95,207,138,.14); --no-bg:rgba(255,107,94,.14);
+  --display:'Bebas Neue',Impact,'Arial Narrow',sans-serif;
+  --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+button{font:inherit;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:18px 16px 48px}
+header.top{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:flex-end;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(2rem,5vw,3.1rem);line-height:.95;letter-spacing:.02em;margin-top:2px}
+h1 span{color:var(--gold)}
+.lede{color:var(--muted);max-width:62ch;margin-top:4px}
+.score{font-family:var(--mono);font-size:.82rem;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:6px 14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* mission rail */
+.rail{display:flex;gap:6px;overflow-x:auto;padding:12px 0;position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);scrollbar-width:thin}
+.rail button{flex-shrink:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;text-align:left;line-height:1.2}
+.rail button small{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.rail button span{font-weight:600;font-size:.86rem}
+.rail button[aria-selected="true"]{border-color:var(--gold);background:var(--panel2)}
+.rail button[aria-selected="true"] small{color:var(--gold)}
+.rail button.done span::after{content:" ✓";color:var(--ok)}
+
+.mission{display:none;padding-top:20px}
+.mission.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.m-head{display:flex;gap:14px;align-items:baseline;border-left:4px solid var(--gold);padding-left:12px;margin-bottom:6px}
+.m-head h2{font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:.03em;line-height:1}
+.m-head .tag{font-family:var(--mono);font-size:.7rem;color:var(--red);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.brief{color:var(--muted);margin:6px 0 16px;max-width:75ch}
+.brief b{color:var(--fg)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.btn{background:var(--gold);color:#1a1408;border:0;border-radius:8px;padding:10px 18px;font-weight:700;cursor:pointer}
+.btn:hover{background:var(--gold2)}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.btn.ghost:hover{background:rgba(212,175,55,.1)}
+.btn:disabled{opacity:.45;cursor:default}
+.next-row{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* M1 brain dump */
+.dump{display:grid;grid-template-columns:1fr 240px;gap:16px}
+@media(max-width:720px){.dump{grid-template-columns:1fr}}
+.dump-input{display:flex;gap:8px;margin-bottom:12px}
+.dump-input input{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--fg);font:inherit}
+.cloud{position:relative;min-height:220px;border:1px dashed var(--line);border-radius:12px;padding:16px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.cloud .centre{width:100%;text-align:center;font-family:var(--display);font-size:2.4rem;color:var(--gold);letter-spacing:.1em;line-height:1;margin-bottom:6px}
+.bub{font-size:.84rem;border-radius:999px;padding:5px 12px;border:1px solid var(--line);background:var(--panel2);animation:pop .25s ease}
+.bub.hit{border-color:var(--gold);color:var(--gold2)}
+.bub em{font-style:normal;font-family:var(--mono);font-size:.66rem;color:var(--muted);margin-left:6px;text-transform:uppercase}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+.timer{font-family:var(--display);font-size:3rem;line-height:1;color:var(--gold);text-align:center;font-variant-numeric:tabular-nums}
+.side h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px}
+.cat-row{display:flex;justify-content:space-between;font-size:.86rem;padding:4px 0;border-bottom:1px dashed var(--line)}
+.cat-row b{color:var(--gold);font-variant-numeric:tabular-nums}
+.missed{margin-top:14px;display:none}
+.missed.show{display:block}
+.missed p{font-size:.88rem;color:var(--muted)}
+.missed .bub{display:inline-block;margin:3px}
+
+/* M2 decode */
+.decode{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
+@media(max-width:720px){.decode{grid-template-columns:1fr}}
+.evidence{background:#fff;border-radius:12px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid var(--line);position:relative}
+.evidence img{max-width:92%;max-height:92%;object-fit:contain}
+.evidence .tile{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px;color:#1a1408}
+.evidence .tile .ico{font-size:4.2rem;line-height:1}
+.evidence .tile .t{font-family:var(--display);font-size:2rem;letter-spacing:.04em;line-height:1}
+.evidence .tile .s{font-size:.82rem;color:#5b4a2c}
+.evidence .stamp{position:absolute;top:10px;left:10px;font-family:var(--mono);font-size:.68rem;background:#1a1408;color:var(--gold);padding:3px 8px;border-radius:4px;letter-spacing:.1em}
+.counter{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.qtext{font-weight:700;font-size:1.08rem;margin-bottom:12px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:480px){.opts{grid-template-columns:1fr}}
+.opts button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:11px 14px;cursor:pointer;text-align:left;font-size:.92rem}
+.opts button:hover:not(:disabled){border-color:var(--gold)}
+.opts button.right{background:var(--ok-bg);border-color:var(--ok)}
+.opts button.wrong{background:var(--no-bg);border-color:var(--no)}
+.opts button:disabled{cursor:default}
+.reveal{display:none;margin-top:14px;border-left:3px solid var(--gold);background:var(--panel2);border-radius:0 8px 8px 0;padding:12px 14px;font-size:.9rem}
+.reveal.show{display:block;animation:fade .25s ease}
+.reveal p+p{margin-top:6px}
+.reveal .lbl{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-right:6px}
+.dossier{display:none;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:6px}
+.dossier.show{display:grid}
+.dcard{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:.8rem}
+.dcard b{display:block;color:var(--gold);font-size:.86rem;margin-bottom:2px}
+
+/* M3 poster hunt */
+.hunt{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+@media(max-width:780px){.hunt{grid-template-columns:1fr}}
+.poster-box{position:relative;border-radius:10px;overflow:hidden;cursor:crosshair;max-width:560px;margin:0 auto;user-select:none;-webkit-user-select:none;border:1px solid var(--line)}
+.poster-box img{display:block;width:100%;height:auto;pointer-events:none}
+.zone{position:absolute;border:2px solid var(--ok);background:rgba(95,207,138,.15);border-radius:6px;pointer-events:none;animation:pop .3s ease}
+.zone.hint{border-color:var(--gold);background:rgba(212,175,55,.18);border-style:dashed}
+.zone.old{opacity:.35}
+.zone.old span{display:none}
+.zone span{position:absolute;left:4px;top:4px;font-family:var(--mono);font-size:.62rem;background:#0d0b08;color:var(--ok);padding:1px 5px;border-radius:3px;white-space:nowrap}
+.ping{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border:3px solid var(--no);border-radius:50%;pointer-events:none;animation:ping .7s ease forwards}
+@keyframes ping{from{transform:scale(.4);opacity:1}to{transform:scale(1.6);opacity:0}}
+.target{position:sticky;top:76px}
+.target .find{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.target h3{font-family:var(--display);font-weight:400;font-size:1.9rem;letter-spacing:.03em;color:var(--gold2);line-height:1.05;margin:4px 0 8px}
+.target .clue{font-size:.88rem;color:var(--muted);margin-bottom:10px}
+.found-list{list-style:none;margin-top:14px;font-size:.84rem}
+.found-list li{padding:4px 0;border-bottom:1px dashed var(--line);color:var(--muted)}
+.found-list li.ok{color:var(--fg)}
+.found-list li.ok::before{content:"✓ ";color:var(--ok)}
+
+/* M4 context */
+.ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.ctx-grid{grid-template-columns:1fr}}
+.file{background:#efe4cf;color:#2a2118;border-radius:6px;padding:16px 18px;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.file::before{content:"FILE 1974/007";position:absolute;top:-10px;right:14px;background:var(--red);color:#fff;font-family:var(--mono);font-size:.64rem;padding:2px 8px;border-radius:3px;letter-spacing:.1em}
+.file h3{font-family:var(--display);font-weight:400;font-size:1.5rem;letter-spacing:.04em;margin-bottom:6px}
+.file ul{padding-left:18px;font-size:.88rem}
+.file li{margin-bottom:5px}
+.file .redact{background:#2a2118;color:#2a2118;border-radius:2px;padding:0 3px;cursor:pointer;transition:.2s}
+.file .redact.open{background:rgba(212,175,55,.35);color:#2a2118}
+.file .tip{font-family:var(--mono);font-size:.68rem;color:#7a6542;margin-top:8px}
+.tf{margin-top:16px}
+.tf-item{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.tf-item .row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.tf-item .st{flex:1;min-width:220px;font-size:.92rem}
+.tf-item .b{display:flex;gap:6px}
+.tf-item .b button{border:1px solid var(--line);background:var(--panel2);border-radius:6px;padding:6px 12px;cursor:pointer;font-family:var(--mono);font-size:.74rem;font-weight:600;letter-spacing:.06em}
+.tf-item .b button:hover:not(:disabled){border-color:var(--gold)}
+.tf-item.ok{border-color:var(--ok)}
+.tf-item.no{border-color:var(--no)}
+.tf-item .why{display:none;font-size:.84rem;color:var(--muted);margin-top:8px}
+.tf-item.ok .why,.tf-item.no .why{display:block}
+.tf-item .why b{color:var(--fg)}
+
+/* M5/M6 video */
+.vid{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--line)}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .poster-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;background-size:cover;background-position:center;border:0}
+.vid .poster-btn::after{content:"▶";width:78px;height:78px;border-radius:50%;background:rgba(13,11,8,.75);border:2px solid var(--gold);color:var(--gold);font-size:2rem;display:flex;align-items:center;justify-content:center;padding-left:6px}
+.vid .poster-btn.dark{background:radial-gradient(circle at 50% 50%,#2a2214 0 18%,#0d0b08 19% 24%,#2a2214 25% 31%,#0d0b08 32% 38%,#1c170e 39%)}
+.vid-link{font-size:.8rem;color:var(--muted);margin-top:6px}
+.vid-link a{color:var(--gold)}
+.bingo{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+@media(max-width:560px){.bingo{grid-template-columns:repeat(2,1fr)}}
+.bingo button{min-height:78px;border:1px solid var(--line);background:var(--panel);border-radius:10px;cursor:pointer;font-size:.84rem;font-weight:600;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center}
+.bingo button .i{font-size:1.4rem}
+.bingo button[aria-pressed="true"]{border-color:var(--gold);background:rgba(212,175,55,.14);color:var(--gold2)}
+.bingo-count{font-family:var(--mono);font-size:.8rem;color:var(--gold);margin-top:8px}
+.reflect{margin-top:16px}
+.reflect h3{color:var(--gold);font-size:1rem;margin-bottom:6px}
+.reflect textarea{width:100%;min-height:90px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--fg);font:inherit;resize:vertical}
+.model{display:none;margin-top:10px;border-left:3px solid var(--ok);background:var(--panel2);border-radius:0 8px 8px 0;padding:12px 14px;font-size:.88rem}
+.model.show{display:block}
+.model ul{padding-left:18px}
+.model li{margin-bottom:4px}
+
+.licence{display:none;margin-top:22px;text-align:center;border:2px solid var(--gold);border-radius:14px;padding:22px 16px;background:radial-gradient(circle at 50% 0,rgba(212,175,55,.16),transparent 70%)}
+.licence.show{display:block;animation:fade .4s ease}
+.licence .big{font-family:var(--display);font-size:clamp(2rem,6vw,3rem);color:var(--gold);letter-spacing:.06em;line-height:1}
+.licence p{color:var(--muted);margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">MI6 Training Academy · The Man with the Golden Gun</div>
+      <h1>Bond <span>Conventions</span> Training</h1>
+      <p class="lede">Six missions. Learn the codes and conventions every Bond film is built from, then find them on the 1974 poster and in the trailer.</p>
+    </div>
+    <div class="score" id="score">Score 0 / 0</div>
+  </header>
+
+  <nav class="rail" role="tablist" aria-label="Missions">
+    <button role="tab" data-m="0" aria-selected="true"><small>Mission 1</small><span>Brain dump</span></button>
+    <button role="tab" data-m="1"><small>Mission 2</small><span>Decode the signs</span></button>
+    <button role="tab" data-m="2"><small>Mission 3</small><span>Poster hunt</span></button>
+    <button role="tab" data-m="3"><small>Mission 4</small><span>Context file</span></button>
+    <button role="tab" data-m="4"><small>Mission 5</small><span>The trailer</span></button>
+    <button role="tab" data-m="5"><small>Final briefing</small><span>60 years of Bond</span></button>
+  </nav>
+
+  <!-- MISSION 1 -->
+  <section class="mission on" data-mission="0">
+    <div class="m-head"><span class="tag">Mission 1</span><h2>What do you know about Bond?</h2></div>
+    <p class="brief">Build a mind map of everything you already know: <b>actors, films, characters, settings, objects</b>. Type one idea at a time and press Enter. You've got <b>60 seconds</b> once you start, so go!</p>
+    <div class="dump">
+      <div>
+        <div class="dump-input">
+          <input id="dumpIn" type="text" placeholder="e.g. Aston Martin" autocomplete="off" disabled aria-label="Type a Bond idea">
+          <button class="btn" id="dumpBtn">Start 60 seconds</button>
+        </div>
+        <div class="cloud" id="cloud"><div class="centre">BOND</div></div>
+        <div class="missed" id="missed"></div>
+      </div>
+      <div class="card side">
+        <div class="timer" id="timer">60</div>
+        <h3>Your mind map</h3>
+        <div id="cats"></div>
+      </div>
+    </div>
+    <div class="next-row"><button class="btn" data-next>Next mission →</button></div>
+  </section>
+
+  <!-- MISSION 2 -->
+  <section class="mission" data-mission="1">
+    <div class="m-head"><span class="tag">Mission 2</span><h2>Decode the signifiers</h2></div>
+    <p class="brief">Every image below is a <b>signifier</b> of a Bond convention. Work out which convention it stands for, then read what it <b>connotes</b> and where it shows up in <i>The Man with the Golden Gun</i>.</p>
+    <div class="decode" id="decode">
+      <div class="evidence" id="evid"></div>
+      <div>
+        <div class="counter" id="dCount"></div>
+        <div class="qtext">Which Bond convention does this signify?</div>
+        <div class="opts" id="dOpts"></div>
+        <div class="reveal" id="dReveal"></div>
+        <div class="next-row"><button class="btn" id="dNext" disabled>Next image →</button></div>
+      </div>
+    </div>
+    <div class="dossier" id="dossier"></div>
+    <div class="next-row" id="dDone" hidden><button class="btn ghost" id="dAgain">Play again</button><button class="btn" data-next>Next mission →</button></div>
+  </section>
+
+  <!-- MISSION 3 -->
+  <section class="mission" data-mission="2">
+    <div class="m-head"><span class="tag">Mission 3</span><h2>Poster hunt</h2></div>
+    <p class="brief">Robert McGinnis packed the 1974 poster with Bond conventions. <b>Click on the poster</b> where you find each one. Two misses and you can ask Q for a hint.</p>
+    <div class="hunt">
+      <div class="poster-box" id="pbox"><img src="bond_game_assets/poster.jpg" alt="The Man with the Golden Gun poster, 1974" id="pimg"></div>
+      <div class="card target" id="tgt">
+        <div class="find" id="tNum"></div>
+        <h3 id="tName"></h3>
+        <p class="clue" id="tClue"></p>
+        <div class="reveal" id="tWhy"></div>
+        <div class="next-row" style="justify-content:flex-start">
+          <button class="btn ghost" id="tHint" disabled>Hint from Q</button>
+          <button class="btn" id="tNext" hidden>Next target →</button>
+        </div>
+        <ul class="found-list" id="tList"></ul>
+      </div>
+    </div>
+    <div class="next-row"><button class="btn" data-next>Next mission →</button></div>
+  </section>
+
+  <!-- MISSION 4 -->
+  <section class="mission" data-mission="3">
+    <div class="m-head"><span class="tag">Mission 4</span><h2>The context file</h2></div>
+    <p class="brief">Read the declassified file. <b>Tap the blacked-out words</b> to reveal them, then decide whether each statement below is <b>true or false</b>.</p>
+    <div class="ctx-grid">
+      <div class="file">
+        <h3>Product context</h3>
+        <ul>
+          <li>Released <span class="redact">19 December 1974</span>, starring <span class="redact">Roger Moore</span> as 007, only his <span class="redact">second</span> appearance as Bond.</li>
+          <li>Based on a book by <span class="redact">Ian Fleming</span>. Produced by British company <span class="redact">Eon</span> (Everything or Nothing) Productions and distributed by <span class="redact">United Artists</span>.</li>
+          <li>Budget of about <span class="redact">$7 million</span>; it grossed over <span class="redact">$97 million</span> worldwide.</li>
+          <li>To reflect the popularity of <span class="redact">martial arts</span> films (stars like Bruce Lee and Jackie Chan), it had Kung Fu scenes and was shot mainly in Asia: <span class="redact">Hong Kong, Thailand and Macau</span>.</li>
+          <li>The poster artwork was painted by illustrator <span class="redact">Robert McGinnis</span>.</li>
+        </ul>
+        <p class="tip">Tap the black bars to declassify.</p>
+      </div>
+      <div class="file">
+        <h3>Historical context</h3>
+        <ul>
+          <li>Before the 1990s, <span class="redact">illustrations</span> were much more common on film posters because of the limited <span class="redact">technology</span> available.</li>
+          <li>The film was set in the middle of the <span class="redact">1973 energy crisis</span>, when oil-producing Arab nations declared an <span class="redact">oil embargo</span>.</li>
+          <li>The crisis had short- and long-term effects on <span class="redact">politics and the economy</span> across the globe.</li>
+          <li>This is hinted at through the poster's iconography of the <span class="redact">power plant</span> in the lower left corner and the <span class="redact">energy beam</span> aimed at Bond.</li>
+        </ul>
+        <p class="tip">Exam tip: always link a context to something you can point at on the poster.</p>
+      </div>
+    </div>
+    <div class="tf" id="tf"></div>
+    <div class="next-row"><button class="btn" data-next>Next mission →</button></div>
+  </section>
+
+  <!-- MISSION 5 -->
+  <section class="mission" data-mission="4">
+    <div class="m-head"><span class="tag">Mission 5</span><h2>Let's watch the trailer…</h2></div>
+    <p class="brief">Watch the original trailer for <i>The Man with the Golden Gun</i>. <b>Tap each convention as you spot it.</b> Then explain how the trailer uses the conventions differently from the poster.</p>
+    <div class="vid" id="vidTrailer"><button class="poster-btn" style="background-image:url('bond_game_assets/trailer-still.jpg')" aria-label="Play The Man with the Golden Gun trailer"></button></div>
+    <p class="vid-link">Video not playing? <a href="https://www.youtube.com/watch?v=kFbkAdY7ZhE" target="_blank" rel="noopener">Watch the trailer on YouTube ↗</a></p>
+    <div class="bingo" id="bingo"></div>
+    <div class="bingo-count" id="bingoCount">0 / 12 spotted</div>
+    <div class="reflect card">
+      <h3>How does the trailer use Bond conventions differently from the poster?</h3>
+      <textarea placeholder="The poster freezes the conventions into one montage, whereas the trailer…" aria-label="Your answer"></textarea>
+      <button class="btn ghost" style="margin-top:10px" id="modelBtn">Show model points</button>
+      <div class="model" id="model">
+        <ul>
+          <li>The poster is <b>static</b>: it packs many conventions into one <b>montage</b> and leaves the audience to piece the narrative together. The trailer shows them in <b>sequence</b>, with editing that builds pace.</li>
+          <li>The trailer adds <b>sound</b>: music, voice-over and dialogue let it use conventions a poster can't, such as the one-liners and the theme.</li>
+          <li>Both use <b>enigma codes</b>: they reveal the threat (a gun with Bond's name on a bullet) without revealing how the story ends.</li>
+          <li>Both rely on the audience's <b>prior knowledge</b> of the franchise. The conventions work as intertextual shorthand for "a Bond film".</li>
+        </ul>
+      </div>
+    </div>
+    <div class="next-row"><button class="btn" data-next>Final briefing →</button></div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="mission" data-mission="5">
+    <div class="m-head"><span class="tag">Final briefing</span><h2>60 years of James Bond</h2></div>
+    <p class="brief">This montage runs through six decades of Bond. As you watch, ask yourself: <b>which conventions appear in every era?</b> And <b>which have changed</b>, especially the way women are represented? That's the bridge to comparing the 1974 poster with <i>No Time to Die</i>.</p>
+    <div class="vid" id="vidMontage"><button class="poster-btn dark" aria-label="Play 60 Years of James Bond montage"></button></div>
+    <p class="vid-link">Video not playing? <a href="https://www.youtube.com/watch?v=AyixwcwDJzI" target="_blank" rel="noopener">Watch it on YouTube ↗</a></p>
+    <div class="licence" id="licence">
+      <div class="eyebrow">Training complete</div>
+      <div class="big">Licence to analyse</div>
+      <p id="licenceScore"></p>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- score ---------- */
+const S={decode:[0,15],hunt:[0,11],ctx:[0,10]};
+function renderScore(){
+  const got=S.decode[0]+S.hunt[0]+S.ctx[0], max=S.decode[1]+S.hunt[1]+S.ctx[1];
+  $('#score').textContent=`Score ${got} / ${max}`;
+  $('#licenceScore').textContent=`You scored ${got} out of ${max}. Decode: ${S.decode[0]}/15 · Poster hunt: ${S.hunt[0]}/11 · Context: ${S.ctx[0]}/10.`;
+}
+
+/* ---------- tabs ---------- */
+const tabs=$$('.rail button'), missions=$$('.mission');
+function go(i){
+  tabs.forEach((t,k)=>t.setAttribute('aria-selected',k===i));
+  missions.forEach((m,k)=>m.classList.toggle('on',k===i));
+  const rail=$('.rail');rail.scrollTo({left:tabs[i].offsetLeft-rail.clientWidth/2+tabs[i].offsetWidth/2,behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(i===5){$('#licence').classList.add('show');renderScore();}
+}
+tabs.forEach((t,i)=>t.addEventListener('click',()=>go(i)));
+$$('[data-next]').forEach(b=>b.addEventListener('click',()=>{
+  const i=missions.indexOf(b.closest('.mission'));tabs[i].classList.add('done');go(Math.min(i+1,5));
+}));
+
+/* ---------- Mission 1: brain dump ---------- */
+const DUMP={
+  'Actors':{'Sean Connery':/conn[ae]ry/,'George Lazenby':/lazenby/,'Roger Moore':/moore/,'Timothy Dalton':/dalton/,'Pierce Brosnan':/brosnan/,'Daniel Craig':/craig/},
+  'Films':{'Dr. No':/dr\.? ?no\b|doctor no/,'Goldfinger':/goldfinger/,'Thunderball':/thunderball/,'Live and Let Die':/live and let die/,'The Man with the Golden Gun':/golden gun/,'The Spy Who Loved Me':/spy who loved/,'Moonraker':/moonraker/,'GoldenEye':/goldeneye|golden eye/,'Casino Royale':/casino royale/,'Skyfall':/skyfall|sky fall/,'Spectre':/spectre|specter/,'No Time to Die':/no time to die/,'Quantum of Solace':/quantum/,'From Russia with Love':/russia/,'You Only Live Twice':/live twice/,'Die Another Day':/die another/,'Tomorrow Never Dies':/tomorrow never/,'The World Is Not Enough':/not enough/,'Octopussy':/octopussy/,'A View to a Kill':/view to a kill/,'Licence to Kill':/licen[cs]e to kill/},
+  'Characters':{'M':/^m$/,'Q':/^q$/,'Moneypenny':/moneypenny/,'Felix Leiter':/felix|leiter/,'Blofeld':/blofeld/,'Jaws':/jaws/,'Oddjob':/odd ?job/,'Scaramanga':/scaramanga/,'Nick Nack':/nick ?nack/,'Vesper':/vesper/,'Pussy Galore':/galore/},
+  'Conventions':{'Martini':/martini|shaken|stirred/,'Aston Martin':/aston|db5/,'Gadgets':/gadget/,'Tuxedo / suit':/tux|suit|dinner jacket/,'The gun / Walther PPK':/gun|walther|ppk|pistol/,'Villains':/villain|bad guy|henchm/,'Bond girls':/bond girl|women|woman|girl/,'Explosions / action':/explo|action|fight|chase/,'The watch':/watch|rolex|omega/,'Exotic locations':/location|exotic|island|travel|abroad/,'Theme song':/song|theme|music/,'Gun barrel opening':/barrel/,'One-liners':/one.?liner|joke|pun/,'Catchphrase':/bond\.? james bond|my name is/,'Spy / secret agent':/spy|agent|secret/,'MI6':/mi6|mi 6|secret service/,'007':/007|double o|licen[cs]e to kill/,'Casino / gambling':/casino|poker|gambl|baccarat/,'Cars':/\bcar\b|cars/,'British / London':/brit|england|london|uk\b/,'World domination':/world|domination|save the/,'Romance':/love|romance|kiss/,'Humour':/humou?r|funny|comedy/}
+};
+const SAMPLE={'Actors':['Sean Connery','Roger Moore','Daniel Craig'],'Films':['Goldfinger','Skyfall','No Time to Die'],'Characters':['M','Q','Moneypenny'],'Conventions':['Martini','Gadgets','Exotic locations','Theme song']};
+const found={};Object.keys(DUMP).forEach(c=>found[c]=new Set());
+const seen=new Set();let timeLeft=60,tick=null,running=false;
+function renderCats(){
+  $('#cats').innerHTML=Object.keys(DUMP).map(c=>`<div class="cat-row"><span>${c}</span><b>${found[c].size}</b></div>`).join('')+
+    `<div class="cat-row"><span>Total ideas</span><b>${seen.size}</b></div>`;
+}
+function addIdea(raw){
+  const t=raw.trim(); if(!t)return; const low=t.toLowerCase();
+  if(seen.has(low))return; seen.add(low);
+  let cat=null,label=t;
+  for(const c in DUMP){for(const k in DUMP[c]){if(DUMP[c][k].test(low)){cat=c;label=k;break}}if(cat)break}
+  const b=document.createElement('span');b.className='bub'+(cat?' hit':'');
+  b.innerHTML=esc(t)+(cat?`<em>${cat}</em>`:'');
+  if(cat)found[cat].add(label);
+  $('#cloud').appendChild(b);renderCats();
+}
+function endDump(){
+  clearInterval(tick);running=false;$('#dumpIn').disabled=true;$('#dumpBtn').textContent='Try again';
+  const miss=[];for(const c in SAMPLE)SAMPLE[c].forEach(k=>{if(!found[c].has(k))miss.push(k)});
+  const m=$('#missed');m.classList.add('show');
+  m.innerHTML=`<p><b style="color:var(--gold)">Time's up — ${seen.size} ideas.</b> ${miss.length?'A few you could add to your map:':'Excellent coverage!'}</p>`+miss.map(k=>`<span class="bub">${esc(k)}</span>`).join('');
+}
+$('#dumpBtn').addEventListener('click',()=>{
+  if(running){addIdea($('#dumpIn').value);$('#dumpIn').value='';$('#dumpIn').focus();return}
+  // reset
+  seen.clear();Object.values(found).forEach(s=>s.clear());$$('#cloud .bub').forEach(b=>b.remove());
+  $('#missed').classList.remove('show');timeLeft=60;$('#timer').textContent=60;renderCats();
+  running=true;$('#dumpIn').disabled=false;$('#dumpIn').focus();$('#dumpBtn').textContent='Add';
+  tick=setInterval(()=>{timeLeft--;$('#timer').textContent=timeLeft;if(timeLeft<=0)endDump()},1000);
+});
+$('#dumpIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&running){addIdea(e.target.value);e.target.value=''}});
+renderCats();
+
+/* ---------- Mission 2: decode ---------- */
+const CONV=[
+ {img:'gun',a:'The signature gun',c:'Bond\'s Walther PPK signifies danger, violence and the <b>action</b> genre. It is part of his "uniform" and appears in the iconic gun-barrel opening.',g:'On the poster Bond holds his gun across his chest, ready for action.'},
+ {img:'heart',a:'Romance & seduction',c:'Every Bond film has a romantic subplot. Bond is represented as irresistible to women, which reinforces a traditional, <b>dominant masculinity</b>.',g:'Bond is surrounded by two women in bikinis, one on each side of him.'},
+ {img:'tuxedo',a:'Sophistication & style',c:'The tuxedo connotes <b>class, wealth and a suave British gentleman</b>. He is calm and elegant even in danger.',g:'Bond wears a dark suit at the centre of the frame, the darkest colour there, which draws the eye to the hero.'},
+ {img:'globe',a:'Exotic global locations',c:'Bond travels the world, which gives audiences <b>escapism and spectacle</b>, and his missions have global stakes.',g:'Shot in Hong Kong, Thailand and Macau. Look for the stilt huts and boats on the poster.'},
+ {tile:['🦹','Jaws','A henchman with steel teeth'],a:'Larger-than-life villains',c:'Bond villains and henchmen are <b>physically distinctive</b> and memorable. In Propp\'s terms they are the villain and the villain\'s helpers.',g:'Scaramanga (Christopher Lee) is the man with the golden gun, and his henchman Nick Nack stands on the right of the poster.'},
+ {img:'satellite',a:'High-tech global threat',c:'Plots involve <b>advanced technology</b> and a threat to the whole world. This reflects Cold War anxieties and fears about technology.',g:'The Solex agitator, a solar-energy device. Look for the power plant and energy beam in the lower left.'},
+ {tile:['💬','One-liners','A quip after the action'],a:'Witty one-liners',c:'Bond makes a <b>dry joke</b> after danger. This shows how in control he is and releases the tension for the audience.',g:'Roger Moore\'s Bond was known for his light, jokey one-liners.'},
+ {tile:['🎵','A song for the film','Opening titles'],a:'A theme song & title sequence',c:'Each film has its own <b>title song</b> by a popular artist, played over a stylised opening title sequence. It is a key part of marketing and <b>synergy</b>.',g:'"The Man with the Golden Gun" was sung by Lulu.'},
+ {img:'watch',a:'Gadgets from Q',c:'Q gives Bond <b>gadgets</b> (watches, cars, pens) that connote technology and ingenuity, and they always come in useful later.',g:'The golden gun is itself a gadget, assembled from a pen, a lighter, a cigarette case and a cufflink.'},
+ {tile:['👙','The "Bond girl"','Glamorous female characters'],a:'The "Bond girl"',c:'Women have traditionally been represented as <b>glamorous and sexualised</b>, there for the male gaze, as helpers or as dangerous seductresses.',g:'Two women in bikinis frame Bond on the poster. Red could connote the heroine and black the villain.'},
+ {img:'car',a:'The luxury car',c:'The Aston Martin connotes <b>luxury, speed and Britishness</b>, and car chases deliver spectacle. It is also valuable <b>product placement</b>.',g:'The film features a famous car stunt: a corkscrew jump over a broken bridge in Thailand.'},
+ {img:'explosion',a:'Spectacular action',c:'Explosions, fights and chases are the codes of the <b>action-adventure</b> genre. They promise spectacle that is worth seeing on the big screen.',g:'Smoke and flames on the left of the poster, with the laboratory exploding at the bottom.'},
+ {img:'martini',a:'Shaken, not stirred',c:'The vodka martini is Bond\'s signature drink. It connotes <b>luxury, refined taste and a playboy lifestyle</b>.',g:'Part of the lifestyle the audience expects from Bond, whichever actor plays him.'},
+ {img:'mynameisbond',a:'"Bond. James Bond."',c:'The <b>catchphrase</b> fixes Bond\'s identity and confidence. It is instantly recognisable intertextual shorthand for the franchise.',g:'The star billing says "ROGER MOORE as JAMES BOND 007" because the character\'s name is a selling point.'},
+ {img:'comedy',a:'Humour & comic relief',c:'Comic moments <b>lighten the violence</b> and widen the audience appeal. The Roger Moore era leans heavily on comedy.',g:'Sheriff J.W. Pepper returns from Live and Let Die as comic relief.'}
+];
+let dOrder=[],dI=0;
+function evidHTML(x){
+  return x.tile?`<div class="tile"><div class="ico">${x.tile[0]}</div><div class="t">${esc(x.tile[1])}</div><div class="s">${esc(x.tile[2])}</div></div>`
+    :`<img src="bond_game_assets/${x.img}.jpg" alt="Bond signifier">`;
+}
+function showDecode(){
+  const x=dOrder[dI];
+  $('#dCount').textContent=`Signifier ${dI+1} of ${dOrder.length} · ${S.decode[0]} correct`;
+  $('#evid').innerHTML=evidHTML(x)+`<span class="stamp">EXHIBIT ${String(dI+1).padStart(2,'0')}</span>`;
+  const opts=shuffle([x,...shuffle(CONV.filter(o=>o!==x)).slice(0,3)]);
+  const box=$('#dOpts');box.innerHTML='';
+  opts.forEach(o=>{const b=document.createElement('button');b.textContent=o.a;b.onclick=()=>answer(b,o===x,x);box.appendChild(b)});
+  $('#dReveal').classList.remove('show');$('#dNext').disabled=true;
+}
+function answer(btn,ok,x){
+  $$('#dOpts button').forEach(b=>{b.disabled=true;if(b.textContent===x.a)b.classList.add('right')});
+  if(!ok)btn.classList.add('wrong');else{S.decode[0]++;renderScore()}
+  const r=$('#dReveal');r.innerHTML=`<p><span class="lbl">${ok?'Correct':'It\'s'}</span><b>${esc(x.a)}</b></p><p><span class="lbl">Connotes</span>${x.c}</p><p><span class="lbl">Golden Gun</span>${x.g}</p>`;
+  r.classList.add('show');$('#dNext').disabled=false;
+  $('#dNext').textContent=dI===dOrder.length-1?'See your dossier →':'Next image →';
+  $('#dCount').textContent=`Signifier ${dI+1} of ${dOrder.length} · ${S.decode[0]} correct`;
+}
+$('#dNext').addEventListener('click',()=>{
+  if(dI<dOrder.length-1){dI++;showDecode();return}
+  $('#decode').hidden=true;
+  const d=$('#dossier');d.classList.add('show');
+  d.innerHTML=`<div style="grid-column:1/-1" class="brief"><b style="color:var(--gold)">Dossier complete: ${S.decode[0]} / 15.</b> These are the conventions the audience expects from every Bond film, which is why the posters can rely on them as intertextual shorthand.</div>`+
+    CONV.map(c=>`<div class="dcard"><b>${esc(c.a)}</b>${c.g}</div>`).join('');
+  $('#dDone').hidden=false;
+});
+$('#dAgain').addEventListener('click',startDecode);
+function startDecode(){S.decode[0]=0;renderScore();dOrder=shuffle(CONV);dI=0;$('#decode').hidden=false;$('#dossier').classList.remove('show');$('#dDone').hidden=true;showDecode()}
+startDecode();
+
+/* ---------- Mission 3: poster hunt (boxes in % of 987x1500 poster) ---------- */
+const P=(x1,y1,x2,y2)=>[x1/987*100,y1/1500*100,(x2-x1)/987*100,(y2-y1)/1500*100];
+const TARGETS=[
+ {n:'The hero',clue:'Who dominates the centre of the frame?',b:[P(300,290,600,760)],w:'Bond is the <b>central image</b>, shown in a mid-shot and using <b>direct address</b>. He is Propp\'s <b>hero</b>: calm and in control despite the chaos around him.'},
+ {n:'Bond\'s signature gun',clue:'Part of his "uniform".',b:[P(420,330,590,520)],w:'The gun signifies <b>danger and action</b>. Held across his body, it shows that Bond is ready to fight.'},
+ {n:'Star billing',clue:'Who is selling this film?',b:[P(220,90,740,240)],w:'"ROGER MOORE as JAMES BOND 007". The <b>star</b> and the <b>character</b> are both selling points, and Moore was already well known from <i>The Saint</i>.'},
+ {n:'The villain\'s weapon',clue:'Gold, enormous, and pointed at Bond.',b:[P(300,620,950,1110)],w:'An extreme close-up of the golden gun being loaded with a bullet engraved "007". This is an <b>enigma code</b>: whose hand is it? It signals an assassination narrative.'},
+ {n:'A "Bond girl"',clue:'There are two to choose from.',b:[P(230,520,570,880),P(610,460,860,900)],w:'Two women in bikinis frame Bond. This is a <b>stereotypical</b>, sexualised 1970s representation aimed at the <b>male gaze</b>.'},
+ {n:'Exotic location',clue:'Look at the top corners.',b:[P(90,250,340,460),P(620,300,880,480)],w:'Stilt huts and boats signify <b>South-East Asia</b>. The film was shot in Hong Kong, Thailand and Macau, which offered escapism and spectacle.'},
+ {n:'Spectacular action',clue:'Smoke and flames…',b:[P(60,540,310,900)],w:'Explosions and fire are <b>action-adventure codes</b>. Red, black and orange dominate this side of the poster.'},
+ {n:'Technology & the energy crisis',clue:'Lower left: a laboratory, and a beam aimed at Bond.',b:[P(40,860,310,1110),P(140,470,350,640)],w:'The solar power plant and the energy beam hint at the <b>1973 energy crisis</b>. Their silver, lab-like look adds a touch of <b>science fiction</b>.'},
+ {n:'The henchman',clue:'Small, but armed. Bowler hat.',b:[P(585,540,710,735)],w:'Nick Nack, Scaramanga\'s henchman, one of Bond\'s <b>larger-than-life villains</b>.'},
+ {n:'Martial arts',clue:'Fighters in the middle of the montage.',b:[P(350,720,575,895)],w:'Kung Fu fighters reflect the 1970s <b>martial arts craze</b> (Bruce Lee). This is a context that broadened the film\'s appeal.'},
+ {n:'Title & author',clue:'The franchise\'s literary roots.',b:[P(190,1110,850,1345)],w:'"Ian Fleming\'s" links the film to the <b>original novels</b>, and the gold typography echoes the golden gun and <i>Goldfinger</i>.'}
+];
+let tI=0,misses=0,hunted=new Set();
+const pbox=$('#pbox');
+function drawZone(t,cls,label){t.b.forEach(r=>{const z=document.createElement('div');z.className='zone '+cls;z.style.cssText=`left:${r[0]}%;top:${r[1]}%;width:${r[2]}%;height:${r[3]}%`;if(label)z.innerHTML=`<span>${esc(label)}</span>`;pbox.appendChild(z)})}
+function showTarget(){
+  $$('.zone.hint',pbox).forEach(z=>z.remove());$$('.zone',pbox).forEach(z=>z.classList.add('old'));
+  const t=TARGETS[tI];misses=0;
+  $('#tNum').textContent=`Target ${tI+1} of ${TARGETS.length} · Find…`;
+  $('#tName').textContent=t.n;$('#tClue').textContent=t.clue;
+  $('#tWhy').classList.remove('show');$('#tHint').disabled=true;$('#tNext').hidden=true;
+  $('#tList').innerHTML=TARGETS.map((x,i)=>`<li class="${hunted.has(i)?'ok':''}">${esc(x.n)}</li>`).join('');
+}
+pbox.addEventListener('click',e=>{
+  if(tI>=TARGETS.length||!$('#tNext').hidden)return;
+  const r=pbox.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*100,y=(e.clientY-r.top)/r.height*100;
+  const t=TARGETS[tI];
+  const hit=t.b.some(b=>x>=b[0]&&x<=b[0]+b[2]&&y>=b[1]&&y<=b[1]+b[3]);
+  if(hit){
+    $$('.zone.hint',pbox).forEach(z=>z.remove());
+    if(misses<3){S.hunt[0]++;renderScore()}
+    hunted.add(tI);drawZone(t,'',t.n);
+    const w=$('#tWhy');w.innerHTML=`<p><span class="lbl">Found it</span>${t.w}</p>`;w.classList.add('show');
+    $('#tNext').hidden=false;$('#tNext').textContent=tI===TARGETS.length-1?'Finish hunt ✓':'Next target →';
+    $('#tList').innerHTML=TARGETS.map((x,i)=>`<li class="${hunted.has(i)?'ok':''}">${esc(x.n)}</li>`).join('');
+  }else{
+    misses++;const p=document.createElement('div');p.className='ping';p.style.left=x+'%';p.style.top=y+'%';pbox.appendChild(p);setTimeout(()=>p.remove(),700);
+    if(misses>=2)$('#tHint').disabled=false;
+  }
+});
+$('#tHint').addEventListener('click',()=>{misses=3;drawZone(TARGETS[tI],'hint');$('#tHint').disabled=true});
+$('#tNext').addEventListener('click',()=>{
+  tI++;
+  if(tI<TARGETS.length){showTarget();return}
+  $('#tNum').textContent='Hunt complete';$('#tName').textContent=`${S.hunt[0]} / ${TARGETS.length} found`;
+  $('#tClue').textContent='Every convention on this poster is doing a job: selling the star, the genre, the spectacle and the enigma. Use this in your 10-mark answer.';
+  $('#tWhy').classList.remove('show');$('#tNext').hidden=true;$('#tHint').disabled=true;
+});
+showTarget();
+
+/* ---------- Mission 4: context ---------- */
+$$('.redact').forEach(r=>{r.tabIndex=0;r.setAttribute('role','button');const f=()=>r.classList.add('open');r.addEventListener('click',f);r.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
+const TF=[
+ ['The Man with the Golden Gun was Roger Moore\'s first film as James Bond.',false,'It was his <b>second</b>. His first was <i>Live and Let Die</i> (1973).'],
+ ['The film was released in December 1974.',true,'Released <b>19 December 1974</b>.'],
+ ['United Artists produced the film.',false,'<b>Eon Productions</b> (Everything or Nothing) produced it, and United Artists <b>distributed</b> it. Know the difference between production and distribution.'],
+ ['The film made more than ten times its budget at the box office.',true,'A budget of about $7 million, against <b>more than $97 million</b> worldwide.'],
+ ['The poster artwork is a photograph of the cast.',false,'It is an <b>illustration</b> by Robert McGinnis. Before the 1990s illustration was standard because the technology was limited.'],
+ ['The Kung Fu scenes reflect the popularity of martial arts films at the time.',true,'Stars like <b>Bruce Lee</b> and Jackie Chan made martial arts hugely popular, and the film was shot mainly in Asia.'],
+ ['The film was shot mostly in the Caribbean.',false,'It was shot in <b>Hong Kong, Thailand and Macau</b>.'],
+ ['The film is set during the 1973 energy crisis.',true,'Oil-producing Arab nations declared an <b>oil embargo</b>, which had effects on politics and the economy worldwide.'],
+ ['The energy crisis is hinted at by the power plant and the energy beam on the poster.',true,'The <b>iconography</b> of the power plant (lower left) and the beam aimed at Bond links the poster to its historical context.'],
+ ['The film is an original story that was not based on a book.',false,'It is based on <b>Ian Fleming\'s</b> novel, and his name appears with the title on the poster.']
+];
+$('#tf').innerHTML=TF.map((t,i)=>`<div class="tf-item" data-i="${i}"><div class="row"><div class="st">${i+1}. ${t[0]}</div><div class="b"><button data-v="1">TRUE</button><button data-v="0">FALSE</button></div></div><div class="why">${t[2]}</div></div>`).join('');
+$$('#tf .tf-item').forEach(it=>{
+  const t=TF[+it.dataset.i];
+  $$('button',it).forEach(b=>b.addEventListener('click',()=>{
+    const ok=(b.dataset.v==='1')===t[1];
+    it.classList.add(ok?'ok':'no');$$('button',it).forEach(x=>x.disabled=true);
+    const w=$('.why',it);w.innerHTML=`<b>${ok?'✓ Correct':'✗ Not quite'}: ${t[1]?'True':'False'}.</b> ${t[2]}`;
+    if(ok){S.ctx[0]++;renderScore()}
+  }));
+});
+
+/* ---------- Mission 5: trailer + bingo ---------- */
+function yt(boxSel,id){
+  const box=$(boxSel);
+  $('.poster-btn',box).addEventListener('click',()=>{
+    box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+  });
+}
+yt('#vidTrailer','kFbkAdY7ZhE');
+yt('#vidMontage','AyixwcwDJzI');
+const BINGO=[['🔫','The gun'],['🤵','Tuxedo'],['🌏','Exotic location'],['💥','Explosion'],['🚗','Car stunt'],['👙','Bond girl'],['🦹','Villain'],['🕵️','Henchman'],['🥋','Martial arts'],['💬','One-liner'],['🎵','Theme music'],['🔬','Gadget / tech']];
+$('#bingo').innerHTML=BINGO.map(b=>`<button aria-pressed="false"><span class="i">${b[0]}</span>${b[1]}</button>`).join('');
+$$('#bingo button').forEach(b=>b.addEventListener('click',()=>{
+  b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true');
+  const n=$$('#bingo button[aria-pressed="true"]').length;
+  $('#bingoCount').textContent=`${n} / 12 spotted`+(n===12?' — full house!':'');
+}));
+$('#modelBtn').addEventListener('click',()=>$('#model').classList.toggle('show'));
+
+renderScore();
+})();
+</script>
+</body>
+</html>
