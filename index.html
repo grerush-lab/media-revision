@@ -11056,6 +11056,29 @@ var TQ_BANDS = {
     font-size:.66rem;
     color:var(--muted);
   }
+  /* v17: clickable rating counts, framework-area breakdown, rating badges on cards */
+  button.kt-v15-count{cursor:pointer;color:var(--ink);transition:transform .12s ease, box-shadow .12s ease;}
+  button.kt-v15-count:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.08);}
+  button.kt-v15-count.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .kt-areas{grid-column:1 / -1;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.55rem;margin-top:.25rem;}
+  .kt-area{all:unset;box-sizing:border-box;cursor:pointer;background:#faf8f4;border:1px solid var(--border);border-radius:8px;padding:.6rem .7rem;display:flex;flex-direction:column;gap:.35rem;font-family:'IBM Plex Mono',monospace;color:var(--ink);}
+  .kt-area:hover{border-color:var(--ink);}
+  .kt-area.active{outline:2px solid var(--ink);outline-offset:1px;}
+  .kt-area-head{display:flex;justify-content:space-between;align-items:center;gap:.4rem;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;}
+  .kt-area-dot{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.35rem;vertical-align:-1px;}
+  .kt-area-pct{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;}
+  .kt-area-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;background:#eee6d8;}
+  .kt-area-bar span{display:block;height:100%;}
+  .kt-area-meta{font-size:.62rem;color:var(--muted);letter-spacing:.3px;}
+  .kt-seg-exam{background:#d4a017;} .kt-seg-secure{background:#1f9d55;} .kt-seg-developing{background:#f08a24;} .kt-seg-weak{background:#c0392b;}
+  .kt-front-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.4rem;}
+  .kt-badge{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:600;white-space:nowrap;padding:.22rem .5rem;border-radius:999px;background:rgba(255,255,255,.92);color:#111;box-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .kt-badge.kt-b-unrated{background:rgba(255,255,255,.18);color:#fff;box-shadow:none;border:1px dashed rgba(255,255,255,.55);}
+  .kt-flip-card.kt-r-weak .kt-front{box-shadow:0 0 0 4px #c0392b, 0 10px 24px rgba(0,0,0,.14);}
+  .kt-flip-card.kt-r-developing .kt-front{box-shadow:0 0 0 4px #f08a24, 0 10px 24px rgba(0,0,0,.14);}
+  .kt-flip-card.kt-r-secure .kt-front{box-shadow:0 0 0 4px #1f9d55, 0 10px 24px rgba(0,0,0,.14);}
+  .kt-flip-card.kt-r-exam .kt-front{box-shadow:0 0 0 4px #f7d774, 0 0 0 7px #111827, 0 10px 24px rgba(0,0,0,.14);}
+  .kt-back-rating{font-family:'IBM Plex Mono',monospace;font-size:.62rem;margin-top:.55rem;opacity:.85;}
 </style>
 
 <script id="v15-keyterms-mastery-and-map-js">
@@ -11093,6 +11116,15 @@ var TQ_BANDS = {
     if(v>=1) return 'weak';
     return 'unrated';
   }
+  var KT_ICON={exam:'⭐',secure:'🟢',developing:'🟡',weak:'🔴',unrated:'⚪'};
+  function ktBadgeHtml(v){
+    var b=ktBucket(v);
+    return '<span class="kt-badge kt-b-'+b+'">'+KT_ICON[b]+' '+ktLabel(v)+'</span>';
+  }
+  var KT_AREAS=[
+    ['Media Language','#0369a1'],['Representation','#7e22ce'],['Audience','#ea580c'],
+    ['Industry','#047857'],['Context','#b91c1c'],['Theory','#3730a3'],['Tricky Terms','#475569']
+  ];
   function migrateLegacyKeyTerms(){
     if(localStorage.getItem('kt_v15_rating_migration_done')==='1') return;
     try{
@@ -11132,19 +11164,64 @@ var TQ_BANDS = {
   var ktStatusFilter='all';
 
   window.ktSetStatusFilter=function(status,btn){
-    ktStatusFilter=status||'all';
-    document.querySelectorAll('[data-kt-status-filter]').forEach(function(b){b.classList.remove('active');});
-    if(btn) btn.classList.add('active');
+    status=status||'all';
+    // Clicking the active count tile again clears the filter
+    if(!btn && status===ktStatusFilter) status='all';
+    ktStatusFilter=status;
+    document.querySelectorAll('[data-kt-status-filter]').forEach(function(b){
+      b.classList.toggle('active',b.getAttribute('data-kt-status-filter')===ktStatusFilter);
+    });
     if(typeof window.ktDrawCards==='function') window.ktDrawCards();
   };
 
   window.ktRate=function(term,val,ev){
     if(ev){ev.stopPropagation(); ev.preventDefault();}
     localStorage.setItem(ktKey(term),String(val));
-    if(typeof window.ktDrawCards==='function') window.ktDrawCards();
+    // Update the card in place so it stays flipped and in position
+    var card=ev && ev.target && ev.target.closest ? ev.target.closest('.kt-flip-card') : null;
+    if(card){
+      var b=ktBucket(val);
+      card.classList.remove('kt-r-weak','kt-r-developing','kt-r-secure','kt-r-exam','kt-r-unrated');
+      card.classList.add('kt-r-'+b);
+      var badge=card.querySelector('.kt-badge'); if(badge) badge.outerHTML=ktBadgeHtml(val);
+      var br=card.querySelector('.kt-back-rating'); if(br) br.innerHTML='Your rating: <strong>'+KT_ICON[b]+' '+ktLabel(val)+'</strong>';
+      card.querySelectorAll('.kt-rate').forEach(function(x){
+        x.classList.toggle('kt-v15-selected',x.getAttribute('data-val')===String(val));
+      });
+      ktRefreshDashboard();
+    } else if(typeof window.ktDrawCards==='function') window.ktDrawCards();
     if(typeof window.rjV15RenderCompletionMap==='function') window.rjV15RenderCompletionMap();
     if(typeof window.rjRenderMap==='function') setTimeout(window.rjRenderMap,50);
   };
+
+  function ktRefreshDashboard(){
+    var dash=document.querySelector('.kt-v15-dashboard');
+    if(dash) dash.outerHTML=dashboardHtml();
+    var stats=$('ktStats');
+    if(stats){
+      var shown=document.querySelectorAll('#ktGrid .kt-flip-card').length;
+      var weak=(window.KT_MASTER_TERMS||[]).filter(function(t){return ktRating(t[1])>0 && ktRating(t[1])<4;}).length;
+      stats.textContent=shown+' cards showing · '+(window.KT_MASTER_TERMS||[]).length+' total cards · '+weak+' weak/developing cards';
+    }
+  }
+
+  function areaBreakdownHtml(){
+    var terms=window.KT_MASTER_TERMS||[];
+    return '<div class="kt-areas">'+KT_AREAS.map(function(a){
+      var set=terms.filter(function(t){return t[0]===a[0];});
+      if(!set.length) return '';
+      var c={exam:0,secure:0,developing:0,weak:0,unrated:0}, sum=0;
+      set.forEach(function(t){var v=ktRating(t[1]); c[ktBucket(v)]++; sum+=Math.min(v,5);});
+      var pct=Math.round(sum/(set.length*5)*100), n=set.length;
+      function seg(k){return c[k]?'<span class="kt-seg-'+k+'" style="width:'+(c[k]/n*100)+'%"></span>':'';}
+      var active=window.ktCurrentCat===a[0]?' active':'';
+      return '<button class="kt-area'+active+'" onclick="ktSetCat(\''+a[0]+'\')" title="Show only '+a[0]+' cards">'+
+        '<div class="kt-area-head"><span><span class="kt-area-dot" style="background:'+a[1]+'"></span>'+a[0]+'</span><span class="kt-area-pct">'+pct+'%</span></div>'+
+        '<div class="kt-area-bar">'+seg('exam')+seg('secure')+seg('developing')+seg('weak')+'</div>'+
+        '<div class="kt-area-meta">⭐ '+c.exam+' · 🟢 '+c.secure+' · 🟡 '+c.developing+' · 🔴 '+c.weak+' · ⚪ '+c.unrated+' of '+n+'</div>'+
+        '</button>';
+    }).join('')+'</div>';
+  }
 
   function currentKeyTermSet(){
     var terms=(window.KT_MASTER_TERMS||[]).slice();
@@ -11170,11 +11247,10 @@ var TQ_BANDS = {
       '<div class="kt-v15-master-num">'+pct+'%</div>'+
       '<div class="kt-v15-meter"><span style="width:'+pct+'%"></span></div></div>'+
       '<div class="kt-v15-counts">'+
-      '<div class="kt-v15-count">⭐ Exam Ready: <strong>'+counts.exam+'</strong></div>'+
-      '<div class="kt-v15-count">🟢 Secure: <strong>'+counts.secure+'</strong></div>'+
-      '<div class="kt-v15-count">🟡 Developing: <strong>'+counts.developing+'</strong></div>'+
-      '<div class="kt-v15-count">🔴 Weak: <strong>'+counts.weak+'</strong></div>'+
-      '</div></div>';
+      [['exam','⭐ Exam Ready'],['secure','🟢 Secure'],['developing','🟡 Developing'],['weak','🔴 Weak']].map(function(s){
+        return '<button class="kt-v15-count'+(ktStatusFilter===s[0]?' active':'')+'" data-kt-status-filter="'+s[0]+'" onclick="ktSetStatusFilter(\''+s[0]+'\')" title="Show only '+s[1].slice(2)+' cards">'+s[1]+': <strong>'+counts[s[0]]+'</strong></button>';
+      }).join('')+
+      '</div>'+areaBreakdownHtml()+'</div>';
   }
 
   function statusFilterHtml(){
@@ -11205,9 +11281,12 @@ var TQ_BANDS = {
   };
 
   window.ktSetCat=function(cat,btn){
+    // Clicking an active area tile again goes back to All
+    if(!btn && cat && window.ktCurrentCat===cat) cat='';
     window.ktCurrentCat=cat;
-    document.querySelectorAll('.kt-chip[data-cat]').forEach(function(b){b.classList.remove('active');});
-    if(btn) btn.classList.add('active');
+    document.querySelectorAll('.kt-chip[data-cat]').forEach(function(b){
+      b.classList.toggle('active',b.getAttribute('data-cat')===cat);
+    });
     ktDrawCards();
   };
 
@@ -11236,9 +11315,10 @@ var TQ_BANDS = {
       var mastery=ktRating(t[1]), cls=(window.KT_CATEGORY_CLASS||{})[t[0]]||'kt-thr';
       var termSafe=String(t[1]).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       function btn(val,label){
-        return '<button class="kt-rate '+(mastery===val?'kt-v15-selected':'')+'" onclick="ktRate(\''+termSafe+'\','+val+',event)">'+label+'</button>';
+        return '<button class="kt-rate '+(mastery===val?'kt-v15-selected':'')+'" data-val="'+val+'" onclick="ktRate(\''+termSafe+'\','+val+',event)">'+label+'</button>';
       }
-      return '<div class="kt-flip-card" data-cat="'+t[0]+'" data-search="'+t.join(' ').toLowerCase().replace(/"/g,'&quot;')+'" onclick="this.classList.toggle(\'flipped\')"><div class="kt-inner"><div class="kt-front '+cls+'"><div class="kt-card-cat">'+t[0]+'</div><div class="kt-card-term">'+t[1]+'</div><div class="kt-card-hint">Click to reveal · '+ktLabel(mastery)+'</div></div><div class="kt-back"><strong>Definition:</strong><br>'+t[2]+'<div class="kt-example"><strong>Exam example:</strong><br>'+t[3]+'</div><div class="kt-mastery-row">'+
+      var bucket=ktBucket(mastery);
+      return '<div class="kt-flip-card kt-r-'+bucket+'" data-cat="'+t[0]+'" data-search="'+t.join(' ').toLowerCase().replace(/"/g,'&quot;')+'" onclick="this.classList.toggle(\'flipped\')"><div class="kt-inner"><div class="kt-front '+cls+'"><div class="kt-front-top"><div class="kt-card-cat">'+t[0]+'</div>'+ktBadgeHtml(mastery)+'</div><div class="kt-card-term">'+t[1]+'</div><div class="kt-card-hint">Click to reveal</div></div><div class="kt-back"><strong>Definition:</strong><br>'+t[2]+'<div class="kt-example"><strong>Exam example:</strong><br>'+t[3]+'</div><div class="kt-back-rating">Your rating: <strong>'+KT_ICON[bucket]+' '+ktLabel(mastery)+'</strong></div><div class="kt-mastery-row">'+
         btn(1,'🔴 weak')+btn(2,'🟡 developing')+btn(4,'🟢 secure')+btn(5,'⭐ exam ready')+
         '</div></div></div></div>';
     }).join('');
