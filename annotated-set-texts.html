@@ -188,7 +188,7 @@ body.gaming #focusbar,body.gaming #fhint,body.gaming #qhint,body.gaming #ctx,bod
 <header class="mast"><div class="wrap">
   <div class="kick">Component 1 · Section A · Set texts</div>
   <h1>Annotated <span class="m">set</span> <span class="r">texts</span></h1>
-  <p>Every Section A set text, labelled where you can see the evidence. Pick a focus area to revise one exam element at a time: images, text, layout and design, genre, narrative or representation. Many points work for more than one area. ★ marks a stretch point for the top grades.</p>
+  <p>Every Section A set text, labelled where you can see the evidence. Pick a focus area to revise one exam element at a time: images, text, layout and design, genre, narrative, representation or context. Many points work for more than one area. ★ marks a stretch point for the top grades.</p>
   <div class="picker" id="picker"></div>
 </div></header>
 
@@ -238,14 +238,17 @@ const TEXTS=[
   {a:'img rep',x:50,y:38,t:'Topless, muscular body',n:'Toned torso on display: body-focused “spornosexual” masculinity (Simpson, 2014).'},
   {a:'img rep',x:37,y:47,t:'Tattoos',n:'Identity written on the body: a cross for faith, his son for fatherhood. A rounded, personal man.'},
   {a:'img rep',x:52,y:26,t:'Silver chain and watch',n:'Wealth and success: capitalist ideology of the self-made man.'},
-  {a:'rep img',x:58,y:32,t:'Reclaiming the stereotype',n:'Tabloids attacked his jewellery and spending. GQ shows them proudly: success, not excess.',s:1},
+  {a:'rep img con',x:58,y:32,t:'Reclaiming the stereotype',n:'Tabloids attacked his jewellery and spending. GQ shows them proudly: success, not excess.',s:1},
   {a:'img gen',x:20,y:93,t:'Leather trousers + combat boots',n:'High fashion with a masculine edge: GQ sells a lifestyle, not just a footballer.'},
   {a:'txt lay nar',x:55,y:70,t:'“Guardian Angel”',n:'Huge gold serif cover line behind his legs: anchors the wings and links to the masthead colour.'},
   {a:'nar txt',x:50,y:88,t:'“Saved football from itself”',n:'A Todorov story: football was disrupted by racism and Sterling is the hero who restores it.'},
-  {a:'rep nar',x:62,y:19,t:'Ethnicity',n:'A British-Jamaican cover star; only 9.3% of glossy covers featured people of colour (2018).'},
+  {a:'rep nar con',x:62,y:19,t:'Ethnicity',n:'A British-Jamaican cover star; only 9.3% of glossy covers featured people of colour (2018).'},
   {a:'rep nar',x:44,y:20,t:'Dyer: a constructed star',n:'The cover builds Sterling’s star image as a moral leader, not just an athlete.',s:1},
   {a:'lay',x:14,y:28,t:'Orange highlights',n:'Orange picks out key words (“Speak no evil”, the names): a hierarchy that guides the eye.'},
-  {a:'txt gen',x:55,y:94,t:'“Story by Alastair Campbell”',n:'A famous writer and named photographers add prestige and credibility.'}
+  {a:'txt gen',x:55,y:94,t:'“Story by Alastair Campbell”',n:'A famous writer and named photographers add prestige and credibility.'},
+  {a:'con rep',x:70,y:62,t:'Racism in football',n:'Social: Sterling had spoken out about racist tabloid coverage of young Black players in 2018. GQ presents him as a hero and role model, not a target.'},
+  {a:'con rep',x:40,y:30,t:'Changing masculinity',n:'Cultural: by 2019 it was more accepted for men to care about fashion and speak about social issues. GQ mixes toughness with style and a social conscience.'},
+  {a:'con',x:16,y:20,t:'Condé Nast and ABC1 men',n:'Economic: a premium magazine needs a cover star who sells copies and attracts luxury advertisers. Sterling was one of England’s best-known footballers.'}
  ]},
 {id:'vogue',name:'Vogue',full:'British Vogue, July 2021: Malala Yousafzai',form:'Magazine',pair:'gq',
  ctx:'Condé Nast fashion “bible” for ABC1 women. Editor Edward Enninful (from 2017) pushed for diversity. Published as US and UK troops withdrew from Afghanistan.',
@@ -258,12 +261,12 @@ const TEXTS=[
   {a:'img lay',x:59,y:44,t:'Hand to face',n:'A classic beauty pose: graceful, and it leads the eye back to her face.'},
   {a:'img rep',x:50,y:40,t:'Red lipstick',n:'Matches her dupatta: colour cohesion, glamour and femininity.'},
   {a:'img rep',x:64,y:53,t:'Nail polish and rings',n:'Fashion codes British readers recognise: a blended identity.'},
-  {a:'rep',x:28,y:25,t:'Headscarf',n:'The first Muslim woman in a headscarf on British Vogue’s cover.'},
+  {a:'rep con',x:28,y:25,t:'Headscarf',n:'The first Muslim woman in a headscarf on British Vogue’s cover.'},
   {a:'rep img',x:22,y:78,t:'Red dupatta',n:'“A cultural symbol for us Pashtuns”: her heritage is celebrated, not hidden.'},
   {a:'rep',x:40,y:58,t:'Negotiating identity',n:'Western beauty codes plus her headscarf: Vogue “Westernising” her, or Malala choosing both?',s:1},
   {a:'img lay',x:88,y:68,t:'Red monochrome',n:'She merges with the red background: power, passion and celebration.'},
   {a:'lay',x:84,y:48,t:'Minimal design',n:'Cover lines on one side only; lots of space: sophistication, not clutter.'},
-  {a:'txt nar',x:14,y:28,t:'“Love after lockdown”',n:'Topical Covid context; “The return of dating” promises a story.'},
+  {a:'txt nar con',x:14,y:28,t:'“Love after lockdown”',n:'Topical Covid context; “The return of dating” promises a story.'},
   {a:'txt rep',x:14,y:41,t:'“Fighting talk”',n:'Boxing pun: Jourdan Dunn meets Anthony Joshua. More Black British stars on the cover.'},
   {a:'txt gen',x:14,y:55,t:'“The shape of now”',n:'Fashion vocabulary (“pleated skirts, puff sleeves”): the content readers expect.'},
   {a:'txt gen',x:84,y:30,t:'“Vogue’s guide to summer beauty”',n:'Seasonal advice: Vogue as the expert voice.'},
@@ -272,7 +275,9 @@ const TEXTS=[
   {a:'txt lay',x:50,y:87,t:'“Malala”',n:'Huge first name only: she is famous enough to need no surname.'},
   {a:'nar rep',x:50,y:96,t:'“Survivor, activist, legend”',n:'A tricolon that tells her story: past attack, present campaigning, lasting status.'},
   {a:'rep nar',x:38,y:37,t:'Not shown as a victim',n:'No visual reference to the shooting: she is defined by strength, not by what happened to her.',s:1},
-  {a:'rep',x:76,y:62,t:'Enninful’s Vogue',n:'No Black models on the cover 2002–2014; diversity in race, faith and age is now central.'}
+  {a:'rep con',x:76,y:62,t:'Enninful’s Vogue',n:'No Black models on the cover 2002–2014; diversity in race, faith and age is now central.'},
+  {a:'con rep',x:64,y:30,t:'Girls’ education',n:'Political: Malala was shot by the Taliban in 2012 for campaigning for girls’ education. The cover came out as Western troops were leaving Afghanistan.'},
+  {a:'con rep',x:84,y:80,t:'Muslim women in the media',n:'Social: Muslim women in headscarves are often shown negatively in Western media. Here the headscarf is presented as stylish and positive.'}
  ]},
 {id:'qs',name:'Quality Street',full:'Quality Street print advert, 1956',form:'Advert',pair:'nhs',
  ctx:'Mackintosh’s commercial advert. Food rationing had only ended in 1954, so chocolate was an affordable luxury again for working families.',
@@ -281,7 +286,7 @@ const TEXTS=[
   {a:'nar',x:66,y:16,t:'Romance across eras',n:'The Regency couple watch the 1950s scene: the brand links past and present.',s:1},
   {a:'img lay',x:25,y:22,t:'Gold frame',n:'A painting within the picture; a halo over the man and product: wealth and status.'},
   {a:'img gen',x:10,y:42,t:'Hand-drawn illustration',n:'Painted artwork, not photography: typical of 1950s adverts and high artistic quality.'},
-  {a:'img',x:90,y:22,t:'Bright colour palette',n:'Primary and secondary colours: post-war optimism and consumer culture.'},
+  {a:'img con',x:90,y:22,t:'Bright colour palette',n:'Primary and secondary colours: post-war optimism and consumer culture.'},
   {a:'rep img',x:48,y:32,t:'Man at the centre',n:'Smiling, in control, holding the tin: 1950s patriarchy.'},
   {a:'rep img',x:31,y:37,t:'Women lean in',n:'Kissing his cheeks: decorative and styled for the male gaze (Mulvey).'},
   {a:'rep',x:64,y:34,t:'Scheming women',n:'Kissing him to reach the sweets: women as manipulative as well as decorative.',s:1},
@@ -291,13 +296,15 @@ const TEXTS=[
   {a:'rep img',x:80,y:60,t:'Dresses match wrappers',n:'Red, green and stripes echo the sweets: the women are coded as the prize.'},
   {a:'img',x:22,y:46,t:'Candy-stripe top',n:'Striped like a sweet wrapper: the product’s colours are everywhere.',s:1},
   {a:'img rep',x:42,y:45,t:'Suit and setting',n:'Smart suit, comfortable sofa: an aspirational middle-class home.'},
-  {a:'rep',x:86,y:50,t:'An all-white cast',n:'1950s advertising assumed a white British consumer.',s:1},
+  {a:'rep con',x:86,y:50,t:'An all-white cast',n:'1950s advertising assumed a white British consumer.',s:1},
   {a:'txt',x:66,y:76,t:'“What a delicious dilemma!”',n:'Alliteration and an exclamation: playful, persuasive tone.'},
   {a:'txt rep nar',x:84,y:72,t:'Polysemic “dilemma”',n:'Which sweet, or which woman? The women and chocolates become interchangeable.',s:1},
   {a:'txt',x:57,y:82,t:'“18 delightfully different”',n:'A number for value, alliteration for variety: “toffees and chocolates”.'},
   {a:'img txt',x:16,y:79,t:'Named sweets',n:'Close-ups with sensory copy (“delicious, smooth”): the product is anchored.'},
   {a:'lay',x:50,y:71,t:'Image above, copy below',n:'Picture fills two-thirds; slogan and product in the bottom third: classic advert layout.'},
-  {a:'txt lay gen',x:77,y:94,t:'Purple script logo',n:'“Mackintosh’s Quality Street”: rich, decorative type connotes quality. The brand name ends the reading path.'}
+  {a:'txt lay gen',x:77,y:94,t:'Purple script logo',n:'“Mackintosh’s Quality Street”: rich, decorative type connotes quality. The brand name ends the reading path.'},
+  {a:'con rep',x:38,y:24,t:'1950s gender roles',n:'Social: men were usually the breadwinners, and women were expected to focus on the home and their looks. The advert reflects these patriarchal values.'},
+  {a:'con',x:54,y:66,t:'The end of rationing',n:'Historical: sweet rationing ended in 1953 and all food rationing in 1954. Boxed chocolates were a treat families could buy again.'}
  ]},
 {id:'nhs',name:'NHS 111',full:'NHS 111 “Help Us Help You”, 2023',form:'Advert',pair:'qs',
  ctx:'Non-commercial public health campaign by M&C Saatchi for NHS England, launched December 2022: use 111 first to ease pressure on 999 and A&E.',
@@ -307,7 +314,7 @@ const TEXTS=[
   {a:'img nar',x:9,y:29,t:'Urgent Treatment Centre sign',n:'Tells us exactly where 111 can send you.'},
   {a:'img nar',x:43,y:28,t:'Wall clock',n:'Time matters: urgency, and the worry of waiting.',s:1},
   {a:'img',x:67,y:40,t:'Clinical background',n:'Reception desk, leaflets, wipe-clean seats: professional and trustworthy.'},
-  {a:'img rep',x:66,y:33,t:'Masked staff',n:'Post-Covid setting. Staff appear white: a possible negotiated reading.'},
+  {a:'img rep con',x:66,y:33,t:'Masked staff',n:'Post-Covid setting. Staff appear white: a possible negotiated reading.'},
   {a:'img',x:40,y:12,t:'Soft, muted lighting',n:'Calm, reassuring tones; the colourful bed stands out against them.'},
   {a:'txt',x:51,y:47,t:'“Get to the help you need”',n:'Imperative “get” + direct address “you”: a call to action.'},
   {a:'lay',x:40,y:33,t:'Text around his head',n:'The tagline wraps around the father: it openly shows the advert is constructed.',s:1},
@@ -327,7 +334,10 @@ const TEXTS=[
   {a:'nar',x:22,y:62,t:'Bed in a hospital',n:'Home and clinic in one frame: an enigma, and 111 is the bridge.'},
   {a:'img nar',x:27,y:79,t:'Slippers',n:'He came straight from home: anchors the journey.'},
   {a:'nar',x:55,y:75,t:'Todorov, left to right',n:'Disruption (a sick child) leads to resolution (the right care).'},
-  {a:'img lay',x:45,y:60,t:'Colourful bedding',n:'Warm colours against a grey clinic: the eye goes to the family.'}
+  {a:'img lay',x:45,y:60,t:'Colourful bedding',n:'Warm colours against a grey clinic: the eye goes to the family.'},
+  {a:'con',x:60,y:20,t:'Pressure on the NHS',n:'Political: in winter 2022 to 2023, A&E waits and ambulance delays reached record levels. The campaign sends people to the right service to ease that pressure.'},
+  {a:'con rep',x:24,y:36,t:'A service for everyone',n:'Social: as a free public service, the NHS has to speak to the whole country. A Black father and a deaf child reflect the diversity of modern Britain.'},
+  {a:'con',x:86,y:72,t:'Digital Britain',n:'Cultural: by 2023 most people used smartphones, so 111 online and the NHS App are offered alongside the phone line.'}
  ]},
 {id:'gg',name:'Golden Gun',full:'The Man with the Golden Gun poster, 1974',form:'Film poster',pair:'nttd',
  ctx:'Roger Moore’s second Bond film (December 1974). Released after the 1973 oil crisis and during the martial-arts film boom; shot in Hong Kong, Thailand and Macau.',
@@ -339,7 +349,7 @@ const TEXTS=[
   {a:'img gen',x:57,y:22,t:'Pistol raised',n:'His trademark gun: action-thriller iconography.'},
   {a:'rep img',x:56,y:33,t:'Bond’s masculinity',n:'Charming, strong, calm, heterosexual: the 1970s masculine ideal.'},
   {a:'img gen',x:12,y:52,t:'Montage of action',n:'Explosions, fights, boats, exotic places: action-thriller genre codes.'},
-  {a:'img nar',x:12,y:67,t:'Solar plant',n:'Power-plant iconography nods to the 1973 energy crisis.'},
+  {a:'img nar con',x:12,y:67,t:'Solar plant',n:'Power-plant iconography nods to the 1973 energy crisis.'},
   {a:'img gen',x:82,y:21,t:'Exotic locations',n:'Stilt huts and boats: Asian settings, a Bond convention.'},
   {a:'img gen',x:88,y:32,t:'Hand-painted art',n:'Robert McGinnis illustration: pre-digital poster style.'},
   {a:'img nar',x:68,y:50,t:'ECU golden gun',n:'The title prop aimed at Bond: danger and a unique selling point.'},
@@ -349,13 +359,15 @@ const TEXTS=[
   {a:'rep img',x:34,y:41,t:'Bikini woman',n:'Sexualised for the male gaze (Mulvey): decorative, little agency.'},
   {a:'rep img',x:78,y:42,t:'Posed from behind',n:'Body on display, face turned away: objectified.'},
   {a:'rep',x:43,y:53,t:'Martial-arts women',n:'Active fighters, partly subverting the stereotype; still framed as exotic.'},
-  {a:'rep',x:22,y:42,t:'Orientalism',n:'Asian characters appear only as fighters and scenery: the exotic “other”.',s:1},
+  {a:'rep con',x:22,y:42,t:'Orientalism',n:'Asian characters appear only as fighters and scenery: the exotic “other”.',s:1},
   {a:'rep nar',x:90,y:48,t:'Women as spectacle',n:'Placed around Bond like the explosions: part of the world he moves through.',s:1},
   {a:'txt lay',x:55,y:85,t:'Title in gold capitals',n:'Three stacked lines in quotation marks; gold links to the gun.'},
   {a:'txt gen',x:25,y:80,t:'“Ian Fleming’s”',n:'Links to the novels: cultural credibility.'},
   {a:'txt',x:30,y:92,t:'“with Christopher Lee”',n:'The villain’s actor is named: a famous horror star adds menace.'},
   {a:'lay',x:60,y:94,t:'Small credit block',n:'Tucked at the bottom: it doesn’t distract from the art.'},
-  {a:'lay img',x:92,y:72,t:'White background, gold accents',n:'Images burst out of white space; gold ties it all together.'}
+  {a:'lay img',x:92,y:72,t:'White background, gold accents',n:'Images burst out of white space; gold ties it all together.'},
+  {a:'con gen',x:30,y:56,t:'Kung fu craze',n:'Cultural: Bruce Lee’s Enter the Dragon (1973) made martial-arts films hugely popular. The poster cashes in on the trend.'},
+  {a:'con rep',x:40,y:20,t:'1970s gender roles',n:'Social: second-wave feminism was growing, but mainstream films still showed men as dominant heroes and women as decorative.'}
  ]},
 {id:'nttd',name:'No Time to Die',full:'No Time to Die poster, 2021',form:'Film poster',pair:'gg',
  ctx:'Daniel Craig’s final Bond, released 30 September 2021 after Covid delays. Phoebe Waller-Bridge co-wrote it. Hollywood was under pressure to diversify after #OscarsSoWhite.',
@@ -365,7 +377,7 @@ const TEXTS=[
   {a:'rep img',x:62,y:26,t:'No weapon in his hand',n:'Unusual for Bond: older, more vulnerable masculinity.'},
   {a:'lay nar',x:75,y:47,t:'Montage in silhouette',n:'Characters inside Bond’s outline: his story, and nostalgia for past films.'},
   {a:'rep',x:32,y:30,t:'Nomi (Lashana Lynch)',n:'A British Jamaican woman as a 00 agent: her military costume, earpiece and gun represent her as skilled and determined, not decorative.'},
-  {a:'rep',x:24,y:25,t:'A Black woman as 007',n:'Very few people of colour have appeared on past Bond posters, mostly as villains or “Bond girls”. A Black woman taking on 007 is significant Hollywood and franchise history.',s:1},
+  {a:'rep con',x:24,y:25,t:'A Black woman as 007',n:'Very few people of colour have appeared on past Bond posters, mostly as villains or “Bond girls”. A Black woman taking on 007 is significant Hollywood and franchise history.',s:1},
   {a:'rep',x:46,y:58,t:'A mostly white cast',n:'The cast is predominantly white, typical of Hollywood films and the Bond franchise.'},
   {a:'rep',x:40,y:24,t:'Nomi stripped of femininity',n:'Only she is dressed in masculine, military clothing and not glamorised: empowered, but denied the “attractive” coding of the white women.',s:1},
   {a:'img gen',x:26,y:38,t:'Nomi’s rifle',n:'Weapons signal the action genre; guns are small or partly hidden.'},
@@ -375,7 +387,7 @@ const TEXTS=[
   {a:'rep img',x:28,y:32,t:'Nomi’s earpiece',n:'With her military costume, it suggests her actions are central to the plot, not just there to develop the male characters.'},
   {a:'rep img',x:20,y:44,t:'Relaxed, confident posture',n:'The guns suggest danger, but the women hold them calmly: they have agency, and are arguably more than the “Bond girls” of the past.'},
   {a:'img rep',x:35,y:42,t:'Key light and make-up',n:'All three women are lit and made up to look beautiful, as expected of a Hollywood blockbuster.'},
-  {a:'rep',x:90,y:62,t:'Not damsels in distress',n:'Each woman is independent, not a damsel in distress or a Proppian princess: Hollywood representing women more equally for a modern mainstream audience.',s:1},
+  {a:'rep con',x:90,y:62,t:'Not damsels in distress',n:'Each woman is independent, not a damsel in distress or a Proppian princess: Hollywood representing women more equally for a modern mainstream audience.',s:1},
   {a:'rep img',x:65,y:62,t:'Q',n:'Glasses and tie: intelligence; a different, “geek” masculinity to Bond.'},
   {a:'rep',x:55,y:41,t:'Rami Malek as Safin',n:'The centrally pictured villain is played by an American actor of Egyptian heritage. Bond villains typically stand in opposition to Bond, not just morally: this often extends to ethnicity too.'},
   {a:'rep img',x:59,y:47,t:'Safin’s scarred face',n:'Criticised trope linking physical difference with evil.'},
@@ -388,7 +400,10 @@ const TEXTS=[
   {a:'txt gen',x:60,y:83,t:'Small credit block',n:'No big actor names: stars are recognised instantly.'},
   {a:'img gen',x:45,y:90,t:'Aston Martin DB5',n:'Iconic since Goldfinger (1964): brand synergy and nostalgia.'},
   {a:'lay img',x:88,y:92,t:'Teal and orange',n:'Blockbuster colour grading: blues and warm oranges.'},
-  {a:'nar',x:30,y:58,t:'Binary oppositions',n:'Hero v villain, past v present, love v duty.'}
+  {a:'nar',x:30,y:58,t:'Binary oppositions',n:'Hero v villain, past v present, love v duty.'},
+  {a:'con',x:80,y:22,t:'Covid delays',n:'Historical: the release moved from April 2020 to September 2021 because of the pandemic. It was sold as a big-screen event to bring audiences back to cinemas.'},
+  {a:'con rep',x:52,y:16,t:'#MeToo and #OscarsSoWhite',n:'Social: Hollywood was under pressure to change how women and people of colour were represented. Phoebe Waller-Bridge was brought in to work on the script.'},
+  {a:'con',x:74,y:24,t:'Craig’s final film',n:'Cultural: audiences knew this was Daniel Craig’s last Bond, so he is shown as older and reflective, at the end of his story.'}
  ]},
 {id:'sun21',name:'The Sun',yr:'2021',cohort:'Y11',full:'The Sun, 1 January 2021: “Join Our Jabs Army”',form:'Newspaper',pair:'gu22',
  ctx:'Right-wing red-top owned by News UK (Murdoch); mostly C2DE readers. The UK had approved the first Covid vaccine in December 2020; the Brexit transition ended on 31 December.',
@@ -397,10 +412,10 @@ const TEXTS=[
   {a:'txt',x:49,y:5,t:'“Happy New Year to all our readers”',n:'Festive, friendly: the paper as part of the community.'},
   {a:'txt gen',x:32,y:15.5,t:'“The People’s Paper · 60p”',n:'Claims to speak for ordinary people; a low price.'},
   {a:'txt',x:86,y:7,t:'“Britain Brexpects”',n:'Pun and intertext: Nelson’s “England expects”, echoed by Churchill.'},
-  {a:'rep img',x:65,y:8,t:'Johnson, thumbs up',n:'“Newfound freedom”: Brexit framed positively (pro-Leave).'},
+  {a:'rep img con',x:65,y:8,t:'Johnson, thumbs up',n:'“Newfound freedom”: Brexit framed positively (pro-Leave).'},
   {a:'txt lay',x:50,y:21,t:'“Sun New Year Campaign”',n:'The paper isn’t just reporting: it leads a campaign.'},
   {a:'txt',x:14,y:35,t:'“We call on YOU”',n:'Direct address in capitals: readers as one national community.'},
-  {a:'rep nar',x:14,y:48,t:'Recruitment poster echo',n:'Like “Your country needs you” (WW1/WW2): vaccination as war-time duty.',s:1},
+  {a:'rep nar con',x:14,y:48,t:'Recruitment poster echo',n:'Like “Your country needs you” (WW1/WW2): vaccination as war-time duty.',s:1},
   {a:'lay nar',x:14,y:63,t:'“So…”',n:'The ellipsis carries the eye down into the headline.'},
   {a:'img',x:62,y:45,t:'Big Ben',n:'A British icon: the story is about the whole nation.'},
   {a:'img',x:62,y:30,t:'Syringe as clock hand',n:'Photoshopped: vaccine and time combined.'},
@@ -414,7 +429,10 @@ const TEXTS=[
   {a:'lay',x:72,y:94,t:'Headline fills a third',n:'Huge white sans-serif capitals on black: maximum impact.'},
   {a:'img lay',x:86,y:78,t:'Heart + Union Flag puff',n:'Patriotism and compassion together.'},
   {a:'rep nar',x:22,y:92,t:'Covid as the enemy',n:'Propp: volunteers are heroes, the virus is the villain.'},
-  {a:'rep',x:30,y:76,t:'Paper as national voice',n:'“Our” army: The Sun claims to lead the nation alongside the NHS.',s:1}
+  {a:'rep',x:30,y:76,t:'Paper as national voice',n:'“Our” army: The Sun claims to lead the nation alongside the NHS.',s:1},
+  {a:'con',x:62,y:38,t:'The first vaccines',n:'Historical: the UK began vaccinating in December 2020, the first country to use a fully approved Covid vaccine. The Sun recruits volunteers to speed up the rollout.'},
+  {a:'con',x:36,y:20,t:'Murdoch ownership',n:'Political: The Sun is owned by Rupert Murdoch’s News UK and usually supports the Conservatives. It backs the government’s vaccine plan and Brexit.'},
+  {a:'con',x:76,y:84,t:'A nation in lockdown',n:'Social: after a year of lockdowns, wartime language makes readers feel united and hopeful.'}
  ]},
 {id:'gu22',name:'The Guardian',yr:'2022',cohort:'Y11',full:'The Guardian, 18 January 2022: “Cummings accuses PM of lying”',form:'Newspaper',pair:'sun21',
  ctx:'Liberal, left-leaning quality paper owned by the Scott Trust; mostly ABC1 readers. “Partygate”: gatherings held at No 10 during the first lockdown.',
@@ -427,7 +445,7 @@ const TEXTS=[
   {a:'txt',x:62,y:4,t:'Arts and wine puff',n:'“When art and wine collide”: a cultured, affluent audience.'},
   {a:'txt',x:16,y:31,t:'Factual headline',n:'Short and calm, but “accuses” and “lying” are loaded verbs.'},
   {a:'nar',x:30,y:36,t:'An ongoing story',n:'Did he lie? An enigma in a story readers follow day by day.'},
-  {a:'rep',x:25,y:42,t:'“party”',n:'Links the playful image to rule-breaking during lockdown.'},
+  {a:'rep con',x:25,y:42,t:'“party”',n:'Links the playful image to rule-breaking during lockdown.'},
   {a:'lay',x:8,y:49,t:'Red bylines',n:'Named reporters in red: Guardian house style for news.'},
   {a:'lay gen',x:30,y:62,t:'Columns of text',n:'High text-to-image ratio: quality newspaper conventions.'},
   {a:'img',x:67,y:45,t:'Night-time long shot',n:'The PM jogging with his dog: deliberately unflattering.'},
@@ -440,7 +458,10 @@ const TEXTS=[
   {a:'rep',x:17,y:84,t:'“UK sending…”',n:'Not “Conservative government”: what is left out reveals leanings.'},
   {a:'rep nar',x:78,y:85,t:'Mone “VIP lane”',n:'A second story about Conservative dishonesty: selection builds one narrative.'},
   {a:'rep',x:10,y:57,t:'No “Guardian Says”',n:'Opinion is implied by selection and framing, not stated.'},
-  {a:'lay',x:60,y:73,t:'Page arrows',n:'“2 →” continuations: readers are expected to read in depth.'}
+  {a:'lay',x:60,y:73,t:'Page arrows',n:'“2 →” continuations: readers are expected to read in depth.'},
+  {a:'con',x:40,y:40,t:'Partygate',n:'Political: reports showed parties were held at Downing Street while the public followed lockdown rules. Dominic Cummings, the PM’s former adviser, claimed Johnson knew.'},
+  {a:'con',x:90,y:24,t:'Scott Trust ownership',n:'Economic: with no billionaire owner, the Guardian relies on readers paying. Its liberal, left-leaning values shape a critical view of the Conservative government.'},
+  {a:'con',x:82,y:52,t:'Public anger',n:'Social: many readers had missed funerals and family events in lockdown, so rule-breaking at No 10 caused real anger.'}
  ]},
 {id:'sun25',name:'The Sun',yr:'2025',cohort:'Y10',full:'The Sun, 22 March 2025: “Faulty Powers”',form:'Newspaper',pair:'gu25',
  ctx:'Red-top owned by News UK (Murdoch’s News Corp); mostly male, C2DE, aged 35–64. A substation fire in Hayes shut Heathrow for 16 hours, disrupting 270,000 passengers, under a Labour government.',
@@ -462,7 +483,7 @@ const TEXTS=[
   {a:'rep txt',x:61,y:27,t:'“Britain humiliated”',n:'The Sun as revealer of “truth”: a populist national drama about Britain’s reputation.'},
   {a:'rep nar',x:76,y:33,t:'Event as chaos',n:'Framed as a “global disaster” that could have been avoided: tabloid hyperbole.'},
   {a:'nar rep',x:35,y:58,t:'Binary opposition',n:'Stranded travellers and the nation v inept management.'},
-  {a:'rep',x:40,y:78,t:'A dig at Labour',n:'Right-wing commentary: the outage as a sign of inept management.',s:1},
+  {a:'rep con',x:40,y:78,t:'A dig at Labour',n:'Right-wing commentary: the outage as a sign of inept management.',s:1},
   {a:'txt gen',x:12,y:68,t:'“Kym & the Fab at 50 Club”',n:'Anchors the image; a soft news off-lead that broadens appeal.'},
   {a:'img rep',x:12,y:43,t:'Red gown',n:'Glamorous and feminine: celebrity, red-carpet culture.'},
   {a:'rep',x:20,y:50,t:'Jessica Rabbit echo',n:'Strapless red gown recalls a cartoon sex symbol: women as objects of visual pleasure.',s:1},
@@ -470,7 +491,10 @@ const TEXTS=[
   {a:'img',x:6,y:36,t:'Hand on hip pose',n:'Confident, posed and smiling: a celebrity image.'},
   {a:'txt',x:12,y:93,t:'“Myles Better”',n:'Pun on “miles”: England much improved.'},
   {a:'rep img',x:12,y:84,t:'England footballers',n:'Men as dynamic and strong; Lewis-Skelly (18) and Kane (31) shown the same: ability over age.'},
-  {a:'txt',x:12,y:78,t:'“England 2 Albania 0”',n:'The score anchors the celebration.'}
+  {a:'txt',x:12,y:78,t:'“England 2 Albania 0”',n:'The score anchors the celebration.'},
+  {a:'con',x:60,y:38,t:'The Heathrow fire',n:'Historical: a substation fire in Hayes closed Europe’s busiest airport for about 16 hours, stranding hundreds of thousands of passengers.'},
+  {a:'con',x:40,y:14,t:'A right-wing tabloid',n:'Political: The Sun is owned by Rupert Murdoch’s News UK and was critical of the Labour government, so the story is framed as national humiliation.'},
+  {a:'con',x:8,y:58,t:'Celebrity culture',n:'Cultural: soft news about celebrities and football sits beside hard news to appeal to a mass audience.'}
  ]},
 {id:'gu25',name:'The Guardian',yr:'2025',cohort:'Y10',full:'The Guardian, 6 May 2025: “No 10 to rethink fuel payment cut”',form:'Newspaper',pair:'sun25',
  ctx:'Owned by the Scott Trust; mainstream left, liberal; 86% ABC1, average print reader aged 54. Labour lost 187 council seats on 1 May; the day before was the VE Day 80th anniversary.',
@@ -493,12 +517,15 @@ const TEXTS=[
   {a:'img',x:45,y:62,t:'Wide shot on the balcony',n:'Formal dress: the monarchy as tradition and authority.'},
   {a:'rep img',x:20,y:62,t:'William in RAF uniform',n:'Tradition and authority; shown equally as royal and father.'},
   {a:'rep img',x:55,y:56,t:'Princess of Wales',n:'Purple signals regality; both royal and mother.'},
-  {a:'rep nar',x:42,y:67,t:'Royal children',n:'The monarchy’s future; echo young Princess Elizabeth on VE Day 1945: continuity.'},
+  {a:'rep nar con',x:42,y:67,t:'Royal children',n:'The monarchy’s future; echo young Princess Elizabeth on VE Day 1945: continuity.'},
   {a:'img rep',x:70,y:62,t:'Off-guard moment',n:'Leaning to watch, not posed: relatable; a relaxed liberal view of royalty.',s:1},
   {a:'txt',x:45,y:81,t:'Caption anchors the photo',n:'Explains why the family lean left: watching the flypast.'},
   {a:'txt rep',x:10,y:88,t:'“Axe advice service”',n:'“Axe” is brutal and final: the paper sides with patients and communities.'},
   {a:'txt nar',x:90,y:56,t:'“At risk from US tariffs”',n:'Binary: British film workers v Trump’s tariffs.'},
-  {a:'rep',x:80,y:90,t:'Ideology through selection',n:'No stated opinion, but every story choice shows liberal values.',s:1}
+  {a:'rep',x:80,y:90,t:'Ideology through selection',n:'No stated opinion, but every story choice shows liberal values.',s:1},
+  {a:'con',x:60,y:28,t:'Local election losses',n:'Political: Labour lost 187 council seats on 1 May 2025. Cutting winter fuel payments for most pensioners had been very unpopular.'},
+  {a:'con',x:30,y:56,t:'VE Day 80',n:'Historical: the photo is from the 80th anniversary of VE Day, the end of the Second World War in Europe. The royals are shown as symbols of national memory.'},
+  {a:'con',x:90,y:22,t:'Scott Trust ownership',n:'Economic: owned by the Scott Trust, the Guardian relies on reader support and subscriptions. Its liberal values shape which stories it chooses.'}
  ]}
 ];
 
@@ -508,9 +535,10 @@ const AREAS={
   lay:{n:'Layout & design',short:'Layout',c:'#a35a00',h:'How it’s put together: masthead, fonts, colour scheme, positioning, house style, reading paths, use of space.'},
   gen:{n:'Genre',c:'#b3261e',h:'The conventions that tell you what kind of product it is, and where it follows or breaks them.'},
   nar:{n:'Narrative',c:'#c2185b',h:'The story it tells or hints at: enigma codes (Barthes), Propp’s character types, Todorov, binary oppositions.'},
-  rep:{n:'Representation',c:'#6a3fa0',h:'How gender, ethnicity, age, class, places, events and issues are constructed, and whose values they reflect.'}
+  rep:{n:'Representation',c:'#6a3fa0',h:'How gender, ethnicity, age, class, places, events and issues are constructed, and whose values they reflect.'},
+  con:{n:'Context',c:'#5f6f12',h:'What was going on when it was made: social, cultural, historical, political and economic contexts. For every point, say what the context was AND how it shows up in the product. Test yourself: switch on Test yourself, cover each note and explain the link before you check, or play the Recap game with Context as the focus.'}
 };
-const ORDER=['img','txt','lay','gen','nar','rep'];
+const ORDER=['img','txt','lay','gen','nar','rep','con'];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const BY=Object.fromEntries(TEXTS.map(t=>[t.id,t]));
@@ -619,10 +647,13 @@ const STEM={
   txt:'What is the effect of this language?',
   lay:'Why has it been designed like this?',
   gen:'How does this link to genre?',
-  nar:'What does this add to the narrative?'
+  nar:'What does this add to the narrative?',
+  con:'Which context does this feature reflect?'
 };
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const gStore={get(k){try{return +localStorage.getItem(k)||0}catch(e){return 0}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+/* hide the Social:/Political: label in the game so the answer is not given away */
+const gN=n=>n.n.replace(/^(Social|Cultural|Historical|Political|Economic):\s*/,'');
 const gIn=(n,a)=>a==='all'||(a==='s'?!!n.s:n.A.includes(a));
 const gArea=(n,a)=>AREAS[a]&&n.A.includes(a)?a:n.k;
 function gTexts(scope){const t=BY[cur];return scope==='all'?TEXTS:scope==='pair'?[t,BY[t.pair]]:[t]}
@@ -692,16 +723,16 @@ function gAsk(){
     const opts=shuf([q.n].concat(gDistract(q,'n')));q.opts=opts;
     thumb=gThumb(q,`<span class="gp mark" style="left:${q.n.x}%;top:${q.n.y}%;--c:${col}" aria-hidden="true">?</span>`);
     body=`<h3 class="g-stem"><span class="g-feat">${esc(q.n.t)}</span></h3><p>${esc(STEM[q.ak])} Pick the recap point that goes with this feature.</p>
-      <div class="g-opts">${opts.map((o,j)=>`<button type="button" class="g-opt" data-j="${j}">${esc(o.n)}</button>`).join('')}</div>`;
+      <div class="g-opts">${opts.map((o,j)=>`<button type="button" class="g-opt" data-j="${j}">${esc(gN(o))}</button>`).join('')}</div>`;
   }else if(q.kind==='which'){
     const opts=shuf([q.n].concat(gDistract(q,'t')));q.opts=opts;
     thumb=gThumb(q,'');
-    body=`<h3 class="g-stem">Which feature is this point about?</h3><div class="g-quote" style="--c:${col}">${esc(q.n.n)}</div>
+    body=`<h3 class="g-stem">Which feature is this point about?</h3><div class="g-quote" style="--c:${col}">${esc(gN(q.n))}</div>
       <div class="g-opts">${opts.map((o,j)=>`<button type="button" class="g-opt" data-j="${j}">${esc(o.t)}</button>`).join('')}</div>`;
   }else{
     const opts=shuf([q.n].concat(gDistract(q,'t')));q.opts=opts;
     thumb=gThumb(q,opts.map((o,j)=>`<button type="button" class="gp" data-j="${j}" style="left:${o.x}%;top:${o.y}%;--c:#3a352c" aria-label="Spot ${'ABCD'[j]}">${'ABCD'[j]}</button>`).join(''));
-    body=`<h3 class="g-stem">Find it: tap the spot this point is about</h3><div class="g-quote" style="--c:${col}">${esc(q.n.n)}</div>
+    body=`<h3 class="g-stem">Find it: tap the spot this point is about</h3><div class="g-quote" style="--c:${col}">${esc(gN(q.n))}</div>
       <p class="g-intro" style="margin:0">Four spots are marked A–D on the text.</p>`;
   }
   $('#game').innerHTML=`<div class="g-top"><span>Q${G.i+1} / ${G.qs.length}</span><span class="g-bar"><i style="width:${G.i/G.qs.length*100}%"></i></span><span>Score <span class="sc">${G.score}</span></span><span>${G.streak>=2?'🔥 '+G.streak+' in a row':''}</span><button type="button" class="btn" id="gQuit">Quit</button></div>
